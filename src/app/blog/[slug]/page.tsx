@@ -1,25 +1,14 @@
-// app/blog/[slug]/page.tsx
-import {getAllPosts} from "@/lib/posts";
+import {getPostData} from "@/lib/posts";
+import MdxContent from "@/components/MdxContent";
+import {serialize} from "next-mdx-remote/serialize";
 
-interface Props {
-    params: {
-        slug: string;
-    };
-}
-
-export async function generateStaticParams() {
-    const posts = await getAllPosts();
-    return posts.map((post) => ({
-        slug: post.slug
-    }));
-}
-
-export default async function BlogPostPage({ params }: Props) {
-    const { slug } = params;
+export default async function BlogPostPage({ params } : {slug: string}) {
+    const {content, frontMatter} = getPostData(params.slug);
+    const mdxSrc = await serialize(content);
 
     return (
         <div>
-            detail
+            <MdxContent source={mdxSrc} />
         </div>
     );
 }
