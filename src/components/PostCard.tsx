@@ -1,22 +1,10 @@
 'use client'
-import {usePathname, useRouter} from "next/navigation";
+import Link from "next/link";
 
 export default function PostCard({slug} : {slug : string}) {
-    const router = useRouter();
-    const pathname = usePathname()
-
-    const handleClick = () => {
-
-
-        const newPath = `${pathname}${slug}`;
-
-        router.push(newPath);
-    };
-
     return (
-        <>
-            <div onClick={handleClick}>{slug}</div>
-
-        </>
+        <div>
+            <Link href={`/blog/${slug}`}>{slug}</Link>
+        </div>
     );
 }

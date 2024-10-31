@@ -1,5 +1,6 @@
 import {getAllPosts} from "@/lib/posts";
 import PostBoxes from "@/components/PostBoxes";
+import Header from "@/app/blog/components/Header";
 
 export const generateStaticParams = () => {
     const posts = getAllPosts();
@@ -13,7 +14,7 @@ export default function BlogPage() {
 
     return (
         <>
-            <h1>blog main</h1>
+            <Header/>
             <PostBoxes  slugs={posts}/>
         </>
     );

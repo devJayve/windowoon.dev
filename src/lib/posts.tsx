@@ -10,9 +10,8 @@ export const getAllPosts = () =>  {
     const postPaths = sync(`${POSTS_PATH}/**/*.mdx`);
 
     return postPaths.map((path) => {
-        console.log(path);
         return {
-            slug: path.slice(path.indexOf(BASE_PATH)).replace('.mdx', ''),
+            slug: path.replace(`${POSTS_PATH}/`, '').replace('.mdx', ''),
         }
     });
 }
