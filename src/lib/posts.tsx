@@ -6,6 +6,17 @@ import matter from "gray-matter";
 const BASE_PATH = '/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
+
+export interface PopularPostProps {
+    category: string;
+    title: string;
+    imageUrl: string;
+}
+
+export interface PopularPostListProps {
+    posts: { category: string, title: string; imageUrl: string }[];
+}
+
 export const getAllPosts = () =>  {
     const postPaths = sync(`${POSTS_PATH}/**/*.mdx`);
 
