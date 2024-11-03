@@ -17,6 +17,17 @@ export interface PopularPostListProps {
     posts: { category: string, title: string; imageUrl: string }[];
 }
 
+export interface RegPostListProps {
+    posts : RegPostProps[];
+}
+
+export interface RegPostProps {
+    title: string,
+    content : string,
+    thumbnailUrl : string,
+    date : string,
+}
+
 export const getAllPosts = () =>  {
     const postPaths = sync(`${POSTS_PATH}/**/*.mdx`);
 

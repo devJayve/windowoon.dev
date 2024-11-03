@@ -2,68 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
+/* HEX CSS 변수 설정 */
+:root {
+  --border: #d1d5db; /* 기본 경계선 색상 */
+  --input: #e5e7eb; /* 입력 필드 배경 색상 */
+  --ring: #1e1e1e; /* 포커스 시 링 색상 */
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+  --primary-light: #111111; /* 기본 텍스트 색상 (라이트 모드) */
+  --primary-dark: #f7fafc; /* 기본 텍스트 색상 (다크 모드) */
+
+  --background-light: #ffffff; /* 라이트 모드 배경 색상 */
+  --background-dark: #101010; /* 다크 모드 배경 색상 */
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+body {
+  @apply bg-background-light text-primary-light dark:bg-background-dark dark:text-primary-dark;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 다크 모드 변수 설정 */
+.dark {
+  --border: #4b5563; /* 다크 모드 경계선 색상 */
+  --input: #374151; /* 다크 모드 입력 필드 배경 색상 */
+  --ring: #9ca3af; /* 다크 모드 링 색상 */
+}
+
+/* 글로벌 스타일 */
+a {
+  @apply text-blue-500 dark:text-blue-300 underline;
+}
+
+h1, h2, h3, h4 {
+  @apply font-bold text-gray-900 dark:text-gray-100;
+}
+
+h1 {
+  @apply text-4xl md:text-5xl leading-tight mb-4;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl leading-tight mb-4;
+}
+
+h3 {
+  @apply text-2xl md:text-3xl leading-snug mb-3;
+}
+
+.container {
+  @apply max-w-3xl mx-auto px-4 md:px-0;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6;
+}
+
+.card-title {
+  @apply text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2;
+}
+
+.card-content {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+img {
+  @apply max-w-full h-auto;
+}
+
+p {
+  @apply text-base md:text-lg leading-relaxed text-gray-800 dark:text-gray-200;
+}
+
+pre {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 text-sm overflow-x-auto;
+  font-family: 'Fira Code', monospace;
+}
+
+.button {
+  @apply bg-blue-500 text-white dark:bg-blue-400 dark:text-gray-900 font-semibold py-2 px-4 rounded-md transition-colors duration-200;
+}
+
+.button:hover {
+  @apply bg-blue-600 dark:bg-blue-500;
+}
+
+/* 글로벌 스타일 - 스크롤바 숨기기 */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE 및 Edge용 */
+  scrollbar-width: none; /* Firefox용 */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera용 */
 }
