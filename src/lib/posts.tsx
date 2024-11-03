@@ -26,6 +26,7 @@ export interface RegPostProps {
     content : string,
     thumbnailUrl : string,
     date : string,
+    slug: string,
 }
 
 export const getAllPosts = () =>  {

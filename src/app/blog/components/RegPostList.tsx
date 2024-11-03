@@ -10,6 +10,7 @@ export default function RegPostList({posts}: RegPostListProps) {
             content={post.content}
             date={post.date}
             thumbnailUrl={post.thumbnailUrl}
+            slug={post.slug}
         />)}
     </div>);
 }
