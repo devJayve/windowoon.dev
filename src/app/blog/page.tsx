@@ -1,4 +1,4 @@
-import {getAllPosts, RegPostListProps, RegPostProps} from "@/lib/posts";
+import {getAllPosts, getPostData, getPostMetadata, RegPostListProps, RegPostProps} from "@/lib/posts";
 import Header from "@/app/blog/components/Header";
 import PopularPostList from "@/app/blog/components/PopularPostList";
 import RegPostList from "@/app/blog/components/RegPostList";
@@ -63,14 +63,20 @@ const regPostList: RegPostProps[] =
 
 
 export default function BlogPage() {
-    const posts = getAllPosts();
+    const posts = getAllPosts().map(post => {
+        const postData = getPostData(post.slug);
+        return getPostMetadata({
+            slug: post.slug,
+            frontMatter: postData.frontMatter
+        });
+    });
 
     return (
         <div className='flex flex-col justify-center'>
             <Header/>
             <PopularPostList  posts={dummyPosts}/>
             <CategoryRadioList />
-            <RegPostList posts={regPostList}/>
+            <RegPostList posts={posts}/>
         </div>
     );
 }

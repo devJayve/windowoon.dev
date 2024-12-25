@@ -46,3 +46,30 @@ export const getPostData = (slug: string) => {
 
     return { content, frontMatter: data };
 }
+
+interface PostMetadata {
+    title: string;
+    date: string;
+    author: string;
+    slug: string;
+}
+
+// export interface RegPostListProps {
+//     posts : RegPostProps[];
+// }
+//
+// export interface RegPostProps {
+//     title: string,
+//     content : string,
+//     thumbnailUrl : string,
+//     date : string,
+//     slug: string,
+// }
+
+export function getPostMetadata(post: { slug: string, frontMatter: any }): RegPostProps {
+    return {
+        ...post.frontMatter,
+        slug: post.slug,
+        thumbnailUrl: '',
+    };
+}
