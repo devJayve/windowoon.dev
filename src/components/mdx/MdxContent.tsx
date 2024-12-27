@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 import CodeBlock from './CodeBlock';
 import {MdxContentProps} from "@/types/post";
-import {MDXComponents} from "@/components/MdxComponents";
+import {MDXComponents} from "@/components/mdx/MdxComponents";
 
 // `MDXRemote`를 동적 import로 불러옵니다.
 const MDXRemote = dynamic(() => import('next-mdx-remote').then(mod => mod.MDXRemote), { ssr: false });

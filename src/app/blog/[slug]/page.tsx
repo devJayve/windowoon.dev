@@ -1,5 +1,5 @@
 import {getPostData} from "@/lib/posts";
-import MdxContent from "@/components/MdxContent";
+import MdxContent from "@/components/mdx/MdxContent";
 import {serialize} from "next-mdx-remote/serialize";
 import PostTitle from "@/app/blog/[slug]/PostTitle";
 

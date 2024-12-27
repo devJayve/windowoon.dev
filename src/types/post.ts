@@ -1,19 +1,24 @@
 import {MDXRemoteSerializeResult} from "next-mdx-remote";
 
-export interface FrontMatter {
+export interface PostMatter {
     title: string;
     date: string;
     author: string;
-    category?: string;
+    tags: string[];
+    summary: string;
     thumbnailURL?: string;
 }
 
-export interface PostTitleProps {
-    frontMatter: FrontMatter
+export interface Post {
+    content: string
+    slug: string
+    category: string
+    frontMatter: PostMatter
 }
 
-export interface MdxContentProps {
-    source: MDXRemoteSerializeResult;
+
+export interface PostTitleProps {
+    frontMatter: PostMatter
 }
 
 export interface PopularPostProps {
@@ -27,13 +32,11 @@ export interface PopularPostListProps {
 }
 
 export interface RegPostListProps {
-    posts : RegPostProps[];
+    posts : Post[];
 }
 
 export interface RegPostProps {
-    title: string,
-    content : string,
-    thumbnailUrl : string,
-    date : string,
-    slug: string,
+    frontMatter: PostMatter;
+    slug: string;
+    category: string;
 }
