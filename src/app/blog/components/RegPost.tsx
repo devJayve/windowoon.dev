@@ -3,13 +3,9 @@ import {RegPostProps} from "@/types/post";
 import {getImagePath} from "@/lib/posts";
 
 
-export default function RegPost({frontMatter, slug, category}: RegPostProps) {
-
-
-    console.log(frontMatter);
-    //http://localhost:3000/public/posts/react/synthetic-event-deep-dive/images/thumbnail.png
+export default function RegPost({frontMatter, category, slug}: RegPostProps) {
     return (
-        <Link href={`/blog/${slug}`}>
+        <Link href={`/blog/${category}/${slug}`}>
             <div className="flex p-4">
                 <div className='basis-3/4 flex-grow'>
                     <div className='font-semibold'>{frontMatter.title}</div>

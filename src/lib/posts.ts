@@ -10,17 +10,16 @@ const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 /**
  * posts 내에 모든 mdx 파일 및 메타정보 추출
  */
-export function getAllPosts() : Post[] {
+export function getAllPosts(): Post[] {
     // posts 폴더 내의 모든 index.mdx 파일 경로를 가져옴
     const postPaths = sync(`${POSTS_PATH}/**/index.mdx`);
 
-    console.log('path: ', postPaths);
     return postPaths.map((filePath) => {
         const fileContents = fs.readFileSync(filePath, 'utf8');
-        const {content, data } = matter(fileContents);
+        const {content, data} = matter(fileContents);
 
         // 파일 경로에서 category와 slug 추출
-        const pathParts =filePath
+        const pathParts = filePath
             .replace(`${POSTS_PATH}/`, '')
             .replace('/index.mdx', '')
             .split('/');
@@ -36,6 +35,25 @@ export function getAllPosts() : Post[] {
         }
     })
         .sort((a, b) => new Date(b.frontMatter.date).getTime() - new Date(a.frontMatter.date).getTime());
+}
+
+export function getPost(category: string, slug: string): Post {
+    console.log('category:', category);
+    console.log('slug:', slug);
+
+    const postPath = path.join(POSTS_PATH, category, slug);
+    const fullPath = path.join(postPath, 'index.mdx');
+
+    const fileContent = fs.readFileSync(fullPath, 'utf8');
+
+    const {content, data} = matter(fileContent);
+
+    return {
+        category,
+        slug,
+        content,
+        frontMatter: data as PostMatter,
+    }
 }
 
 /**

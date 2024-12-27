@@ -6,7 +6,6 @@ tags: ["react", "javascript"]
 summary: 합성이벤트에 대하여...
 thumbnailURL: "./images/thumbnail.png"
 ---
-import Image from 'next/image'
 
 ## 과제 셀프회고
 React의 핵심 개념들에 대한 심층적인 이해가 부족했던 터라, Virtual DOM의 본질적인 메커니즘에 대해서도 피상적으로만 이해하고 있었습니다.
@@ -25,7 +24,7 @@ React의 핵심 개념들에 대한 심층적인 이해가 부족했던 터라, 
 가장 고민하며 구현한 부분은 **이벤트 처리 시스템**입니다. DOM 이벤트를 루트 컨테이너에 위임하되, 이벤트 핸들러들을 Map에 저장하고
 유지하는 방식으로 설계했습니다. 여기에 리액트의 합성 이벤트 시스템 방식을 차용하여 핵심 코드를 리팩토링하였습니다. 이를 위해 리액트 소스코드를 ~~Deep Dive~~(Shallow Dive에 가까운..) 해보았습니다.
 
-<Image
+<img
     src="./images/test.png"
     alt="test"
 />

@@ -10,9 +10,9 @@ export interface PostMatter {
 }
 
 export interface Post {
-    content: string
-    slug: string
     category: string
+    slug: string
+    content: string
     frontMatter: PostMatter
 }
 
