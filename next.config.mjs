@@ -8,8 +8,17 @@ const mdxConfig = withMDX({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['js','jsx','ts', 'tsx', 'md', 'mdx'],
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
     ...mdxConfig,
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/blog',
+                permanent: true,
+            },
+        ];
+    }
 };
 
 export default nextConfig;
