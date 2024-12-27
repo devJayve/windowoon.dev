@@ -8,7 +8,7 @@ const mdxConfig = withMDX({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+    pageExtensions: ['js','jsx','ts', 'tsx', 'md', 'mdx'],
     ...mdxConfig,
 };
 

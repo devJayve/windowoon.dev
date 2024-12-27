@@ -4,8 +4,6 @@ date: "2024-12-25"
 author: "김도운"
 ---
 
-import { CodeBlock } from './components/CodeBlock'
-
 ## 과제 셀프회고
 React의 핵심 개념들에 대한 심층적인 이해가 부족했던 터라, Virtual DOM의 본질적인 메커니즘에 대해서도 피상적으로만 이해하고 있었습니다.
 누군가 Virtual DOM에 대해 물어본다면 아마 이렇게 답변했을 것 같습니다..
@@ -41,7 +39,7 @@ export function createRoot(container, options) {
 ```
 `listenToAllSupportedEvents`는 Native Event Set을 순회하면서 각각의 이벤트 마다
 개별적으로 리스너를 등록합니다. 이때 이벤트 위임 여부에 따라 적절한 플래그를 설정하고 이벤트를 등록합니다.
-```js
+```javascript
 export function listenToAllSupportedEvents(rootContainerElement) {
   ...
   allNativeEvents.forEach(domEventName => {
