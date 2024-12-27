@@ -74,7 +74,7 @@ export default function BlogPage() {
     return (
         <div className='flex flex-col justify-center'>
             <Header/>
-            <PopularPostList  posts={dummyPosts}/>
+            <PopularPostList posts={dummyPosts}/>
             <CategoryRadioList />
             <RegPostList posts={posts}/>
         </div>
