@@ -1,7 +1,8 @@
+@import "@/styles/fonts.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* HEX CSS 변수 설정 */
 :root {
   --border: #d1d5db; /* 기본 경계선 색상 */
@@ -17,8 +18,8 @@
 
 body {
   @apply bg-background-light text-primary-light dark:bg-background-dark dark:text-primary-dark;
-  font-family: 'Inter', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: NanumSquare, serif;
 }
 
 /* 다크 모드 변수 설정 */
