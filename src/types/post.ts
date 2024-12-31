@@ -2,7 +2,7 @@ import {MDXRemoteSerializeResult} from "next-mdx-remote";
 
 export interface PostMatter {
     title: string;
-    date: string;
+    date: Date;
     author: string;
     tags: string[];
     summary: string;

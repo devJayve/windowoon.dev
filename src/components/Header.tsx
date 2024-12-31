@@ -3,6 +3,7 @@ import Link from "next/link";
 import {Moon, Sun} from "lucide-react";
 import {clsx} from "clsx";
 import {useEffect, useState} from "react";
+import Image from "next/image";
 
 export default function Header() {
     const [darkMode, setDarkMode] = useState(false);
@@ -24,7 +25,7 @@ export default function Header() {
 
     return (
         <header className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-gray-700">
-            <Link href="/blog">Dowoon.</Link>
+            <Link href="/blog"><Image src="/images/window_logo.png" alt='logo' width={40} height={40}/></Link>
             <button
                 onClick={toggleDarkMode}
                 className={clsx(

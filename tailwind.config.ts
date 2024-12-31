@@ -46,7 +46,8 @@ const config = {
     },
     plugins: [
         require("tailwindcss-animate"),
-        require('@tailwindcss/typography')
+        require('@tailwindcss/typography'),
+        require('./lib/tailwind/radialGradient'),
     ],
 } satisfies Config
 

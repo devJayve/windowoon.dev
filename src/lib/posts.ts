@@ -16,7 +16,19 @@ export function getAllPosts(): Post[] {
 
     return postPaths.map((filePath) => {
         const fileContents = fs.readFileSync(filePath, 'utf8');
-        const {content, data} = matter(fileContents);
+        const {content, data} = matter(fileContents, {
+            engines: {
+                yaml: {
+                    parse: (str) => {
+                        const parsed = require('js-yaml').load(str);
+                        if (parsed.date) {
+                            parsed.date = new Date(parsed.date);
+                        }
+                        return parsed;
+                    }
+                }
+            }
+        });
 
         // 파일 경로에서 category와 slug 추출
         const pathParts = filePath
@@ -38,15 +50,24 @@ export function getAllPosts(): Post[] {
 }
 
 export function getPost(category: string, slug: string): Post {
-    console.log('category:', category);
-    console.log('slug:', slug);
-
     const postPath = path.join(POSTS_PATH, category, slug);
     const fullPath = path.join(postPath, 'index.mdx');
 
     const fileContent = fs.readFileSync(fullPath, 'utf8');
 
-    const {content, data} = matter(fileContent);
+    const {content, data} = matter(fileContent, {
+        engines: {
+            yaml: {
+                parse: (str) => {
+                    const parsed = require('js-yaml').load(str);
+                    if (parsed.date) {
+                        parsed.date = new Date(parsed.date);
+                    }
+                    return parsed;
+                }
+            }
+        }
+    });
 
     return {
         category,
@@ -74,7 +95,7 @@ export function getAllCategories(): string[] {
  * frontMatter url값을 기반으로 image 주소 반환
  * TODO: production 예외 처리 및 default 이미지 처리
  */
-export function getImagePath(category, slug, thumbnailURL) {
+export function getImagePath(category: string, slug: string, thumbnailURL: string) {
     if (/^https?:\/\//.test(thumbnailURL)) {
         return thumbnailURL;
     }
