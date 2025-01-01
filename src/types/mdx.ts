@@ -1,25 +1,23 @@
-import {DetailedHTMLProps, HTMLAttributes} from "react";
-import {MDXRemoteSerializeResult} from "next-mdx-remote";
-import {PostMatter} from "@/types/post";
+import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { HTMLAttributes, ReactNode } from 'react';
 
 export interface MdxComponentProps extends HTMLAttributes<HTMLElement> {
-    children?: React.ReactNode;
-    className?: string;
+  children?: ReactNode;
+  className?: string;
 }
 
 export interface CodeBlockProps extends MdxComponentProps {
-    node?: any,
-    inline?: boolean,
-    language?: string;
+  inline?: boolean;
+  language?: string;
 }
 
 export interface MDXImageProps extends MdxComponentProps {
-    src: string;
-    alt: string;
-    width?: number;
-    height?: number;
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
 }
 
 export interface MdxContentProps {
-    source: MDXRemoteSerializeResult;
+  source: MDXRemoteSerializeResult;
 }

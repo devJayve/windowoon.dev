@@ -1,24 +1,22 @@
-import Link from "next/link";
-import {RegPostProps} from "@/types/post";
-import {getImagePath} from "@/lib/posts";
+import Link from 'next/link';
 
+import { RegPostProps } from '@/types/post';
 
-export default function RegPost({frontMatter, category, slug}: RegPostProps) {
-    const formattedDate = frontMatter.date.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    return (
-        <Link href={`/blog/${category}/${slug}`}>
-            <div className="flex p-4">
-                <div className='basis-3/4 flex-grow'>
-                    <p className='font-light text-sm mt-3'>{formattedDate}</p>
-                    <div className='font-semibold'>{frontMatter.title}</div>
-                </div>
-                <div className='basis-1/4 flex-grow'>
-                </div>
-            </div>
-        </Link>
-    );
+export default function RegPost({ frontMatter, category, slug }: RegPostProps) {
+  const formattedDate = frontMatter.date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return (
+    <Link href={`/blog/${category}/${slug}`}>
+      <div className="flex p-4">
+        <div className="grow basis-3/4">
+          <p className="mt-3 text-sm font-light">{formattedDate}</p>
+          <div className="font-semibold">{frontMatter.title}</div>
+        </div>
+        <div className="grow basis-1/4"></div>
+      </div>
+    </Link>
+  );
 }

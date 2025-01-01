@@ -1,9 +1,10 @@
-import {sync} from "glob";
-import path from "path";
-import fs from "fs";
-import matter from "gray-matter";
-import {Post, PostMatter} from "@/types/post";
+import fs from 'fs';
+import path from 'path';
 
+import { sync } from 'glob';
+import matter from 'gray-matter';
+import { Post, PostMatter } from '@/types/post';
+import yaml from 'js-yaml';
 const BASE_PATH = '/public/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
@@ -11,84 +12,84 @@ const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
  * posts 내에 모든 mdx 파일 및 메타정보 추출
  */
 export function getAllPosts(): Post[] {
-    // posts 폴더 내의 모든 index.mdx 파일 경로를 가져옴
-    const postPaths = sync(`${POSTS_PATH}/**/index.mdx`);
+  // posts 폴더 내의 모든 index.mdx 파일 경로를 가져옴
+  const postPaths = sync(`${POSTS_PATH}/**/index.mdx`);
 
-    return postPaths.map((filePath) => {
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const {content, data} = matter(fileContents, {
-            engines: {
-                yaml: {
-                    parse: (str) => {
-                        const parsed = require('js-yaml').load(str);
-                        if (parsed.date) {
-                            parsed.date = new Date(parsed.date);
-                        }
-                        return parsed;
-                    }
-                }
-            }
-        });
+  return postPaths
+    .map(filePath => {
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { content, data } = matter(fileContents, {
+        engines: {
+          yaml: {
+            parse: str => {
+              const parsed = yaml.load(str) as PostMatter;
+              if (parsed.date) {
+                parsed.date = new Date(parsed.date);
+              }
+              return parsed;
+            },
+          },
+        },
+      });
 
-        // 파일 경로에서 category와 slug 추출
-        const pathParts = filePath
-            .replace(`${POSTS_PATH}/`, '')
-            .replace('/index.mdx', '')
-            .split('/');
+      // 파일 경로에서 category와 slug 추출
+      const pathParts = filePath.replace(`${POSTS_PATH}/`, '').replace('/index.mdx', '').split('/');
 
-        const category = pathParts[0];
-        const slug = pathParts[1];
+      const category = pathParts[0];
+      const slug = pathParts[1];
 
-        return {
-            slug,
-            category,
-            content,
-            frontMatter: data as PostMatter,
-        }
+      return {
+        slug,
+        category,
+        content,
+        frontMatter: data as PostMatter,
+      };
     })
-        .sort((a, b) => new Date(b.frontMatter.date).getTime() - new Date(a.frontMatter.date).getTime());
+    .sort(
+      (a, b) => new Date(b.frontMatter.date).getTime() - new Date(a.frontMatter.date).getTime(),
+    );
 }
 
 export function getPost(category: string, slug: string): Post {
-    const postPath = path.join(POSTS_PATH, category, slug);
-    const fullPath = path.join(postPath, 'index.mdx');
+  const postPath = path.join(POSTS_PATH, category, slug);
+  const fullPath = path.join(postPath, 'index.mdx');
 
-    const fileContent = fs.readFileSync(fullPath, 'utf8');
+  const fileContent = fs.readFileSync(fullPath, 'utf8');
 
-    const {content, data} = matter(fileContent, {
-        engines: {
-            yaml: {
-                parse: (str) => {
-                    const parsed = require('js-yaml').load(str);
-                    if (parsed.date) {
-                        parsed.date = new Date(parsed.date);
-                    }
-                    return parsed;
-                }
-            }
-        }
-    });
+  const { content, data } = matter(fileContent, {
+    engines: {
+      yaml: {
+        parse: str => {
+          const parsed = yaml.load(str) as PostMatter;
+          if (parsed.date) {
+            parsed.date = new Date(parsed.date);
+          }
+          return parsed;
+        },
+      },
+    },
+  });
 
-    return {
-        category,
-        slug,
-        content,
-        frontMatter: data as PostMatter,
-    }
+  return {
+    category,
+    slug,
+    content,
+    frontMatter: data as PostMatter,
+  };
 }
 
 /**
  * 카테고리를 기준으로 posts 추출
  */
 export function getPostsByCategory(category: string): Post[] {
-    return getAllPosts().filter(post => post.category === category);
+  return getAllPosts().filter(post => post.category === category);
 }
 
 /**
  * 모든 카테고리 추출
  */
 export function getAllCategories(): string[] {
-    return Array.from(new Set(getAllPosts().map(post => post.category)));
+  return Array.from(new Set(getAllPosts().map(post => post.category)));
 }
 
 /**
@@ -96,18 +97,15 @@ export function getAllCategories(): string[] {
  * TODO: production 예외 처리 및 default 이미지 처리
  */
 export function getImagePath(category: string, slug: string, thumbnailURL: string) {
-    if (/^https?:\/\//.test(thumbnailURL)) {
-        return thumbnailURL;
-    }
+  if (/^https?:\/\//.test(thumbnailURL)) {
+    return thumbnailURL;
+  }
 
-    if (thumbnailURL.startsWith('/')) {
-        return thumbnailURL;
-    }
+  if (thumbnailURL.startsWith('/')) {
+    return thumbnailURL;
+  }
 
-    const cleanPath = thumbnailURL.replace(/^\.\//, '');
+  const cleanPath = thumbnailURL.replace(/^\.\//, '');
 
-    return `posts/${category}/${slug}/${cleanPath}`;
+  return `posts/${category}/${slug}/${cleanPath}`;
 }
-
-
-

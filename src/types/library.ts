@@ -1,3 +1,3 @@
 export interface BookReviewModalProps {
-    onClose: () => void;
+  onClose: () => void;
 }

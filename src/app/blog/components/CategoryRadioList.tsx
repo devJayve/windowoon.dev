@@ -1,27 +1,28 @@
 import React from 'react';
-import CategoryRadioButton from "@/app/blog/components/CategoryRadioButton";
 
-const categoryList : string[] = [
-    'Flutter',
-    'React',
-    'Typescript',
-    'Javascript',
-    'AI',
-    'Deep Learning',
-    'Flutter',
-    'React',
-    'Typescript',
-    'Javascript',
+import CategoryRadioButton from '@/app/blog/components/CategoryRadioButton';
+
+const categoryList: string[] = [
+  'Flutter',
+  'React',
+  'Typescript',
+  'Javascript',
+  'AI',
+  'Deep Learning',
+  'Flutter',
+  'React',
+  'Typescript',
+  'Javascript',
 ];
 
 const CategoryRadioList = () => {
-    return (
-        <div className='flex flex-wrap space-x-4 justify-center my-4 cursor-pointer'>
-            {categoryList.map((category, index) => (
-                <CategoryRadioButton key={index} category={category}/>
-            ))}
-        </div>
-    );
+  return (
+    <div className="my-4 flex cursor-pointer flex-wrap justify-center space-x-4">
+      {categoryList.map((category, index) => (
+        <CategoryRadioButton key={index} category={category} />
+      ))}
+    </div>
+  );
 };
 
 export default CategoryRadioList;
