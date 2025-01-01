@@ -16,7 +16,6 @@ export default function RootLayout({children}: Readonly<{
     return (
         <html lang="en">
         <body>
-        <DynamicBackground/>
         <Header/>
         <main>
             {children}

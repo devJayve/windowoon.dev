@@ -50,7 +50,7 @@ export default function Header() {
                     darkMode ? 'text-yellow-300' : 'text-gray-700 dark:text-gray-300'
                 )}
             >
-                {darkMode ? <Sun/> : <Moon/>}
+                {darkMode ? <Moon/> : <Sun className='text-red-700'/>}
             </button>
         </header>
 
