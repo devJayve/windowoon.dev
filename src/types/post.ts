@@ -1,6 +1,6 @@
 export interface PostMatter {
   title: string;
-  date: Date;
+  date: string;
   author: string;
   tags: string[];
   summary: string;

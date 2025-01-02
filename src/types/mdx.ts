@@ -1,4 +1,3 @@
-import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { HTMLAttributes, ReactNode } from 'react';
 
 export interface MdxComponentProps extends HTMLAttributes<HTMLElement> {
@@ -19,5 +18,5 @@ export interface MDXImageProps extends MdxComponentProps {
 }
 
 export interface MdxContentProps {
-  source: MDXRemoteSerializeResult;
+  source: string;
 }

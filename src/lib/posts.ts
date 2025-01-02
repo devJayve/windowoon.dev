@@ -4,7 +4,6 @@ import path from 'path';
 import { sync } from 'glob';
 import matter from 'gray-matter';
 import { Post, PostMatter } from '@/types/post';
-import yaml from 'js-yaml';
 const BASE_PATH = '/public/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
@@ -18,19 +17,7 @@ export function getAllPosts(): Post[] {
   return postPaths
     .map(filePath => {
       const fileContents = fs.readFileSync(filePath, 'utf8');
-      const { content, data } = matter(fileContents, {
-        engines: {
-          yaml: {
-            parse: str => {
-              const parsed = yaml.load(str) as PostMatter;
-              if (parsed.date) {
-                parsed.date = new Date(parsed.date);
-              }
-              return parsed;
-            },
-          },
-        },
-      });
+      const { content, data } = matter(fileContents);
 
       // 파일 경로에서 category와 slug 추출
       const pathParts = filePath.replace(`${POSTS_PATH}/`, '').replace('/index.mdx', '').split('/');
@@ -56,19 +43,7 @@ export function getPost(category: string, slug: string): Post {
 
   const fileContent = fs.readFileSync(fullPath, 'utf8');
 
-  const { content, data } = matter(fileContent, {
-    engines: {
-      yaml: {
-        parse: str => {
-          const parsed = yaml.load(str) as PostMatter;
-          if (parsed.date) {
-            parsed.date = new Date(parsed.date);
-          }
-          return parsed;
-        },
-      },
-    },
-  });
+  const { content, data } = matter(fileContent);
 
   return {
     category,

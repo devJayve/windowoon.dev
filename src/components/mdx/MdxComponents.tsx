@@ -7,7 +7,7 @@ import { CodeBlockProps, MdxComponentProps } from '@/types/mdx';
 import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
 
 // <h2> 커스텀 컴포넌트
-export const Heading2 = ({ children, className, ...props }: MdxComponentProps) => (
+const Heading2 = ({ children, className, ...props }: MdxComponentProps) => (
   <h2
     className={cn('mb-4 mt-8 text-2xl font-bold text-gray-900 dark:text-gray-100', className)}
     {...props}
@@ -17,14 +17,14 @@ export const Heading2 = ({ children, className, ...props }: MdxComponentProps) =
 );
 
 // <p> 커스텀 리스트
-export const Paragraph = ({ children, className, ...props }: MdxComponentProps) => (
+const Paragraph = ({ children, className, ...props }: MdxComponentProps) => (
   <p className={cn('mb-4 leading-relaxed text-gray-700 dark:text-gray-300', className)} {...props}>
     {children}
   </p>
 );
 
 // 비정렬 리스트 커스텀 컴포넌트
-export const UnorderedList = ({ children, className, ...props }: MdxComponentProps) => (
+const UnorderedList = ({ children, className, ...props }: MdxComponentProps) => (
   <ul
     className={cn(
       'mb-4 list-inside list-disc space-y-2 text-gray-700 dark:text-gray-300',
@@ -37,7 +37,7 @@ export const UnorderedList = ({ children, className, ...props }: MdxComponentPro
 );
 
 // 정렬 리스트 커스텀 컴포넌트
-export const OrderedList = ({ children, className, ...props }: MdxComponentProps) => (
+const OrderedList = ({ children, className, ...props }: MdxComponentProps) => (
   <ol
     className={cn(
       'mb-4 list-inside list-decimal space-y-2 text-gray-700 dark:text-gray-300',
@@ -57,7 +57,7 @@ export const Anchor = ({ children, className, ...props }: MdxComponentProps) => 
 );
 
 // > 인용문 커스텀 컴포넌트
-export const Blockquote = ({ children, className, ...props }: MdxComponentProps) => (
+const Blockquote = ({ children, className, ...props }: MdxComponentProps) => (
   <blockquote
     className={cn(
       'my-4 border-l-4 border-gray-300 pl-4 italic text-gray-700 dark:border-gray-700 dark:text-gray-300',
@@ -70,7 +70,7 @@ export const Blockquote = ({ children, className, ...props }: MdxComponentProps)
 );
 
 // 코드블럭 커스텀 컴포넌트
-export const CodeBlock = ({ children, className }: CodeBlockProps) => {
+const CodeBlock = ({ children, className }: CodeBlockProps) => {
   const code = String(children).trim();
   const language = className ? className.replace('language-', '') : 'text';
   return (
@@ -102,7 +102,7 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
 };
 
 // 백틱(`)을 이용한 인라인 코드 커스텀 컴포넌트
-export const InlineCode = ({ children, className }: CodeBlockProps) => {
+const InlineCode = ({ children, className }: CodeBlockProps) => {
   const inline = String(children).replace(/`/g, '').trim();
 
   return (
@@ -118,7 +118,7 @@ export const InlineCode = ({ children, className }: CodeBlockProps) => {
   );
 };
 
-export const CodeComponent = ({ inline, children, className }: CodeBlockProps) => {
+const CodeComponent = ({ inline, children, className }: CodeBlockProps) => {
   const match = /language-(\w+)/.exec(className || '');
   return !inline && match ? (
     <CodeBlock className={className} language={match[1]}>
@@ -130,7 +130,7 @@ export const CodeComponent = ({ inline, children, className }: CodeBlockProps) =
 };
 
 // MDX 이미지 처리를 위한 커스텀 컴포넌트
-export const MDXImage = ({
+const MDXImage = ({
   src = '',
   alt = '',
   width,

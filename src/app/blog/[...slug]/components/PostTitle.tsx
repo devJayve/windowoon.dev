@@ -4,11 +4,11 @@ import { PostTitleProps } from '@/types/post';
 
 export function PostTitle({ frontMatter }: PostTitleProps) {
   const { title, date, tags } = frontMatter;
-  const formattedDate = date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  // const formattedDate = date.toLocaleDateString('ko-KR', {
+  //   year: 'numeric',
+  //   month: 'long',
+  //   day: 'numeric',
+  // });
   return (
     <header className="mb-8">
       <p className="text-center text-4xl font-semibold">{title}</p>
@@ -21,7 +21,7 @@ export function PostTitle({ frontMatter }: PostTitleProps) {
           );
         })}
       </div>
-      <div>{formattedDate}</div>
+      <div>{date}</div>
       <div className="my-5 h-0.5 bg-white"></div>
     </header>
   );
