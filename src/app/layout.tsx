@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import './globals.css';
-import DynamicBackground from '@/app/blog/components/DynamicBackground';
 import Header from '@/components/Header';
 
 export const metadata: Metadata = {
@@ -18,10 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <main>
-          <DynamicBackground />
-          {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
