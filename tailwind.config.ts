@@ -2,12 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ['./src/**/*.{ts,tsx}'],
   prefix: '',
   theme: {
     container: {
@@ -19,32 +14,16 @@ const config = {
     },
     extend: {
       colors: {
-        border: 'var(--border)', // HEX 형식으로 정의된 CSS 변수를 사용
-        input: 'var(--input)',
-        ring: 'var(--ring)',
+        foreground: 'var(--foreground)',
+        background: 'var(--background)',
         primary: {
-          light: 'var(--primary-light)', // 기본 텍스트 색상 (라이트 모드)
-          dark: 'var(--primary-dark)', // 기본 텍스트 색상 (다크 모드)
-        },
-        background: {
-          light: 'var(--background-light)', // 라이트 모드 배경 색상
-          dark: 'var(--background-dark)', // 다크 모드 배경 색상
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
       },
     },
-    animation: {
-      'accordion-down': 'accordion-down 0.2s ease-out',
-      'accordion-up': 'accordion-up 0.2s ease-out',
-    },
     fontFamily: {
       nanum: ['var(--font-nanum-gothic)'],
-    },
-  },
-  variants: {
-    extend: {
-      backgroundColor: ['dark'],
-      textColor: ['dark'],
-      borderColor: ['dark'],
     },
   },
   plugins: [

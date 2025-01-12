@@ -3,94 +3,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* HEX CSS 변수 설정 */
-:root {
-  --border: #d1d5db; /* 기본 경계선 색상 */
-  --input: #e5e7eb; /* 입력 필드 배경 색상 */
-  --ring: #1e1e1e; /* 포커스 시 링 색상 */
 
-  --primary-light: #111111; /* 기본 텍스트 색상 (라이트 모드) */
-  --primary-dark: #f7fafc; /* 기본 텍스트 색상 (다크 모드) */
-
-  --background-light: #ffffff; /* 라이트 모드 배경 색상 */
-  --background-dark: #101010; /* 다크 모드 배경 색상 */
+@layer base {
+    body {
+        @apply bg-background text-foreground transition-[background-color] duration-200;
+        font-family: NanumSquare, serif;
+    }
 }
 
-body {
-  @apply bg-background-light text-primary-light dark:bg-background-dark dark:text-primary-dark;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-family: NanumSquare, serif;
+:root {
+    --white: #f7fafc;
+    --black: #111111;
+
+    --background: white;
+    --foreground: var(--black);
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+
 }
 
 /* 다크 모드 변수 설정 */
 .dark {
-  --border: #4b5563; /* 다크 모드 경계선 색상 */
-  --input: #374151; /* 다크 모드 입력 필드 배경 색상 */
-  --ring: #9ca3af; /* 다크 모드 링 색상 */
+    --background: var(--black);
+    --foreground: var(--white);
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 }
 
-/* 글로벌 스타일 */
 
-
-h1, h2, h3, h4 {
-  @apply font-bold text-gray-900 dark:text-gray-100;
-}
-
-h1 {
-  @apply text-4xl md:text-5xl leading-tight mb-4;
-}
-
-h2 {
-  @apply text-3xl md:text-4xl leading-tight mb-4;
-}
-
-h3 {
-  @apply text-2xl md:text-3xl leading-snug mb-3;
-}
-
-.container {
-  @apply max-w-3xl mx-auto px-4 md:px-0;
-}
-
-.card {
-  @apply bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6;
-}
-
-.card-title {
-  @apply text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2;
-}
-
-.card-content {
-  @apply text-gray-700 dark:text-gray-300;
-}
-
-img {
-  @apply max-w-full h-auto;
-}
-
-p {
-  @apply text-base md:text-lg leading-relaxed text-gray-800 dark:text-gray-200;
-}
-
-pre {
-  @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 text-sm overflow-x-auto;
-  font-family: 'Fira Code', monospace;
-}
-
-.button {
-  @apply bg-blue-500 text-white dark:bg-blue-400 dark:text-gray-900 font-semibold py-2 px-4 rounded-md transition-colors duration-200;
-}
-
-.button:hover {
-  @apply bg-blue-600 dark:bg-blue-500;
-}
-
-/* 글로벌 스타일 - 스크롤바 숨기기 */
+/* 스크롤바 숨기기 */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE 및 Edge용 */
-  scrollbar-width: none; /* Firefox용 */
+    -ms-overflow-style: none; /* IE 및 Edge용 */
+    scrollbar-width: none; /* Firefox용 */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera용 */
+    display: none; /* Chrome, Safari, Opera용 */
 }
