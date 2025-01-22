@@ -19,6 +19,7 @@
     "@mdx-js/loader": "^3.1.0",
     "@next/mdx": "^15.0.2",
     "@uiw/react-md-editor": "^4.0.5",
+    "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "eslint-plugin-import": "^2.31.0",
