@@ -1,9 +1,9 @@
 import MdxContent from '@/components/mdx/MdxContent';
-import CommentList from '@/app/blog/[...slug]/components/CommentList';
+import CommentList from '@/app/post/[...slug]/components/CommentList';
 import { getPost } from '@/lib/posts';
-import PostTitle from '@/app/blog/[...slug]/components/PostTitle';
+import PostTitle from '@/app/post/[...slug]/components/PostTitle';
 
-export default async function BlogPostPage({ params }: { params: { slug: string[] } }) {
+export default async function PostPage({ params }: { params: { slug: string[] } }) {
   const [category, postSlug] = params.slug;
   const { content, frontMatter } = getPost(category, postSlug);
 

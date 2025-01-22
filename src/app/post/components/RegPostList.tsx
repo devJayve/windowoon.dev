@@ -1,4 +1,4 @@
-import RegPost from '@/app/blog/components/RegPost';
+import RegPost from '@/app/post/components/RegPost';
 import { RegPostListProps } from '@/types/post';
 
 export default function RegPostList({ posts }: RegPostListProps) {

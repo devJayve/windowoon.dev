@@ -1,18 +1,4 @@
-export interface PostMatter {
-  title: string;
-  date: string;
-  author: string;
-  tags: string[];
-  summary: string;
-  thumbnailURL?: string;
-}
-
-export interface Post {
-  category: string;
-  slug: string;
-  content: string;
-  frontMatter: PostMatter;
-}
+import { Post, PostMatter } from '@/app/post/types';
 
 export interface PostTitleProps {
   frontMatter: PostMatter;
