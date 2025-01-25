@@ -6,7 +6,7 @@ function FloatingActionButton() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/blog/write');
+    router.push('/post/write');
   };
 
   return (

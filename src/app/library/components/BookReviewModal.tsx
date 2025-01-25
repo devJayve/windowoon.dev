@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { BookReviewModalProps } from '@/types/library';
+import { BookReviewModalProps } from '@/shared/types/library';
 
 import book from '../../../../public/images/book_test.png';
 

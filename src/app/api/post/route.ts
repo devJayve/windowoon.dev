@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 import { NextResponse } from 'next/server';
-import { PostModel, PostResponse } from '../types';
+import { PostModel, PostResponse } from '@/features/post/types';
 
 //TODO::zod 안정성 보완
 export async function GET(): Promise<NextResponse<PostResponse>> {

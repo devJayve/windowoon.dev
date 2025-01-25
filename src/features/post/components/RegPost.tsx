@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { RegPostProps } from '@/types/post';
+import { RegPostProps } from '@/shared/types/post';
 
 export default function RegPost({ frontMatter, category, slug }: RegPostProps) {
   return (

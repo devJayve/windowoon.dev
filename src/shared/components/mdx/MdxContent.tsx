@@ -1,4 +1,4 @@
-import { MdxContentProps } from '@/types/mdx';
+import { MdxContentProps } from '@/shared/types/mdx';
 import { MDXRemote } from 'next-mdx-remote-client/rsc';
 import rehypePrettyCode, { type Options } from 'rehype-pretty-code';
 

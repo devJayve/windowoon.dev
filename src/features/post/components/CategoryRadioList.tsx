@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CategoryRadioButton from '@/app/post/components/CategoryRadioButton';
+import CategoryRadioButton from '@/features/post/components/CategoryRadioButton';
 
 const categoryList: string[] = [
   'Flutter',

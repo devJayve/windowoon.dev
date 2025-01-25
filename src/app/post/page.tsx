@@ -1,8 +1,8 @@
-import RegPostList from '@/app/post/components/RegPostList';
+import RegPostList from '@/features/post/components/RegPostList';
 import { getAllPosts } from '@/lib/posts';
-import FloatingActionButton from '@/components/FloatingActionButton';
+import FloatingActionButton from '@/shared/components/FloatingActionButton';
 import { Suspense } from 'react';
-import { PostResponse } from '@/app/post/types';
+import { PostResponse } from '@/features/post/types';
 
 export default async function BlogPage() {
   const allPosts = getAllPosts();

@@ -1,4 +1,4 @@
-import MdxContent from '@/components/mdx/MdxContent';
+import MdxContent from '@/shared/components/mdx/MdxContent';
 import CommentList from '@/app/post/[...slug]/components/CommentList';
 import { getPost } from '@/lib/posts';
 import PostTitle from '@/app/post/[...slug]/components/PostTitle';

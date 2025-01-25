@@ -1,4 +1,4 @@
-import { Post, PostMatter } from '@/app/post/types';
+import { Post, PostMatter } from '@/features/post/types';
 
 export interface PostTitleProps {
   frontMatter: PostMatter;

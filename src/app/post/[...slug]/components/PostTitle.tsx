@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PostTitleProps } from '@/types/post';
+import { PostTitleProps } from '@/shared/types/post';
 
 export function PostTitle({ frontMatter }: PostTitleProps) {
   const { title } = frontMatter;

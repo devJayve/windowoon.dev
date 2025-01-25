@@ -3,7 +3,7 @@ import path from 'path';
 
 import { sync } from 'glob';
 import matter from 'gray-matter';
-import { Post, PostMatter } from '@/types/post';
+import { Post, PostMatter } from '@/shared/types/post';
 const BASE_PATH = '/public/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 

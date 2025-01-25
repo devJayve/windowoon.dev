@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { PopularPostProps } from '@/types/post';
+import { PopularPostProps } from '@/shared/types/post';
 
 export default function PopularPost({ category, title, imageUrl }: PopularPostProps) {
   const [isHovered, setIsHovered] = useState(false);
