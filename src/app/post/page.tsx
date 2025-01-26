@@ -1,6 +1,6 @@
 import RegPostList from '@/features/post/components/RegPostList';
 import { getAllPosts } from '@/lib/posts';
-import FloatingActionButton from '@/shared/components/FloatingActionButton';
+import FloatingActionButton from '@/shared/components/button/FloatingActionButton';
 import { Suspense } from 'react';
 import { PostResponse } from '@/features/post/types';
 
