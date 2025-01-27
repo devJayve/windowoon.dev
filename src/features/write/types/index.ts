@@ -11,3 +11,11 @@ export interface CategoryResponse {
   success: boolean;
   error?: string;
 }
+
+export interface WriteFormState {
+  title: string;
+  slug: string;
+  description: string;
+  categories: string[];
+  content?: string;
+}

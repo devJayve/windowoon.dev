@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { fetchCategories } from '@/features/write/api/fetchCategoires';
 
-export const useCategorySelect = () => {
+interface UseCategorySelectProps {
+  onChange?: (selectedItems: string[]) => void;
+}
+
+export const useCategorySelect = ({ onChange }: UseCategorySelectProps) => {
   const [options, setOptions] = useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [optionMenu, setOptionMenu] = useState<string[]>(options);
@@ -20,6 +24,10 @@ export const useCategorySelect = () => {
 
     _fetchCategories();
   }, []);
+
+  useEffect(() => {
+    onChange?.(selectedOptions);
+  }, [selectedOptions]);
 
   // input 입력 시 해당 키워드 필터링
   const handleInputChange = (value: string) => {

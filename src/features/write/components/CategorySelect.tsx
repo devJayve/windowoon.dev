@@ -4,16 +4,16 @@ import { useCategorySelect } from '../hooks/useCategorySelect';
 import CategorySelectItem from '@/features/write/components/CategorySelectItem';
 import CategoryOptionItem from '@/features/write/components/CategoryOptionItem';
 import Input from '@/shared/components/input/Input';
+import { clsx } from 'clsx';
 
 interface TagSelectProps {
   onChange?: (selectedItems: string[]) => void;
 }
 
-const CategorySelect: React.FC<TagSelectProps> = () => {
+const CategorySelect: React.FC<TagSelectProps> = ({ onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
   const {
-    isLoading,
     selectedOptions,
     inputValue,
     isOpen,
@@ -23,7 +23,7 @@ const CategorySelect: React.FC<TagSelectProps> = () => {
     handleKeyDown,
     removeCategory,
     toggleDropdown,
-  } = useCategorySelect();
+  } = useCategorySelect({ onChange });
 
   useEffect(() => {
     // 외부 클릭 시 드롭다운 닫기
@@ -42,11 +42,14 @@ const CategorySelect: React.FC<TagSelectProps> = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [toggleDropdown]);
 
-  return isLoading ? (
-    <div>로딩중</div>
-  ) : (
+  return (
     <div>
-      <div className="flex w-full flex-wrap gap-2 rounded border border-gray-600 p-2 focus-within:ring-2 focus-within:ring-blue-200">
+      <div
+        className={clsx(
+          'flex w-full flex-wrap gap-2 rounded border border-gray-600 p-2',
+          'focus-within:ring-1 focus-within:ring-blue-500',
+        )}
+      >
         {selectedOptions.map((value, index) => (
           <CategorySelectItem
             key={`${value}-${index}`}
