@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/drizzle';
 import { PostTable } from '@/db/schema/post';
 import { eq } from 'drizzle-orm';
@@ -6,11 +6,10 @@ import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';
 import { ApiResponse } from '@/shared/types/response';
 import { Post } from '@/features/post/types';
 
-export async function GET({
-  params,
-}: {
-  params: { id: string };
-}): Promise<NextResponse<ApiResponse<Post>>> {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+): Promise<NextResponse<ApiResponse<Post>>> {
   try {
     const [post] = await db
       .select()

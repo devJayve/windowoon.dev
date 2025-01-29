@@ -4,12 +4,12 @@ import { Moon, Sun } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 import { NAV_LINKS } from '@/constants/navigation';
+import { useEffect, useState } from 'react';
 
 export function Header() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -28,13 +28,13 @@ export function Header() {
         ))}
       </nav>
       <button
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
         className={clsx(
           'rounded-lg p-2 transition-colors duration-200',
-          theme === 'dark' ? 'text-yellow-300' : 'text-gray-700 dark:text-gray-300',
+          resolvedTheme === 'dark' ? 'text-yellow-300' : 'text-gray-700 dark:text-gray-300',
         )}
       >
-        {theme === 'dark' ? <Moon /> : <Sun className="text-red-700" />}
+        {resolvedTheme === 'dark' ? <Moon /> : <Sun className="text-red-700" />}
       </button>
     </header>
   );

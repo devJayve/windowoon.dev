@@ -1,10 +1,12 @@
 import { Post } from '@/features/post/types';
 import { ApiResponse } from '@/shared/types/response';
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { BASE_URL } from '@/shared/config/api';
 
 export async function getPost(id: number): Promise<Post> {
-  const response = await fetch(`${BASE_URL}/api/post/${id}`);
+  console.log('id', id);
+  const response = await fetch(`${BASE_URL}/api/post/${id}`, {
+    next: { revalidate: 0 },
+  });
   const result = (await response.json()) as ApiResponse<Post>;
 
   if (!response.ok || result.error) {

@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 function CommentList() {
+  const { resolvedTheme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -24,7 +26,7 @@ function CommentList() {
     scriptElement.setAttribute('data-reactions-enabled', '1');
     scriptElement.setAttribute('data-emit-metadata', '0');
     scriptElement.setAttribute('data-input-position', 'top');
-    scriptElement.setAttribute('data-theme', 'preferred_color_scheme');
+    scriptElement.setAttribute('data-theme', resolvedTheme === 'dark' ? 'dark' : 'light');
     scriptElement.setAttribute('data-lang', 'ko');
     scriptElement.setAttribute('data-loading', 'lazy');
 
