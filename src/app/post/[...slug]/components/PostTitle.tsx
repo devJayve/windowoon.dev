@@ -1,10 +1,6 @@
-import React from 'react';
-
 import { PostTitleProps } from '@/shared/types/post';
 
-export function PostTitle({ frontMatter }: PostTitleProps) {
-  const { title } = frontMatter;
-
+export function PostTitle({ title }: PostTitleProps) {
   return (
     <header className="mb-8">
       <p className="text-center text-4xl font-semibold">{title}</p>

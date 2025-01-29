@@ -2,13 +2,13 @@ import Link from 'next/link';
 
 import { RegPostProps } from '@/shared/types/post';
 
-export default function RegPost({ frontMatter, category, slug }: RegPostProps) {
+export default function RegPost({ post }: RegPostProps) {
   return (
-    <Link href={`/post/${category}/${slug}`}>
+    <Link href={`/post/${post.id}/${post.slug}`}>
       <div className="flex p-4">
         <div className="grow basis-3/4">
-          <p className="mt-3 text-sm font-light">{frontMatter.date}</p>
-          <div className="font-semibold">{frontMatter.title}</div>
+          <p className="mt-3 text-sm font-light">{post.createdAt.toLocaleString()}</p>
+          <div className="font-semibold">{post.title}</div>
         </div>
         <div className="grow basis-1/4"></div>
       </div>

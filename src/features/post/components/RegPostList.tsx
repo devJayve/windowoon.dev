@@ -5,12 +5,7 @@ export default function RegPostList({ posts }: RegPostListProps) {
   return (
     <div>
       {posts.map((post, index) => (
-        <RegPost
-          key={index}
-          category={post.category}
-          slug={post.slug}
-          frontMatter={post.frontMatter}
-        />
+        <RegPost key={index} post={post} />
       ))}
     </div>
   );

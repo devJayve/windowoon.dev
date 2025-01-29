@@ -22,16 +22,16 @@ export interface PostModel {
   id: string;
   title: string;
   content: string;
-  description: string | null;
+  description: string;
+  categories: string[];
   slug: string;
   views: number;
-  created_at: Date;
-  updated_at: Date;
-  thumbnail_url: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface PostResponse {
-  posts: Partial<PostModel>[];
+  posts: PostModel[];
   success: boolean;
   error?: string;
 }

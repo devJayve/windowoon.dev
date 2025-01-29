@@ -1,7 +1,7 @@
-import { Post, PostMatter } from '@/features/post/types';
+import { PostModel } from '@/features/post/types';
 
 export interface PostTitleProps {
-  frontMatter: PostMatter;
+  title: string;
 }
 
 export interface PopularPostProps {
@@ -10,16 +10,10 @@ export interface PopularPostProps {
   imageUrl: string;
 }
 
-export interface PopularPostListProps {
-  posts: { category: string; title: string; imageUrl: string }[];
-}
-
 export interface RegPostListProps {
-  posts: Post[];
+  posts: PostModel[];
 }
 
 export interface RegPostProps {
-  frontMatter: PostMatter;
-  slug: string;
-  category: string;
+  post: PostModel;
 }

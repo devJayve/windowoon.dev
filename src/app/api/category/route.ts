@@ -1,16 +1,11 @@
-import { neon } from '@neondatabase/serverless';
 import { NextResponse } from 'next/server';
-import { Category } from '@/features/write/types';
-
-const sql = neon(process.env.DATABASE_URL!);
+import { db } from '@/db/drizzle';
+import { category } from '@/db/schema';
+import { desc } from 'drizzle-orm';
 
 export async function GET() {
   try {
-    const categories: Partial<Category>[] = await sql`
-        SELECT *
-        FROM categories
-        ORDER BY create_at DESC
-    `;
+    const categories = await db.select().from(category).orderBy(desc(category.createdAt)).execute();
 
     return NextResponse.json({
       data: {
@@ -33,18 +28,7 @@ export async function POST(request: Request) {
   try {
     const { name } = await request.json();
 
-    if (!name) {
-      return NextResponse.json({
-        data: {
-          category: null,
-        },
-        success: false,
-        error: 'Category name is required',
-      });
-    }
-
-    const [newCategory] =
-      await sql`INSERT INTO categories (id, name) VALUES (gen_random_uuid(), ${name}) RETURNING *`;
+    const newCategory = await db.insert(category).values({ name }).execute();
 
     return NextResponse.json({
       data: {

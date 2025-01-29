@@ -1,38 +1,16 @@
-import { neon } from '@neondatabase/serverless';
 import { NextResponse } from 'next/server';
-import { PostModel, PostResponse } from '@/features/post/types';
-import { ApiResponse } from '@/shared/types/response';
+import { db } from '@/db/drizzle';
+import { desc, eq } from 'drizzle-orm';
+import { category, post, postCategories } from '@/db/schema';
 
-const sql = neon(process.env.DATABASE_URL!);
-
-export async function GET(): Promise<NextResponse<PostResponse>> {
+export async function GET() {
   try {
-    const posts: Partial<PostModel>[] = await sql`
-      SELECT 
-        id, 
-        title, 
-        description, 
-        slug, 
-        views, 
-        created_at, 
-        updated_at
-      FROM posts 
-      ORDER BY created_at DESC
-    `;
-
+    const posts = await db.select().from(post).orderBy(desc(post.createdAt));
     // 성공 응답 반환
-    return NextResponse.json(
-      {
-        posts,
-        success: true,
-      },
-      {
-        status: 200,
-        headers: {
-          'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=59',
-        },
-      },
-    );
+    return NextResponse.json({
+      posts,
+      success: true,
+    });
   } catch (error) {
     console.error('Failed to fetch posts:', error);
 
@@ -50,43 +28,42 @@ export async function GET(): Promise<NextResponse<PostResponse>> {
   }
 }
 
-export async function POST(request: Request): Promise<NextResponse<ApiResponse<PostModel>>> {
+export async function POST(request: Request) {
   try {
     const { title, description, content, slug, categories } = await request.json();
 
-    // Post 생성
-    const [postResult] = await sql`
-    INSERT INTO posts (id, title, description, content, slug, categories)
-    VALUES (gen_random_uuid(), ${title}, ${description}, ${content}, ${slug}, ${categories}) 
-    RETURNING id`;
+    const newPost = await db.transaction(async tx => {
+      const [newPost] = await db
+        .insert(post)
+        .values({ title, description, content, slug, categories })
+        .returning();
 
-    // 각 카테고리 처리
-    for (const categoryName of categories) {
-      // 기존 카테고리 조회
-      const [existingCategory] = await sql`
-        SELECT id FROM categories WHERE name = ${categoryName}
-      `;
+      const categoryIds = await Promise.all(
+        categories.map(async (categoryName: string) => {
+          const [existingCategory] = await tx
+            .select()
+            .from(category)
+            .where(eq(category.name, categoryName));
 
-      const categoryId =
-        existingCategory?.id ||
-        // 새 카테고리 생성
-        (
-          await sql`
-          INSERT INTO categories (id, name)
-          VALUES (gen_random_uuid(), ${categoryName}) RETURNING id`
-        )[0].id;
+          if (existingCategory) {
+            return existingCategory.id;
+          }
 
-      // post_categories 연결
-      await sql`
-        INSERT INTO post_categories (post_id, category_id)
-        VALUES (${postResult.id}, ${categoryId})
-      `;
-    }
+          const [newCategory] = await tx
+            .insert(category)
+            .values({ name: categoryName })
+            .returning();
 
-    const newPost: PostModel = await sql`
-      SELECT id, title, description, slug, categories, created_at
-      FROM posts WHERE id = ${postResult.id}
-    `;
+          return newCategory.id;
+        }),
+      );
+
+      await tx
+        .insert(postCategories)
+        .values(categoryIds.map(categoryId => ({ postId: newPost.id, categoryId })));
+
+      return newPost;
+    });
 
     return NextResponse.json(
       {

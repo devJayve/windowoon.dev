@@ -13,7 +13,10 @@
         "eslint --cache --fix",
         "prettier --cache --write"
       ]
-    }
+    },
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push --config drizzle.config.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -22,6 +25,8 @@
     "@uiw/react-md-editor": "^4.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.4",
     "eslint-plugin-import": "^2.31.0",
     "gray-matter": "^4.0.3",
     "lorem-ipsum": "^2.0.8",
@@ -31,6 +36,7 @@
     "next-mdx-remote-client": "^1.0.3",
     "next-remove-imports": "^1.0.12",
     "next-themes": "^0.4.4",
+    "pg": "^8.13.1",
     "react": "^18",
     "react-dom": "^18",
     "reflect-metadata": "^0.2.2",
@@ -47,10 +53,12 @@
     "@types/glob": "^8.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
+    "@types/pg": "^8.11.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
+    "drizzle-kit": "^0.30.2",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",

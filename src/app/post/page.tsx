@@ -1,15 +1,12 @@
 import RegPostList from '@/features/post/components/RegPostList';
-import { getAllPosts } from '@/lib/posts';
 import FloatingActionButton from '@/shared/components/button/FloatingActionButton';
 import { Suspense } from 'react';
 import { PostResponse } from '@/features/post/types';
 
 export default async function BlogPage() {
-  const allPosts = getAllPosts();
-
   const fetchPosts = async () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/post/api`);
+    const response = await fetch(`${baseUrl}/api/post`);
 
     const data: PostResponse = await response.json();
 
@@ -18,18 +15,14 @@ export default async function BlogPage() {
     return data.posts;
   };
 
-  const postsFromServer = await fetchPosts();
+  const allPosts = await fetchPosts();
 
   return (
     <>
       <div className="flex flex-col justify-center">
         <Suspense fallback={<div>loading</div>}>
-          <div>
-            <p>fetch test</p>
-            {postsFromServer.toString()}
-          </div>
+          <RegPostList posts={allPosts} />
         </Suspense>
-        <RegPostList posts={allPosts} />
         <FloatingActionButton />
       </div>
     </>

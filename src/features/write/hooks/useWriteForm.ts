@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WriteFormState } from '@/features/write/types';
+import { router } from 'next/client';
 
 export const useWriteForm = () => {
   const [form, setForm] = useState<WriteFormState>({
@@ -41,6 +42,16 @@ export const useWriteForm = () => {
     e.preventDefault();
     if (!isValid) return;
 
+    const response = await fetch('http://localhost:3000/api/post', {
+      method: 'POST',
+      body: JSON.stringify(form),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      alert('업로드 성공');
+      await router.push('/');
+    }
     // TODO: DB 업로드
   };
 

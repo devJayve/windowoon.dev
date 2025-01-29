@@ -3,14 +3,13 @@ import path from 'path';
 
 import { sync } from 'glob';
 import matter from 'gray-matter';
-import { Post, PostMatter } from '@/shared/types/post';
 const BASE_PATH = '/public/posts';
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
 /**
  * posts 내에 모든 mdx 파일 및 메타정보 추출
  */
-export function getAllPosts(): Post[] {
+export function getAllPosts() {
   // posts 폴더 내의 모든 index.mdx 파일 경로를 가져옴
   const postPaths = sync(`${POSTS_PATH}/**/index.mdx`);
 
@@ -29,7 +28,7 @@ export function getAllPosts(): Post[] {
         slug,
         category,
         content,
-        frontMatter: data as PostMatter,
+        frontMatter: data,
       };
     })
     .sort(
@@ -37,7 +36,7 @@ export function getAllPosts(): Post[] {
     );
 }
 
-export function getPost(category: string, slug: string): Post {
+export function getPost(category: string, slug: string) {
   const postPath = path.join(POSTS_PATH, category, slug);
   const fullPath = path.join(postPath, 'index.mdx');
 
@@ -49,14 +48,14 @@ export function getPost(category: string, slug: string): Post {
     category,
     slug,
     content,
-    frontMatter: data as PostMatter,
+    frontMatter: data,
   };
 }
 
 /**
  * 카테고리를 기준으로 posts 추출
  */
-export function getPostsByCategory(category: string): Post[] {
+export function getPostsByCategory(category: string) {
   return getAllPosts().filter(post => post.category === category);
 }
 
