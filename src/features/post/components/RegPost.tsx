@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Post } from '@/features/post/types';
+import { PostMeta } from '@/features/post/types';
 
 interface RegPostProps {
-  post: Post;
+  post: PostMeta;
 }
 
 export default function RegPost({ post }: RegPostProps) {

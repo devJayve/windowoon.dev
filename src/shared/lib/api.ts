@@ -7,7 +7,7 @@ export function createSuccessResponse<T>(
 ): NextResponse<ApiResponse<T>> {
   return NextResponse.json(
     {
-      data,
+      data: data,
       success: true,
     },
     { status: statusCode },

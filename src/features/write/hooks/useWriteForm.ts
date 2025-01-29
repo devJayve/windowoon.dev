@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { WriteFormState } from '@/features/write/types';
-import { router } from 'next/client';
+import { createPost } from '@/features/post/lib';
+import { useRouter } from 'next/navigation';
 
 export const useWriteForm = () => {
+  const router = useRouter();
   const [form, setForm] = useState<WriteFormState>({
     title: '',
     slug: '',
     categories: [],
     description: '',
-    content: undefined,
+    content: '',
   });
 
   const isValid =
@@ -27,7 +29,7 @@ export const useWriteForm = () => {
   };
 
   const handleContent = (content: string | undefined) => {
-    setForm(prev => ({ ...prev, content }));
+    setForm(prev => ({ ...prev, content: content || '' }));
   };
 
   const handleSlug = (slug: string) => {
@@ -41,18 +43,14 @@ export const useWriteForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid) return;
+    try {
+      await createPost(form);
 
-    const response = await fetch('http://localhost:3000/api/post', {
-      method: 'POST',
-      body: JSON.stringify(form),
-    });
-
-    const result = await response.json();
-    if (result.success) {
       alert('업로드 성공');
-      await router.push('/');
+      router.push('/post');
+    } catch (error) {
+      alert(`오류가 발생했습니다. ${error}`);
     }
-    // TODO: DB 업로드
   };
 
   return {

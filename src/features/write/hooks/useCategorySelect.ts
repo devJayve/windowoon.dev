@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchCategories } from '@/features/write/api/fetchCategoires';
+import { getCategories } from '@/features/write/lib/getCategories';
 
 interface UseCategorySelectProps {
   onChange?: (selectedItems: string[]) => void;
@@ -15,14 +15,14 @@ export const useCategorySelect = ({ onChange }: UseCategorySelectProps) => {
 
   // DB로부터 카테고리 목록 fetching
   useEffect(() => {
-    const _fetchCategories = async () => {
-      const categories = await fetchCategories();
+    const fetchCategories = async () => {
+      const categories = await getCategories();
       setOptions(categories.map((category: { name: string }) => category.name));
       setOptionMenu(categories.map((category: { name: string }) => category.name));
       setIsLoading(false);
     };
 
-    _fetchCategories();
+    fetchCategories();
   }, []);
 
   useEffect(() => {
