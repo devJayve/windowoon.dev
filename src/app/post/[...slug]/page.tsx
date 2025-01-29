@@ -6,7 +6,7 @@ import TableOfContent from '@/features/post/components/TableOfContent';
 import { evaluate, EvaluateOptions } from 'next-mdx-remote-client/rsc';
 import remarkFlexibleToc from 'remark-flexible-toc';
 import rehypePrettyCode from 'rehype-pretty-code';
-import readingTime from 'reading-time';
+import readingTime, { ReadTimeResults } from 'reading-time';
 import { Toc } from '@/features/post/types';
 
 export default async function PostPage({ params }: { params: { slug: string[] } }) {
@@ -28,7 +28,11 @@ export default async function PostPage({ params }: { params: { slug: string[] } 
 
   return (
     <article className="mx-auto max-w-4xl space-y-8 px-4 py-8">
-      <PostTitle title={post.title} />
+      <PostTitle
+        title={post.title}
+        date={post.createdAt}
+        readingTime={scope.readingTime as ReadTimeResults}
+      />
       <div className="flex gap-8">
         <MdxContent options={options} source={post.content} />
         <TableOfContent toc={scope.toc as Toc[]} />
