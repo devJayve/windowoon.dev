@@ -1,4 +1,4 @@
-import { PostTable } from '@/db/schema';
+import { PostTable } from '@/db/schema/post';
 
 export type Post = typeof PostTable.$inferSelect;
 

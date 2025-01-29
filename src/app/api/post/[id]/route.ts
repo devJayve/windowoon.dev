@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db/drizzle';
-import { PostTable } from '@/db/schema';
+import { PostTable } from '@/db/schema/post';
 import { eq } from 'drizzle-orm';
 import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';
 import { ApiResponse } from '@/shared/types/response';

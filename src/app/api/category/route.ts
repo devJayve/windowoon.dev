@@ -1,5 +1,5 @@
 import { db } from '@/db/drizzle';
-import { CategoryTable } from '@/db/schema';
+import { CategoryTable } from '@/db/schema/post';
 import { desc } from 'drizzle-orm';
 import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';
 import { NextResponse } from 'next/server';

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db/drizzle';
 import { desc, eq } from 'drizzle-orm';
-import { CategoryTable, PostTable, PostCategoryTable } from '@/db/schema';
+import { CategoryTable, PostTable, PostCategoryTable } from '@/db/schema/post';
 import { ApiResponse } from '@/shared/types/response';
 import { CreatePostRequest, Post, PostMeta } from '@/features/post/types';
 import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';

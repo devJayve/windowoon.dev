@@ -7,7 +7,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { NAV_LINKS } from '@/constants/navigation';
 
-export default function Header() {
+export function Header() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
