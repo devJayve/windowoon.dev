@@ -1,16 +1,6 @@
-export interface Category {
-  id: string;
-  name: string;
-  created_at: Date;
-}
+import { CategoryTable } from '@/db/schema';
 
-export interface CategoryResponse {
-  data: {
-    categories: Category[];
-  };
-  success: boolean;
-  error?: string;
-}
+export type Category = typeof CategoryTable.$inferSelect;
 
 export interface WriteFormState {
   title: string;

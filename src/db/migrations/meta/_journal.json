@@ -15,6 +15,13 @@
       "when": 1738049132110,
       "tag": "0001_clear_loki",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738133453595,
+      "tag": "0002_clean_dreaming_celestial",
+      "breakpoints": true
     }
   ]
 }

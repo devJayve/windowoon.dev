@@ -1,48 +1,21 @@
-import { NextResponse } from 'next/server';
 import { db } from '@/db/drizzle';
-import { category } from '@/db/schema';
+import { CategoryTable } from '@/db/schema';
 import { desc } from 'drizzle-orm';
+import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';
+import { NextResponse } from 'next/server';
+import { ApiResponse } from '@/shared/types/response';
+import { Category } from '@/features/write/types';
 
-export async function GET() {
+export async function GET(): Promise<NextResponse<ApiResponse<Category[]>>> {
   try {
-    const categories = await db.select().from(category).orderBy(desc(category.createdAt)).execute();
+    const categories = await db
+      .select()
+      .from(CategoryTable)
+      .orderBy(desc(CategoryTable.createdAt))
+      .execute();
 
-    return NextResponse.json({
-      data: {
-        categories: categories,
-      },
-      success: true,
-    });
+    return createSuccessResponse(categories);
   } catch (error) {
-    return NextResponse.json({
-      data: {
-        categories: [],
-      },
-      success: false,
-      error: `Failed to fetch categories: ${error}`,
-    });
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const { name } = await request.json();
-
-    const newCategory = await db.insert(category).values({ name }).execute();
-
-    return NextResponse.json({
-      data: {
-        category: newCategory,
-      },
-      success: true,
-    });
-  } catch (error) {
-    return NextResponse.json({
-      data: {
-        category: null,
-      },
-      success: false,
-      error: `Failed to create category: ${error}`,
-    });
+    return createErrorResponse(error);
   }
 }

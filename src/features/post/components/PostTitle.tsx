@@ -1,4 +1,6 @@
-import { PostTitleProps } from '@/shared/types/post';
+interface PostTitleProps {
+  title: string;
+}
 
 export function PostTitle({ title }: PostTitleProps) {
   return (

@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { Post } from '@/features/post/types';
 
-import { RegPostProps } from '@/shared/types/post';
+interface RegPostProps {
+  post: Post;
+}
 
 export default function RegPost({ post }: RegPostProps) {
   return (

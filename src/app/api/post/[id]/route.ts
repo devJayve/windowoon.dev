@@ -1,29 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '@/db/drizzle';
-import { post } from '@/db/schema';
+import { PostTable } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { createErrorResponse, createSuccessResponse } from '@/shared/lib/api';
+import { ApiResponse } from '@/shared/types/response';
+import { Post } from '@/features/post/types';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET({
+  params,
+}: {
+  params: { id: string };
+}): Promise<NextResponse<ApiResponse<Post>>> {
   try {
-    // ID로 빠른 조회
-    const [findingPost] = await db
+    const [post] = await db
       .select()
-      .from(post)
-      .where(eq(post.id, parseInt(params.id)))
+      .from(PostTable)
+      .where(eq(PostTable.id, parseInt(params.id)))
       .execute();
 
-    if (!findingPost) {
-      return NextResponse.json({ success: false, error: 'Post not found' }, { status: 404 });
+    if (!post) {
+      return createErrorResponse(Error(`${params.id}에 해당하는 게시물을 찾을 수 없습니다`), 404);
     }
 
-    return NextResponse.json({
-      data: findingPost,
-      success: true,
-    });
+    return createSuccessResponse(post);
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      error: `Failed to fetch post: ${error}`,
-    });
+    return createErrorResponse(error);
   }
 }
