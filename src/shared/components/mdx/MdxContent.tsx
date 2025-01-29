@@ -1,22 +1,14 @@
-import { MdxContentProps } from '@/shared/types/mdx';
-import { MDXRemote } from 'next-mdx-remote-client/rsc';
-import rehypePrettyCode, { type Options } from 'rehype-pretty-code';
+import { EvaluateOptions, MDXRemote } from 'next-mdx-remote-client/rsc';
 
-const prettyCodeOptions: Options = {};
+interface MdxContentProps {
+  source: string;
+  options: EvaluateOptions;
+}
 
-export default function MdxContent({ source }: MdxContentProps) {
+export default async function MdxContent({ source, options }: MdxContentProps) {
   return (
-    <div className="relative">
-      <div className="mb-8">
-        <MDXRemote
-          source={source}
-          options={{
-            mdxOptions: {
-              rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
-            },
-          }}
-        />
-      </div>
+    <div className="prose prose-lg max-w-none flex-1 dark:prose-invert">
+      <MDXRemote source={source} options={options} />
     </div>
   );
 }

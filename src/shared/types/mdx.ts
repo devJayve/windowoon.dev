@@ -16,7 +16,3 @@ export interface MDXImageProps extends MdxComponentProps {
   width?: number;
   height?: number;
 }
-
-export interface MdxContentProps {
-  source: string;
-}
