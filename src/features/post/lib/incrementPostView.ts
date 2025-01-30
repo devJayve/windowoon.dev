@@ -17,7 +17,6 @@ export async function incrementPostView(postId: number): Promise<void> {
 
     return await response.json();
   } catch (error) {
-    console.log(error);
     console.error(error);
   }
 }

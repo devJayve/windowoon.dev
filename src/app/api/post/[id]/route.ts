@@ -15,7 +15,7 @@ export async function GET(
       .select()
       .from(PostTable)
       .where(eq(PostTable.id, parseInt(params.id)))
-      .execute();
+      .limit(1);
 
     if (!post) {
       return createErrorResponse(Error(`${params.id}에 해당하는 게시물을 찾을 수 없습니다`), 404);

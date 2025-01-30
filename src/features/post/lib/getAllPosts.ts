@@ -13,8 +13,5 @@ export async function getAllPosts(): Promise<PostMeta[]> {
     throw new Error(result.error || 'Failed to fetch posts');
   }
 
-  console.log('result', result);
-  console.log('result.data', result.data);
-
   return result.data!;
 }
