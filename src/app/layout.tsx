@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Header } from '@/shared/components/layout/Header';
 import { AppProviders, Footer } from '@/shared/components/layout';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,6 +24,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );

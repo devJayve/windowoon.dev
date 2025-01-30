@@ -8,10 +8,13 @@ import remarkFlexibleToc from 'remark-flexible-toc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import readingTime, { ReadTimeResults } from 'reading-time';
 import { Toc } from '@/features/post/types';
+import { incrementPostView } from '@/features/post/lib/incrementPostView';
 
 export default async function PostPage({ params }: { params: { slug: string[] } }) {
-  const [postId] = params.slug;
-  const post = await getPost(parseInt(postId));
+  const [id] = params.slug;
+  const postId = parseInt(id);
+
+  const [post] = await Promise.all([getPost(postId), incrementPostView(postId)]);
 
   const options: EvaluateOptions = {
     mdxOptions: {
@@ -32,6 +35,7 @@ export default async function PostPage({ params }: { params: { slug: string[] } 
         title={post.title}
         date={post.createdAt}
         readingTime={scope.readingTime as ReadTimeResults}
+        views={post.views}
       />
       <div className="flex gap-8">
         <MdxContent options={options} source={post.content} />
