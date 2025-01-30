@@ -6,9 +6,14 @@ export async function getPost(id: number): Promise<Post> {
   const response = await fetch(`${BASE_URL}/api/post/${id}`, {
     next: { revalidate: 0 },
   });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch post ${id}`);
+  }
+
   const result = (await response.json()) as ApiResponse<Post>;
 
-  if (!response.ok || result.error) {
+  if (result.error) {
     throw new Error(result.error || `Failed to fetch post ${id}`);
   }
 
