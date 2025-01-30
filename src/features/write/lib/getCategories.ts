@@ -1,15 +1,8 @@
 import { Category } from '@/features/write/types';
-import { ApiResponse } from '@/shared/types/response';
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { db } from '@/db/drizzle';
+import { CategoryTable } from '@/db/schema';
+import { desc } from 'drizzle-orm';
 
 export async function getCategories(): Promise<Category[]> {
-  const response = await fetch(`${BASE_URL}/api/category`);
-  const result = (await response.json()) as ApiResponse<Category[]>;
-
-  if (!response.ok || result.error) {
-    throw new Error(result.error || 'Failed to fetch categories');
-  }
-
-  return result.data!;
+  return await db.select().from(CategoryTable).orderBy(desc(CategoryTable.createdAt)).execute();
 }

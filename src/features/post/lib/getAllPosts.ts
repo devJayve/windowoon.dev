@@ -1,17 +1,20 @@
 import { PostMeta } from '@/features/post/types';
-import { ApiResponse } from '@/shared/types/response';
-import { BASE_URL } from '@/shared/config/api';
+import { db } from '@/db/drizzle';
+import { PostTable } from '@/db/schema';
+import { desc } from 'drizzle-orm';
 
 export async function getAllPosts(): Promise<PostMeta[]> {
-  const response = await fetch(`${BASE_URL}/api/post`, {
-    next: { revalidate: 0 },
-  });
-
-  const result = (await response.json()) as ApiResponse<PostMeta[]>;
-
-  if (!response.ok || result.error) {
-    throw new Error(result.error || 'Failed to fetch posts');
-  }
-
-  return result.data!;
+  return db
+    .select({
+      id: PostTable.id,
+      title: PostTable.title,
+      description: PostTable.description,
+      slug: PostTable.slug,
+      views: PostTable.views,
+      createdAt: PostTable.createdAt,
+      updatedAt: PostTable.updatedAt,
+      categories: PostTable.categories,
+    })
+    .from(PostTable)
+    .orderBy(desc(PostTable.createdAt));
 }

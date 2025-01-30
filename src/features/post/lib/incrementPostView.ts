@@ -1,7 +1,8 @@
-'use server';
-import { BASE_URL } from '@/shared/config/api';
 import { cookies } from 'next/headers';
 import { getViewCookieKey } from '@/middleware';
+import { db } from '@/db/drizzle';
+import { PostTable } from '@/db/schema';
+import { eq, sql } from 'drizzle-orm';
 
 export async function incrementPostView(postId: number): Promise<void> {
   try {
@@ -11,11 +12,13 @@ export async function incrementPostView(postId: number): Promise<void> {
       return;
     }
 
-    const response = await fetch(`${BASE_URL}/api/post/${postId}/view`, {
-      method: 'POST',
-    });
-
-    return await response.json();
+    await db
+      .update(PostTable)
+      .set({
+        views: sql`${PostTable.views} + 1`,
+      })
+      .where(eq(PostTable.id, postId))
+      .returning({ views: PostTable.views });
   } catch (error) {
     console.error(error);
   }
