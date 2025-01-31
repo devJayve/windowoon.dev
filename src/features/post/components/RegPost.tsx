@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { PostMeta } from '@/features/post/types';
 import { motion } from 'framer-motion';
 import { formatDate } from '@/shared/lib/date';
+import { clsx } from 'clsx';
 
 interface RegPostProps {
   post: PostMeta;
@@ -46,7 +47,10 @@ export default function RegPost({ post }: RegPostProps) {
           <p className="text-xs font-light">{formatDate(post.createdAt)}</p>
         </div>
         <div className="grow basis-1/4" />
-        <motion.div variants={overlayVariants} className="bg-background/30 absolute inset-0" />
+        <motion.div
+          variants={overlayVariants}
+          className={clsx('absolute inset-0', 'bg-background/30')}
+        />
         <motion.div
           variants={descriptionVariants}
           className="absolute inset-0 flex items-center p-4"
