@@ -1,8 +1,9 @@
 import Image from 'next/image';
-
-import { BookReviewModalProps } from '@/types/library';
-
 import book from '../../../../public/images/book_test.png';
+
+interface BookReviewModalProps {
+  onClose: () => void;
+}
 
 export default function BookReviewModal({ onClose }: BookReviewModalProps) {
   return (

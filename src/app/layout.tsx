@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
-
 import './globals.css';
-import Header from '@/components/Header';
-import { ThemeProvider } from 'next-themes';
+import type { Metadata } from 'next';
+import { Header } from '@/shared/components/layout/Header';
+import { AppProviders, Footer } from '@/shared/components/layout';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -11,16 +11,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="min-h-screen">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          <main>{children}</main>
-        </ThemeProvider>
+      <body>
+        <AppProviders>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          {modal}
+        </AppProviders>
+        <Analytics />
       </body>
     </html>
   );
