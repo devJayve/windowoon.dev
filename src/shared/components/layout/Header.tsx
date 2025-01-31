@@ -1,12 +1,12 @@
 'use client';
 import { clsx } from 'clsx';
 import { Moon, Sun } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { NAV_LINKS } from '@/constants/navigation';
 import { useEffect, useState } from 'react';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
+import { WindowsIcon } from '@/shared/components/icons/WindowIcon';
 
 export function Header() {
   const [mounted, setMounted] = useState(false);
@@ -35,7 +35,7 @@ export function Header() {
   return (
     <>
       <header className="flex items-center justify-between p-4">
-        <Image src="/images/window_logo.png" alt="logo" width={40} height={40} />
+        <WindowsIcon className="text-gray-900 transition-colors duration-200 dark:text-white" />
         <nav className="flex gap-6">
           {NAV_LINKS.map(link => (
             <Link
