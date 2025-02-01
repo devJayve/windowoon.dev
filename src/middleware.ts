@@ -6,7 +6,7 @@ export const config = {
   // matcher: '/post/:path*',
 };
 
-const ADMIN_PATHS = ['/write'];
+const ADMIN_PATHS = ['/post/write'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -18,10 +18,16 @@ export async function middleware(request: NextRequest) {
 
   if (isAdminPath) {
     try {
-      const response = await fetch(`${request.nextUrl.origin}/api/auth/session`);
+      const sessionCookie = request.cookies.get('next-auth.session-token')?.value;
+
+      const response = await fetch(`${request.nextUrl.origin}/api/auth/session`, {
+        headers: {
+          Cookie: `next-auth.session-token=${sessionCookie}`,
+        },
+      });
+
       const session: Session = await response.json();
 
-      console.log('세션정보', session);
       if (!session || session.user?.role !== 'admin') {
         return NextResponse.redirect(new URL('/', request.url));
       }
