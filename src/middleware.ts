@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
       const response = await fetch(`${request.nextUrl.origin}/api/auth/session`);
       const session: Session = await response.json();
 
+      console.log('세션정보', session);
       if (!session || session.user?.role !== 'admin') {
         return NextResponse.redirect(new URL('/', request.url));
       }

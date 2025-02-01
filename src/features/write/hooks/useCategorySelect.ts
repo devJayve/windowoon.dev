@@ -1,29 +1,19 @@
 import { useState, useEffect } from 'react';
-import { getCategories } from '@/features/write/lib/getCategories';
+import { Category } from '@/features/write/types';
 
 interface UseCategorySelectProps {
+  categories: Category[];
   onChange?: (selectedItems: string[]) => void;
 }
 
-export const useCategorySelect = ({ onChange }: UseCategorySelectProps) => {
-  const [options, setOptions] = useState<string[]>([]);
+export const useCategorySelect = ({ categories, onChange }: UseCategorySelectProps) => {
+  const [options, setOptions] = useState<string[]>(
+    categories.map((category: { name: string }) => category.name),
+  );
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [optionMenu, setOptionMenu] = useState<string[]>(options);
   const [inputValue, setInputValue] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // DB로부터 카테고리 목록 fetching
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categories = await getCategories();
-      setOptions(categories.map((category: { name: string }) => category.name));
-      setOptionMenu(categories.map((category: { name: string }) => category.name));
-      setIsLoading(false);
-    };
-
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     onChange?.(selectedOptions);
@@ -73,7 +63,6 @@ export const useCategorySelect = ({ onChange }: UseCategorySelectProps) => {
   const toggleDropdown = (open: boolean) => setIsOpen(open);
 
   return {
-    isLoading,
     selectedOptions,
     inputValue,
     isOpen,
