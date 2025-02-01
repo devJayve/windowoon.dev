@@ -9,6 +9,10 @@ const mdxConfig = withMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL,
+    READ_DATABASE_URL: process.env.READ_DATABASE_URL,
+  },
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/,

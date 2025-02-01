@@ -10,7 +10,7 @@ const primary = drizzle(
 
 const read = drizzle(
   new Pool({
-    connectionString: process.env.READ_REPLICA_URL!,
+    connectionString: process.env.READ_DATABASE_URL!,
   }),
 );
 
