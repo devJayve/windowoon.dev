@@ -2,10 +2,6 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { Session } from 'next-auth';
 
-export const config = {
-  // matcher: '/post/:path*',
-};
-
 const ADMIN_PATHS = ['/post/write'];
 
 export async function middleware(request: NextRequest) {

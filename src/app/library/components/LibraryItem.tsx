@@ -12,7 +12,7 @@ export default function LibraryItem() {
   return (
     <>
       <div
-        className="flex aspect-[4/5] cursor-pointer flex-col overflow-hidden rounded-lg bg-indigo-300"
+        className="flex aspect-[4/5] w-full max-w-xs cursor-pointer flex-col overflow-hidden rounded-lg"
         onClick={() => setIsOpen(true)}
       >
         <div className="flex-[3]">
