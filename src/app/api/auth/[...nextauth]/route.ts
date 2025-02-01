@@ -6,7 +6,7 @@ import { accounts, authenticators, sessions, users, verificationTokens } from '@
 import { eq } from 'drizzle-orm';
 
 export const authOption: AuthOptions = {
-  adapter: DrizzleAdapter(db, {
+  adapter: DrizzleAdapter(db.$primary, {
     usersTable: users,
     accountsTable: accounts,
     authenticatorsTable: authenticators,
