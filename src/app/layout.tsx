@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/shared/components/layout/Header';
 import { AppProviders, Footer } from '@/shared/components/layout';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: 'Windowoon.dev',
@@ -38,6 +39,7 @@ export default function RootLayout({
           {modal}
         </AppProviders>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
