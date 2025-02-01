@@ -23,7 +23,7 @@ export function Header() {
   if (!mounted) return null;
 
   const handleNavClick = (href: string, label: string, e: React.MouseEvent) => {
-    if (href !== '/post') {
+    if (process.env.NODE_ENV === 'production' && href !== '/post') {
       e.preventDefault();
       setInfoDialog({
         isOpen: true,
@@ -62,7 +62,7 @@ export function Header() {
         title={`${infoDialog.label} 페이지는 준비중이에요.`}
         description="좋은 컨텐츠를 가지고 곧 찾아뵐게요. 조금만 기다려주세요."
         isOpen={infoDialog.isOpen}
-        onClose={() => setInfoDialog({ isOpen: false, label: '' })}
+        onClose={() => setInfoDialog(prev => ({ ...prev, isOpen: false }))}
       />
     </>
   );

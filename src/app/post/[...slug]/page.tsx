@@ -8,13 +8,13 @@ import remarkFlexibleToc from 'remark-flexible-toc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import readingTime, { ReadTimeResults } from 'reading-time';
 import { Toc } from '@/features/post/types';
+import { incrementViewCount } from '@/features/post/lib/incrementViewCount';
 
 export default async function PostPage({ params }: { params: { slug: string[] } }) {
   const [id] = params.slug;
   const postId = parseInt(id);
 
-  // const [post] = await Promise.all([getPost(postId), incrementPostView(postId)]);
-  const [post] = await Promise.all([getPost(postId)]);
+  const [post] = await Promise.all([getPost(postId), incrementViewCount(postId)]);
 
   const options: EvaluateOptions = {
     mdxOptions: {

@@ -1,35 +1,34 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
-const VIEW_COOKIE_PREFIX = 'post_view_';
-const COOKIE_EXPIRY_DAYS = 1;
+import { Session } from 'next-auth';
 
 export const config = {
-  matcher: '/post/:path*',
+  // matcher: '/post/:path*',
 };
 
-export const getViewCookieKey = (postId: string) => `${VIEW_COOKIE_PREFIX}${postId}`;
+const ADMIN_PATHS = ['/write'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
-  const pathname = request.nextUrl.pathname;
-  const postId = pathname.split('/')[2];
-  const viewCookieKey = getViewCookieKey(postId);
+  const ip = request.ip ?? request.headers.get('X-Forwarded-For');
+  if (ip) response.headers.set('X-next-ip', ip);
 
-  // // 이미 조회한 경우
-  if (request.cookies.has(viewCookieKey)) {
-    return response;
+  const isAdminPath = ADMIN_PATHS.some(path => request.nextUrl.pathname.startsWith(path));
+
+  if (isAdminPath) {
+    try {
+      const response = await fetch(`${request.nextUrl.origin}/api/auth/session`);
+      const session: Session = await response.json();
+
+      if (!session || session.user?.role !== 'admin') {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+    } catch (error) {
+      console.error(error);
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
-
-  // 쿠키 설정
-  response.cookies.set(viewCookieKey, '1', {
-    expires: new Date(Date.now() + COOKIE_EXPIRY_DAYS * 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-  });
 
   return response;
 }
