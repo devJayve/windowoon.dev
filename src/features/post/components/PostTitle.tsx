@@ -2,9 +2,10 @@ import { ReadTimeResults } from 'reading-time';
 import { formatDate } from '@/shared/lib/date';
 import dayjs from 'dayjs';
 import { Calendar, Clock, Eye } from 'lucide-react';
-import PostControl from '@/features/post/components/PostControl';
+import dynamic from 'next/dynamic';
 
 interface PostTitleProps extends PostMetaProps {
+  postId: number;
   title: string;
 }
 
@@ -14,13 +15,15 @@ interface PostMetaProps {
   views: number;
 }
 
-export function PostTitle({ title, date, readingTime, views }: PostTitleProps) {
+const PostControl = dynamic(() => import('@/features/post/components/PostControl'), { ssr: false });
+
+export function PostTitle({ postId, title, date, readingTime, views }: PostTitleProps) {
   return (
     <header className="mb-8 space-y-2">
       <h1 className="text-center text-6xl font-semibold">{title}</h1>
       <div className="relative flex items-center justify-center">
         <PostMeta readingTime={readingTime} date={date} views={views} />
-        <PostControl />
+        <PostControl postId={postId} />
       </div>
     </header>
   );

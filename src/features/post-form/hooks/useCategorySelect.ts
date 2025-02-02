@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react';
 import { Category } from '@/features/write/types';
 
 interface UseCategorySelectProps {
+  initialCategories: string[];
   categories: Category[];
   onChange?: (selectedItems: string[]) => void;
 }
 
-export const useCategorySelect = ({ categories, onChange }: UseCategorySelectProps) => {
+export const useCategorySelect = ({
+  initialCategories,
+  categories,
+  onChange,
+}: UseCategorySelectProps) => {
   const [options, setOptions] = useState<string[]>(
     categories.map((category: { name: string }) => category.name),
   );
@@ -14,6 +19,14 @@ export const useCategorySelect = ({ categories, onChange }: UseCategorySelectPro
   const [optionMenu, setOptionMenu] = useState<string[]>(options);
   const [inputValue, setInputValue] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialCategories.length) {
+      const filtered = options.filter(option => !initialCategories.includes(option));
+      setOptionMenu(filtered);
+      setSelectedOptions(initialCategories);
+    }
+  }, []);
 
   useEffect(() => {
     onChange?.(selectedOptions);
