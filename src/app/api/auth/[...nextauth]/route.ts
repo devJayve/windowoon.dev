@@ -1,12 +1,11 @@
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '@/db/drizzle';
 import { accounts, authenticators, sessions, users, verificationTokens } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-// NextAuth 핸들러 설정
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db.$primary, {
     usersTable: users,
     accountsTable: accounts,
@@ -40,6 +39,9 @@ const handler = NextAuth({
   pages: {
     signIn: '/login',
   },
-});
+};
+
+// NextAuth 핸들러 설정
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

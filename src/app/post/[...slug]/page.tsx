@@ -9,7 +9,7 @@ import readingTime, { ReadTimeResults } from 'reading-time';
 import { Toc } from '@/features/post/types';
 import { incrementViewCount } from '@/features/post/lib/incrementViewCount';
 import { Suspense } from 'react';
-import { mdxComponents } from '@/shared/components/mdx/mdxComponents';
+import { components } from '@/shared/components/mdx';
 
 export default async function PostPage({ params }: { params: { slug: string[] } }) {
   const [id] = params.slug;
@@ -36,7 +36,7 @@ export default async function PostPage({ params }: { params: { slug: string[] } 
   const { content, scope } = await evaluate({
     source: post.content,
     options,
-    components: mdxComponents,
+    components,
   });
 
   return (
@@ -50,7 +50,6 @@ export default async function PostPage({ params }: { params: { slug: string[] } 
         />
         <div className="flex gap-8">
           <div className="prose prose-lg max-w-none flex-1 dark:prose-invert">{content}</div>
-          {/*<MDXContent options={options} source={post.content} />*/}
           <TableOfContent toc={scope.toc as Toc[]} />
         </div>
       </Suspense>
