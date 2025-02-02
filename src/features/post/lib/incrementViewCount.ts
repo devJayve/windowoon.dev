@@ -18,7 +18,7 @@ export async function incrementViewCount(postId: number): Promise<void> {
       .from(PostViewTable)
       .where(
         and(
-          eq(PostViewTable.id, postId),
+          eq(PostViewTable.postId, postId),
           eq(PostViewTable.hash, hash),
           gte(PostViewTable.viewedAt, oneDayAgo),
         ),
