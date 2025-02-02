@@ -5,12 +5,14 @@ import CategorySelectItem from '@/features/write/components/CategorySelectItem';
 import CategoryOptionItem from '@/features/write/components/CategoryOptionItem';
 import Input from '@/shared/components/input/Input';
 import { clsx } from 'clsx';
+import { Category } from '@/features/write/types';
 
 interface TagSelectProps {
+  categories: Category[];
   onChange?: (selectedItems: string[]) => void;
 }
 
-const CategorySelect: React.FC<TagSelectProps> = ({ onChange }) => {
+const CategorySelect: React.FC<TagSelectProps> = ({ categories, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
   const {
@@ -23,7 +25,7 @@ const CategorySelect: React.FC<TagSelectProps> = ({ onChange }) => {
     handleKeyDown,
     removeCategory,
     toggleDropdown,
-  } = useCategorySelect({ onChange });
+  } = useCategorySelect({ categories, onChange });
 
   useEffect(() => {
     // 외부 클릭 시 드롭다운 닫기

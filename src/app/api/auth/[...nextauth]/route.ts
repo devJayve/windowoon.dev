@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 
 // NextAuth 핸들러 설정
 const handler = NextAuth({
-  adapter: DrizzleAdapter(db, {
+  adapter: DrizzleAdapter(db.$primary, {
     usersTable: users,
     accountsTable: accounts,
     authenticatorsTable: authenticators,

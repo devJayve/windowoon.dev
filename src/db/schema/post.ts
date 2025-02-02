@@ -20,6 +20,15 @@ export const PostTable = pgTable('posts', {
   categories: text('categories').array().notNull().default([]),
 });
 
+export const PostViewTable = pgTable('post_views', {
+  id: serial('id').primaryKey(),
+  postId: integer('post_id')
+    .notNull()
+    .references(() => PostTable.id, { onDelete: 'cascade' }),
+  hash: varchar('hash', { length: 64 }).notNull(),
+  viewedAt: timestamp('viewed_at').notNull().defaultNow(),
+});
+
 export const CategoryTable = pgTable('categories', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 30 }).notNull(),

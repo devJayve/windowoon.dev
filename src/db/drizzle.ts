@@ -1,7 +1,17 @@
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { Pool } from '@neondatabase/serverless';
+import { withReplicas } from 'drizzle-orm/pg-core';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL!,
-});
-export const db = drizzle(pool);
+const primary = drizzle(
+  new Pool({
+    connectionString: process.env.DATABASE_URL!,
+  }),
+);
+
+const read = drizzle(
+  new Pool({
+    connectionString: process.env.READ_REPLICA_URL!,
+  }),
+);
+
+export const db = withReplicas(primary, [read]);

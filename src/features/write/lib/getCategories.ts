@@ -4,5 +4,5 @@ import { CategoryTable } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 
 export async function getCategories(): Promise<Category[]> {
-  return await db.select().from(CategoryTable).orderBy(desc(CategoryTable.createdAt)).execute();
+  return db.select().from(CategoryTable).orderBy(desc(CategoryTable.createdAt));
 }

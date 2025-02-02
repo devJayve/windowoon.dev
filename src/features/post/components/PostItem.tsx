@@ -4,12 +4,13 @@ import { PostMeta } from '@/features/post/types';
 import { motion } from 'framer-motion';
 import { formatDate } from '@/shared/lib/date';
 import { clsx } from 'clsx';
+import { Calendar } from 'lucide-react';
 
 interface RegPostProps {
   post: PostMeta;
 }
 
-export default function RegPost({ post }: RegPostProps) {
+export default function PostItem({ post }: RegPostProps) {
   const overlayVariants = {
     hidden: {
       opacity: 0,
@@ -42,11 +43,25 @@ export default function RegPost({ post }: RegPostProps) {
   return (
     <Link href={`/post/${post.id}/${post.slug}`}>
       <motion.div className="group relative flex p-4" initial="hidden" whileHover="visible">
-        <div className="grow basis-3/4 space-y-1">
+        <div className="w-full space-y-1 p-1">
           <div className="text-lg font-semibold">{post.title}</div>
-          <p className="text-xs font-light">{formatDate(post.createdAt)}</p>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-nowrap items-center gap-1 overflow-hidden">
+              {post.categories.map(category => (
+                <span
+                  key={category}
+                  className="inline-flex items-center rounded-md bg-gray-200 px-2.5 text-xs font-medium dark:bg-gray-100/20"
+                >
+                  {category}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-0.5">
+              <Calendar size={12} />
+              <p className="text-xs font-light">{formatDate(post.createdAt)}</p>
+            </div>
+          </div>
         </div>
-        <div className="grow basis-1/4" />
         <motion.div
           variants={overlayVariants}
           className={clsx('absolute inset-0', 'bg-background/30')}
