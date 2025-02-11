@@ -1,18 +1,8 @@
-'use client';
-
 import { clsx } from 'clsx';
 import type { TocItem, HeadingDepth, HeadingParent } from 'remark-flexible-toc';
 
 import styles from './Toc.module.css';
 
-// toc - an array of table of contents items provided by the remark plugin "remark-flexible-toc"
-// maxDepth (default: 6) — max heading depth to include in the table of contents; this is inclusive: when set to 3, level three headings are included
-// indented (default: false) — whether to add indent to list items according to heading levels
-// ordered (default: false) — whether to add numbering to list items as an ordered list
-// tight (default: false) — whether to compile list items tightly, otherwise space is added around items
-// exclude — headings to skip, wrapped in new RegExp('^(' + value + ')$', 'i'); any heading matching this expression will not be present in the table of contents
-// skipLevels (default: [1]) — disallowed heading levels, by default the article h1 is not expected to be in the TOC
-// skipParents — disallow headings to be children of certain node types,(if the parent is "root", it is not skipped)
 type Props = {
   toc: TocItem[];
   maxDepth?: HeadingDepth;
@@ -60,13 +50,7 @@ const Toc = ({
   );
 
   return (
-    <details
-      className={styles['toc-container']}
-      onClick={e => {
-        e.currentTarget.classList.toggle(styles.close);
-      }}
-      open
-    >
+    <div>
       <summary className={styles['toc-title']}>
         <strong>TABLE OF CONTENTS</strong>
       </summary>
@@ -95,7 +79,7 @@ const Toc = ({
           </li>
         ))}
       </ul>
-    </details>
+    </div>
   );
 };
 

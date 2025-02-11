@@ -9,5 +9,6 @@ export async function getPost(id: number): Promise<Post> {
     .from(PostTable)
     .where(eq(PostTable.id, parseInt(String(id))))
     .limit(1);
+
   return post;
 }

@@ -4,7 +4,7 @@ import { Session } from 'next-auth';
 import { checkIsAdmin } from '@/features/post/lib';
 import { NEXT_IP_KEY } from '@/shared/constants';
 
-const ADMIN_PATHS = ['/post/write'];
+const ADMIN_PATHS = ['/post/create'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
 
       const session: Session = await response.json();
 
-      if (!session || checkIsAdmin(session)) {
+      if (!session || !checkIsAdmin(session)) {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch (error) {

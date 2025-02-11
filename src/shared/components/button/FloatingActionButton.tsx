@@ -13,7 +13,7 @@ function FloatingActionButton() {
   if (!checkIsAdmin(data)) return null;
 
   const handleClick = () => {
-    router.push('/post/write');
+    router.push('/post/create');
   };
 
   return (

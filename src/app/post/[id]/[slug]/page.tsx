@@ -1,15 +1,18 @@
 import CommentList from '@/features/post/components/CommentList';
 import PostTitle from '@/features/post/components/PostTitle';
 import { getPost } from '@/features/post/lib';
-import TableOfContent from '@/features/post/components/TableOfContent';
 import { evaluate, EvaluateOptions } from 'next-mdx-remote-client/rsc';
-import remarkFlexibleToc from 'remark-flexible-toc';
+import remarkFlexibleToc, { TocItem } from 'remark-flexible-toc';
 import rehypePrettyCode, { type Options } from 'rehype-pretty-code';
 import readingTime, { ReadTimeResults } from 'reading-time';
-import { Toc } from '@/features/post/types';
 import { incrementViewCount } from '@/features/post/lib/incrementViewCount';
 import { Suspense } from 'react';
 import { components } from '@/shared/components/mdx';
+import Toc from '@/shared/components/mdx/Toc';
+import rehypeSlug from 'rehype-slug';
+import remarkFlexibleContainers, {
+  type FlexibleContainerOptions,
+} from 'remark-flexible-containers';
 
 interface PostDetailPageProps {
   params: {
@@ -28,6 +31,14 @@ const prettyCodeOptions: Options = {
   },
 };
 
+function toTitleCase(str: string | undefined) {
+  if (!str) return;
+
+  return str.replace(/\b\w+('\w{1})?/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+  });
+}
+
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
@@ -39,8 +50,23 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const options: EvaluateOptions = {
     parseFrontmatter: false,
     mdxOptions: {
-      remarkPlugins: [remarkFlexibleToc],
-      rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+      remarkPlugins: [
+        [
+          remarkFlexibleContainers,
+          {
+            title: () => null,
+            containerTagName: 'admonition',
+            containerProperties: (type, title) => {
+              return {
+                ['data-type']: type?.toLowerCase(),
+                ['data-title']: title ?? toTitleCase(type),
+              };
+            },
+          } as FlexibleContainerOptions,
+        ],
+        remarkFlexibleToc,
+      ],
+      rehypePlugins: [[rehypePrettyCode, prettyCodeOptions], rehypeSlug],
       development: process.env.NODE_ENV === 'development',
     },
     scope: {
@@ -67,7 +93,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         />
         <div className="flex gap-8">
           <div className="prose max-w-none flex-1 dark:prose-invert">{content}</div>
-          <TableOfContent toc={scope.toc as Toc[]} />
+          <Toc toc={scope.toc as TocItem[]} ordered={true} indented={true} />
         </div>
       </Suspense>
       <CommentList />
