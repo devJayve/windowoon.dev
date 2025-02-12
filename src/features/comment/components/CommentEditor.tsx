@@ -1,13 +1,14 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/shared/components/button/button';
 import { codeEdit, codePreview, ICommand } from '@uiw/react-md-editor';
 import { useRouter } from 'next/navigation';
-import { createComment } from '@/features/comment/lib/createComment';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
+import { createCommentAction } from '@/features/comment/lib/createCommentAction';
+import { useFormState } from 'react-dom';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -34,33 +35,29 @@ function CommentEditor({
     isOpen: false,
     title: '',
   });
+  const [state, formAction] = useFormState(createCommentAction, null);
 
-  const isAuthenticated = status === 'authenticated';
+  const isAuthenticated = status === 'authenticated' && session?.user?.id !== null;
 
   const handleContent = (content: string | undefined) => {
     setContent(content || '');
   };
 
-  const handleCommentSubmit = async () => {
-    if (!isAuthenticated || !session?.user?.id) {
-      router.push('/login');
-      return;
-    }
-
-    try {
-      await createComment({ content, postId, userId: session.user.id, parentId });
-
+  useEffect(() => {
+    if (state) {
       setInfoDialog({
         isOpen: true,
-        title: '댓글이 등록되었어요',
-      });
-    } catch (error) {
-      setInfoDialog({
-        isOpen: true,
-        title: '댓글 등록에 실패했어요',
+        title: state.message,
       });
       setContent('');
-      console.error(error);
+    }
+  }, [state]);
+
+  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      router.push('/login');
+      return;
     }
   };
 
@@ -76,7 +73,11 @@ function CommentEditor({
 
   return (
     <>
-      <div className="md-editor-wrapper">
+      <form action={formAction} onSubmit={handleCommentSubmit} className="md-editor-wrapper">
+        {isAuthenticated && <input type="hidden" name="userId" value={session.user.id!} />}
+        {parentId && <input type="hidden" name="parentId" value={parentId} />}
+        <input type="hidden" name="postId" value={postId} />
+        <input type="hidden" name="content" value={content} />
         <MDEditor
           data-color-mode={theme === 'dark' ? 'dark' : 'light'}
           value={content}
@@ -96,11 +97,11 @@ function CommentEditor({
               취소
             </Button>
           )}
-          <Button size="sm" onClick={handleCommentSubmit}>
+          <Button type="submit" size="sm">
             {isAuthenticated ? '댓글 등록' : '로그인 후 작성하기'}
           </Button>
         </div>
-      </div>
+      </form>
       <InfoDialog
         title={infoDialog.title}
         isOpen={infoDialog.isOpen}

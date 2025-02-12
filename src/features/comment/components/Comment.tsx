@@ -48,7 +48,7 @@ function Comment({ postId, isReply, comment }: CommentProps) {
           ))}
         </div>
       )}
-      <ReplyInput postId={postId} parentId={comment.id} isAuthenticated />
+      {!isReply && <ReplyInput postId={postId} parentId={comment.id} isAuthenticated />}
     </div>
   );
 }
