@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 
-function CommentList() {
+function GiscusCommentList() {
   const { resolvedTheme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -41,4 +41,4 @@ function CommentList() {
   return <section ref={ref} />;
 }
 
-export default CommentList;
+export default GiscusCommentList;

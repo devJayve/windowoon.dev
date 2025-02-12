@@ -3,6 +3,8 @@ import { revalidatePath } from 'next/cache';
 
 import { db } from '@/db/drizzle';
 import { CommentTable } from '@/db/schema';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/features/auth/config';
 
 export interface CommentActionState {
   message: string;
@@ -10,14 +12,16 @@ export interface CommentActionState {
 }
 
 export async function createCommentAction(
+  postId: number,
+  parentId: number | undefined,
   prevState: CommentActionState | null,
   formData: FormData,
 ): Promise<CommentActionState> {
   try {
+    const session = await getServerSession(authOptions);
+
     const content = formData.get('content')?.toString();
-    const postId = formData.get('postId')?.toString();
-    const userId = formData.get('userId')?.toString();
-    const parentId = formData.get('parentId')?.toString();
+    const userId = session?.user?.id;
 
     if (!content) {
       return {

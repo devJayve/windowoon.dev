@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
 import { createCommentAction } from '@/features/comment/lib/createCommentAction';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -35,7 +35,9 @@ function CommentEditor({
     isOpen: false,
     title: '',
   });
-  const [state, formAction] = useFormState(createCommentAction, null);
+
+  const createComment = createCommentAction.bind(null, postId, parentId);
+  const [state, formAction] = useFormState(createComment, null);
 
   const isAuthenticated = status === 'authenticated' && session?.user?.id !== null;
 
@@ -74,9 +76,6 @@ function CommentEditor({
   return (
     <>
       <form action={formAction} onSubmit={handleCommentSubmit} className="md-editor-wrapper">
-        {isAuthenticated && <input type="hidden" name="userId" value={session.user.id!} />}
-        {parentId && <input type="hidden" name="parentId" value={parentId} />}
-        <input type="hidden" name="postId" value={postId} />
         <input type="hidden" name="content" value={content} />
         <MDEditor
           data-color-mode={theme === 'dark' ? 'dark' : 'light'}
@@ -97,9 +96,7 @@ function CommentEditor({
               취소
             </Button>
           )}
-          <Button type="submit" size="sm">
-            {isAuthenticated ? '댓글 등록' : '로그인 후 작성하기'}
-          </Button>
+          <SubmitButton content={content} isAuthenticated={isAuthenticated} />
         </div>
       </form>
       <InfoDialog
@@ -108,6 +105,15 @@ function CommentEditor({
         onClose={() => setInfoDialog(prev => ({ ...prev, isOpen: false }))}
       />
     </>
+  );
+}
+
+function SubmitButton({ content, isAuthenticated }: { content: string; isAuthenticated: boolean }) {
+  const { pending } = useFormStatus();
+  return (
+    <Button disabled={content.trim().length === 0 || pending} type="submit" size="sm">
+      {pending ? '등록중...' : isAuthenticated ? '댓글 등록' : '로그인 후 작성하기'}
+    </Button>
   );
 }
 

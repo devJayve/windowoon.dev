@@ -7,7 +7,6 @@ import ReplyInput from '@/features/comment/components/ReplyInput';
 
 interface CommentProps {
   isReply?: boolean;
-  isAuthenticated: boolean;
   postId: number;
   comment: CommentType;
 }
@@ -44,11 +43,11 @@ function Comment({ postId, isReply, comment }: CommentProps) {
       {!isReply && comment.replies && (
         <div>
           {comment.replies.map(reply => (
-            <Comment key={reply.id} postId={postId} comment={reply} isReply isAuthenticated />
+            <Comment key={reply.id} postId={postId} comment={reply} isReply />
           ))}
         </div>
       )}
-      {!isReply && <ReplyInput postId={postId} parentId={comment.id} isAuthenticated />}
+      {!isReply && <ReplyInput postId={postId} parentId={comment.id} />}
     </div>
   );
 }
