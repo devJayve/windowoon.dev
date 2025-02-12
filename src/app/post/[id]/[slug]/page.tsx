@@ -1,4 +1,5 @@
 import CommentList from '@/features/post/components/CommentList';
+import DevCommentList from '@/features/comment/components/DevCommentList';
 import PostTitle from '@/features/post/components/PostTitle';
 import { getPost } from '@/features/post/lib';
 import { evaluate, EvaluateOptions } from 'next-mdx-remote-client/rsc';
@@ -96,6 +97,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <Toc toc={scope.toc as TocItem[]} ordered={true} indented={true} />
         </div>
       </Suspense>
+
+      <DevCommentList />
       <CommentList />
     </article>
   );

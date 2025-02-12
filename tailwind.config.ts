@@ -56,6 +56,10 @@ const config = {
         },
         'github-dark': '#1E1F22',
       },
+      borderWidth: {
+        '0.5': '0.5px',
+        '1': '1px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

@@ -9,7 +9,8 @@
         @apply bg-background text-foreground transition-[background-color] duration-200;
         font-family: NanumSquare, serif;
     }
-  :root {
+
+    :root {
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -36,21 +37,22 @@
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
 
-      figure[data-rehype-pretty-code-figure] {
-          @apply border-[var(--foreground)];
-      }
+        figure[data-rehype-pretty-code-figure] {
+            @apply border-[var(--foreground)];
+        }
 
-      figure[data-rehype-pretty-code-figure] pre {
-          @apply bg-[var(--shiki-light-bg)];
-      }
+        figure[data-rehype-pretty-code-figure] pre {
+            @apply bg-[var(--shiki-light-bg)];
+        }
 
-      code[data-theme*=" "],
-      code[data-theme*=" "] span {
-          color: var(--shiki-light);
-          background-color: var(--shiki-light-bg);
-      }
+        code[data-theme*=" "],
+        code[data-theme*=" "] span {
+            color: var(--shiki-light);
+            background-color: var(--shiki-light-bg);
+        }
     }
-  .dark {
+
+    .dark {
         --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
         --card: 240 10% 3.9%;
@@ -76,19 +78,19 @@
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
 
-      figure[data-rehype-pretty-code-figure] {
-          @apply border-[var(--foreground)];
-      }
+        figure[data-rehype-pretty-code-figure] {
+            @apply border-[var(--foreground)];
+        }
 
-      figure[data-rehype-pretty-code-figure] pre {
-          @apply bg-[var(--shiki-dark-bg)];
-      }
+        figure[data-rehype-pretty-code-figure] pre {
+            @apply bg-[var(--shiki-dark-bg)];
+        }
 
-      code[data-theme*=" "],
-      code[data-theme*=" "] span {
-          color: var(--shiki-dark);
-          background-color: var(--shiki-dark-bg);
-      }
+        code[data-theme*=" "],
+        code[data-theme*=" "] span {
+            color: var(--shiki-dark);
+            background-color: var(--shiki-dark-bg);
+        }
     }
 }
 
@@ -175,3 +177,52 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 :not(pre) > p > code {
     @apply mx-[0.2rem] rounded border bg-zinc-300 px-[0.4rem] py-[0.1rem] font-semibold dark:bg-zinc-800;
 }
+
+
+/* 댓글 마크다운 에디어 스타일 */
+.md-editor-wrapper .w-md-editor {
+    background-color: var(--background);
+}
+
+.md-editor-wrapper textarea[readonly] {
+    cursor: not-allowed !important;
+}
+
+.md-editor-wrapper .w-md-editor-toolbar {
+    background-color: var(--background);
+    padding: 8px;
+}
+
+.w-md-editor-toolbar > ul > li {
+    margin-right: 8px;
+}
+
+.w-md-editor-toolbar > ul > li.active > button {
+    position: relative;
+    background-color: transparent;
+    color: var(--foreground) !important;
+    font-weight: bold;
+}
+
+.w-md-editor-toolbar > ul > li.active > button::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    z-index: -1;
+}
+
+.md-editor-wrapper .w-md-editor-preview {
+    background-color: var(--background);
+}
+
+.md-editor-wrapper .wmde-markdown,
+.md-editor-wrapper .w-md-editor-preview .wmde-markdown {
+    background-color: var(--background);
+}
+
+
