@@ -15,7 +15,7 @@ interface InfoDialogProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  description: string;
+  description?: string;
   confirmText?: string;
 }
 
@@ -33,7 +33,7 @@ export function InfoDialog({
           <Info className="size-6 text-blue-500" />
           <div className="space-y-2">
             <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+            {description && <DialogDescription>{description}</DialogDescription>}
           </div>
         </DialogHeader>
         <DialogFooter>

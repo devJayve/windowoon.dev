@@ -1,14 +1,14 @@
 import { AuthOptions } from 'next-auth';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '@/db/drizzle';
-import { accounts, authenticators, sessions, users, verificationTokens } from '@/db/schema';
+import { accounts, authenticators, sessions, UserTable, verificationTokens } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db.$primary, {
-    usersTable: users,
+    usersTable: UserTable,
     accountsTable: accounts,
     authenticatorsTable: authenticators,
     sessionsTable: sessions,
@@ -20,17 +20,20 @@ export const authOptions: AuthOptions = {
 
       const [selectedUser] = await db
         .select()
-        .from(users)
-        .where(eq(users.email, session.user.email))
+        .from(UserTable)
+        .where(eq(UserTable.email, session.user.email))
         .limit(1);
 
       session.user = selectedUser;
       return session;
     },
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOGGLE_CLIENT_ID!,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     GithubProvider({

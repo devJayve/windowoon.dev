@@ -9,7 +9,7 @@ import {
   primaryKey,
 } from 'drizzle-orm/pg-core';
 import { PostTable } from './post';
-import { users } from './user';
+import { UserTable } from './user';
 
 export const CommentStatus = pgEnum('comment_status', ['published', 'deleted']);
 
@@ -29,7 +29,7 @@ export const CommentTable = pgTable('comments', {
     .references(() => PostTable.id, { onDelete: 'cascade' }),
   userId: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => UserTable.id, { onDelete: 'cascade' }),
   content: text('content').notNull(),
   status: CommentStatus('status').notNull().default('published'),
   parentId: integer('parent_id').references((): PgColumn => CommentTable.id, {
@@ -46,7 +46,7 @@ export const CommentReactionTable = pgTable(
     id: serial('id').primaryKey(),
     userId: text('user_id')
       .notNull()
-      .references((): PgColumn => users.id, {
+      .references((): PgColumn => UserTable.id, {
         onDelete: 'cascade',
       }),
     commentId: integer('comment_id')

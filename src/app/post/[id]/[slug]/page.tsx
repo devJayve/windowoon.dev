@@ -98,7 +98,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         </div>
       </Suspense>
 
-      <DevCommentList />
+      <DevCommentList postId={postId} />
       <CommentList />
     </article>
   );
