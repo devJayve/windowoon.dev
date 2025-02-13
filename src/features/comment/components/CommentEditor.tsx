@@ -7,7 +7,7 @@ import { codeEdit, codePreview, ICommand } from '@uiw/react-md-editor';
 import { useRouter } from 'next/navigation';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
-import { createCommentAction } from '@/features/comment/lib/createCommentAction';
+import { createCommentAction } from '@/features/comment/action/createCommentAction';
 import { useFormState, useFormStatus } from 'react-dom';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });

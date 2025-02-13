@@ -1,8 +1,7 @@
-'use client';
-import React from 'react';
 import { Button } from '@/shared/components/button/button';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { authOptions } from '@/features/auth/config';
+import { getServerSession } from 'next-auth';
 
 interface PostControlProps {
   postId: number;
@@ -10,37 +9,34 @@ interface PostControlProps {
 
 interface ControlButtonProps {
   title: string;
-  onClick?: () => void;
+  href?: string;
 }
 
-function PostControl({ postId }: PostControlProps) {
-  const { data: session } = useSession();
-  const router = useRouter();
+async function PostControl({ postId }: PostControlProps) {
+  const session = await getServerSession(authOptions);
 
   if (!session || session.user?.role !== 'admin') return null;
 
-  const handleEditClick = () => {
-    router.push(`/post/${postId}/edit`);
-  };
-
   return (
     <div className="absolute right-0 flex items-center text-sm">
-      <ControlButton title="통계" />
-      <ControlButton title="수정" onClick={handleEditClick} />
-      <ControlButton title="숨김" />
+      <ControlLink title="통계" />
+      <ControlLink title="수정" href={`/post/${postId}/edit`} />
+      <ControlLink title="숨김" />
     </div>
   );
 }
 
-function ControlButton({ title, onClick }: ControlButtonProps) {
+function ControlLink({ title, href }: ControlButtonProps) {
+  const buttonProps = {
+    className: 'px-1 text-neutral-700 dark:text-neutral-300',
+    variant: 'link' as const,
+    size: 'sm' as const,
+    disabled: !href,
+  };
+
   return (
-    <Button
-      className="px-1 text-neutral-700 dark:text-neutral-300"
-      variant="link"
-      size="sm"
-      onClick={onClick}
-    >
-      {title}
+    <Button {...buttonProps} asChild={Boolean(href)}>
+      {href ? <Link href={href}>{title}</Link> : title}
     </Button>
   );
 }

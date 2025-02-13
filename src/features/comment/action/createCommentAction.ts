@@ -1,5 +1,5 @@
 'use server';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 import { db } from '@/db/drizzle';
 import { CommentTable } from '@/db/schema';
@@ -44,7 +44,7 @@ export async function createCommentAction(
       content: content,
     });
 
-    revalidatePath(`/post/${postId}`);
+    revalidateTag(`comment-${postId}`);
 
     return {
       message: '댓글이 등록되었어요',

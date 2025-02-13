@@ -1,3 +1,5 @@
+'use server';
+
 import { headers } from 'next/headers';
 import { hashIP } from '@/shared/lib/hash';
 import { db } from '@/db/drizzle';

@@ -1,10 +1,9 @@
 import CommentList from '@/features/comment/components/CommentList';
 import PostTitle from '@/features/post/components/PostTitle';
-import { getPost } from '@/features/post/lib';
+import { getAllPosts, getPost } from '@/features/post/lib';
 import { evaluate } from 'next-mdx-remote-client/rsc';
 import { TocItem } from 'remark-flexible-toc';
 import { ReadTimeResults } from 'reading-time';
-import { incrementViewCount } from '@/features/post/lib/incrementViewCount';
 import { Suspense } from 'react';
 import { components } from '@/shared/components/mdx';
 import Toc from '@/shared/components/mdx/Toc';
@@ -17,13 +16,19 @@ interface PostDetailPageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+
+  return posts.map(post => ({
+    id: String(post.id),
+    slug: post.slug,
+  }));
+}
+
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
   const post = await getPost(postId);
-  incrementViewCount(postId).catch(error => {
-    console.error(error);
-  });
 
   const { content, scope } = await evaluate({
     source: post.content,
