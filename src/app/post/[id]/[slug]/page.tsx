@@ -47,7 +47,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
       />
       <div className="relative gap-8 lg:flex">
         <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-        <Toc toc={scope.toc as TocItem[]} ordered={true} indented={true} />
+        <Toc toc={scope.toc as TocItem[]} />
       </div>
       <Suspense>
         <CommentList postId={postId} />

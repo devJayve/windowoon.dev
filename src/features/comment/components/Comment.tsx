@@ -2,8 +2,8 @@ import { Comment as CommentType } from '@/features/comment/types';
 import { cn } from '@/shared/lib/cn';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDate } from '@/shared/lib/date';
-import { Ellipsis } from 'lucide-react';
 import ReplyInput from '@/features/comment/components/ReplyInput';
+import CommentControl from '@/features/comment/components/CommentControl';
 
 interface CommentProps {
   isReply?: boolean;
@@ -30,7 +30,7 @@ function Comment({ postId, isReply, comment }: CommentProps) {
             {formatDate(comment.createdAt)}
           </p>
         </div>
-        <Ellipsis className="size-4" />
+        <CommentControl commentId={comment.id} />
       </div>
       <div className="p-4 text-sm">{comment.content}</div>
       {isReply || (

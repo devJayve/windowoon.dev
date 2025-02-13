@@ -24,3 +24,8 @@ export interface CommentReaction {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface CommentActionState {
+  message: string;
+  success: boolean;
+}

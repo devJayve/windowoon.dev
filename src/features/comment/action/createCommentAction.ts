@@ -5,11 +5,7 @@ import { db } from '@/db/drizzle';
 import { CommentTable } from '@/db/schema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
-
-export interface CommentActionState {
-  message: string;
-  success: boolean;
-}
+import { CommentActionState } from '@/features/comment/types';
 
 export async function createCommentAction(
   postId: number,

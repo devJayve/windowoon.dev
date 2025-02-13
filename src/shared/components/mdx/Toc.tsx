@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 type Props = {
   toc: TocItem[];
   maxDepth?: HeadingDepth;
-  indented?: boolean;
   exclude?: string | string[];
   skipLevels?: HeadingDepth[];
   skipParents?: Exclude<HeadingParent, 'root'>[];
