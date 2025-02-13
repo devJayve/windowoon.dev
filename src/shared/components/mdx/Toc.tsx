@@ -1,32 +1,19 @@
 import { clsx } from 'clsx';
 import type { TocItem, HeadingDepth, HeadingParent } from 'remark-flexible-toc';
-
-import styles from './Toc.module.css';
+import { cn } from '@/lib/utils';
 
 type Props = {
   toc: TocItem[];
   maxDepth?: HeadingDepth;
   indented?: boolean;
-  ordered?: boolean;
-  tight?: boolean;
   exclude?: string | string[];
   skipLevels?: HeadingDepth[];
   skipParents?: Exclude<HeadingParent, 'root'>[];
 };
 
-const Toc = ({
-  toc,
-  maxDepth = 6,
-  ordered = false,
-  indented = false,
-  tight = false,
-  exclude,
-  skipLevels = [1],
-  skipParents = [],
-}: Props) => {
+const Toc = ({ toc, maxDepth = 6, exclude, skipLevels = [1], skipParents = [] }: Props) => {
   if (!toc) return null;
 
-  // ********* filters **************
   const exludeRegexFilter = exclude
     ? Array.isArray(exclude)
       ? new RegExp(exclude.join('|'), 'i')
@@ -34,12 +21,9 @@ const Toc = ({
     : new RegExp('(?!.*)');
 
   const skipLevelsFilter = (depth: TocItem['depth']): boolean => skipLevels.includes(depth);
-
   const skipParentsFilter = (parent: TocItem['parent']): boolean =>
     parent !== 'root' && skipParents.includes(parent);
-
   const maxDepthFilter = (depth: TocItem['depth']): boolean => depth > maxDepth;
-  // ********************************
 
   const filteredToc = toc.filter(
     heading =>
@@ -49,31 +33,39 @@ const Toc = ({
       !exludeRegexFilter.test(heading.value),
   );
 
+  const formatNumber = (heading: TocItem) => {
+    console.log(heading);
+    if (heading.depth <= 2) return '';
+
+    const numbers = heading.numbering.slice(2);
+
+    return numbers.join('.') + '.';
+  };
+
   return (
-    <div>
-      <summary className={styles['toc-title']}>
-        <strong>TABLE OF CONTENTS</strong>
+    <div
+      className={cn(
+        'sticky top-20 hidden min-w-[240px] max-w-[260px] self-start lg:block',
+        'border-neutral-100 border rounded-lg p-4',
+      )}
+    >
+      <summary className="cursor-pointer select-none list-none">
+        <strong className="font-bold">목차</strong>
       </summary>
-      <ul className={styles['toc-list']}>
+      <ul className="max-w-fit overflow-hidden">
         {filteredToc.map(heading => (
-          <li
-            key={heading.value}
-            className={clsx(
-              indented && styles[`h${heading.depth}indent`],
-              tight && styles['tight'],
-            )}
-          >
-            <a href={heading.href}>
+          <li key={heading.value} className={clsx('my-[0.3em] list-none', 'first:pt-1 last:pb-1')}>
+            <a
+              href={heading.href}
+              className="text-sm text-neutral-700 no-underline hover:underline dark:text-neutral-300"
+            >
               <div className={`h${heading.depth}`}>
-                {ordered ? (
+                {heading.depth > 2 && (
                   <strong>
-                    <span className={styles['numbering']}>
-                      {heading.numbering.slice(1).join('.')}.
-                    </span>
+                    <span className="mr-2 text-primary">{formatNumber(heading)}</span>
                   </strong>
-                ) : null}
-                <span className={styles['heading']}>{heading.value}</span>
-                <span className={styles['href']}>{heading.href}</span>
+                )}
+                <span>{heading.value}</span>
               </div>
             </a>
           </li>

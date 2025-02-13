@@ -37,7 +37,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   });
 
   return (
-    <article className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+    <article className="mx-auto max-w-3xl space-y-8 px-6 lg:max-w-6xl lg:py-8">
       <PostTitle
         postId={post.id}
         title={post.title}
@@ -45,8 +45,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         readingTime={scope.readingTime as ReadTimeResults}
         views={post.views}
       />
-      <div className="flex gap-8">
-        <div className="prose max-w-none flex-1 dark:prose-invert">{content}</div>
+      <div className="relative gap-8 lg:flex">
+        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
         <Toc toc={scope.toc as TocItem[]} ordered={true} indented={true} />
       </div>
       <Suspense>

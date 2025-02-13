@@ -16,6 +16,9 @@ export async function getPost(id: number): Promise<Post> {
       return post;
     },
     [`post-${id}`],
-    { tags: [`post-${id}`] },
+    {
+      revalidate: process.env.NODE_ENV === 'development' ? 1 : undefined,
+      tags: [`post-${id}`],
+    },
   )();
 }

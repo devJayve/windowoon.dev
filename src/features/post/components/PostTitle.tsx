@@ -21,7 +21,7 @@ const ViewCounter = dynamic(() => import('@/features/post/components/ViewCounter
 export function PostTitle({ postId, title, date, readingTime, views }: PostTitleProps) {
   return (
     <header className="mb-8 space-y-2">
-      <h1 className="text-center text-6xl font-semibold">{title}</h1>
+      <h1 className="text-center text-2xl font-semibold sm:text-5xl">{title}</h1>
       <div className="relative flex items-center justify-center">
         <PostMeta postId={postId} readingTime={readingTime} date={date} views={views} />
         <PostControl postId={postId} />
