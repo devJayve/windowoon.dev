@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useCategorySelect } from '../hooks/useCategorySelect';
 import CategorySelectItem from '@/features/post-form/components/CategorySelectItem';
 import CategoryOptionItem from '@/features/post-form/components/CategoryOptionItem';
-import Input from '@/shared/components/input/Input';
+import { Input } from '@/shared/components/input/Input';
 import { clsx } from 'clsx';
 import { Category } from '@/features/write/types';
 
@@ -63,12 +63,10 @@ const CategorySelect: React.FC<TagSelectProps> = ({ initialCategories, categorie
         <Input
           ref={inputRef}
           value={inputValue}
-          variant="outline"
           onChange={e => handleInputChange(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleKeyDown(inputValue)}
           onClick={() => toggleDropdown(true)}
           placeholder={selectedOptions.length === 0 ? '카테고리를 선택 혹은 입력' : ''}
-          fullWidth
         />
       </div>
 

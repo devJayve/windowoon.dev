@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import { ImageInput } from '@/features/post/components/ImageInput';
-import Input from '@/shared/components/input/Input';
+import { Input } from '@/shared/components/input/Input';
 import CategorySelect from '@/features/post-form/components/CategorySelect';
 import TextArea from '@/shared/components/textarea/TextArea';
 import { clsx } from 'clsx';
