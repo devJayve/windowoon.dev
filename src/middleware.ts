@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { Session } from 'next-auth';
+import { checkIsAdmin } from '@/features/post/lib';
+import { NEXT_IP_KEY } from '@/shared/constants';
 
-const ADMIN_PATHS = ['/post/write'];
+const ADMIN_PATHS = ['/post/create'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   const ip = request.ip ?? request.headers.get('X-Forwarded-For');
-  if (ip) response.headers.set('X-next-ip', ip);
+  if (ip) response.headers.set(NEXT_IP_KEY, ip);
 
   const isAdminPath = ADMIN_PATHS.some(path => request.nextUrl.pathname.startsWith(path));
 
@@ -24,7 +26,7 @@ export async function middleware(request: NextRequest) {
 
       const session: Session = await response.json();
 
-      if (!session || session.user?.role !== 'admin') {
+      if (!session || !checkIsAdmin(session)) {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch (error) {

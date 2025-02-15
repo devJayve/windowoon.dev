@@ -50,6 +50,20 @@
       "when": 1738379384124,
       "tag": "0006_stale_misty_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1738481185905,
+      "tag": "0007_supreme_wrecker",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1739255753065,
+      "tag": "0008_conscious_hammerhead",
+      "breakpoints": true
     }
   ]
 }

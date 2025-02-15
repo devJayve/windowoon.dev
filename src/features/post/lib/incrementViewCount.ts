@@ -1,12 +1,15 @@
+'use server';
+
 import { headers } from 'next/headers';
 import { hashIP } from '@/shared/lib/hash';
 import { db } from '@/db/drizzle';
 import { PostTable, PostViewTable } from '@/db/schema';
 import { and, eq, gte, sql } from 'drizzle-orm';
+import { NEXT_IP_KEY } from '@/shared/constants';
 export async function incrementViewCount(postId: number): Promise<void> {
   try {
     const headersList = headers();
-    const ip = headersList.get('x-next-ip');
+    const ip = headersList.get(NEXT_IP_KEY);
 
     if (!ip) return;
 
@@ -18,7 +21,7 @@ export async function incrementViewCount(postId: number): Promise<void> {
       .from(PostViewTable)
       .where(
         and(
-          eq(PostViewTable.id, postId),
+          eq(PostViewTable.postId, postId),
           eq(PostViewTable.hash, hash),
           gte(PostViewTable.viewedAt, oneDayAgo),
         ),

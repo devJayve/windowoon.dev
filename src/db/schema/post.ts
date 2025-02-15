@@ -1,5 +1,6 @@
 import {
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   serial,
@@ -8,6 +9,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+export const ViewMode = pgEnum('view_mode', ['public', 'development', 'private']);
+
 export const PostTable = pgTable('posts', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 255 }).notNull(),
@@ -15,6 +18,7 @@ export const PostTable = pgTable('posts', {
   description: text('description').notNull(),
   slug: varchar('slug', { length: 255 }).notNull().unique(),
   views: integer('views').notNull().default(0),
+  viewMode: ViewMode('view_mode').notNull().default('public'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   categories: text('categories').array().notNull().default([]),

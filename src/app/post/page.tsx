@@ -2,7 +2,7 @@ import FloatingActionButton from '@/shared/components/button/FloatingActionButto
 import { getAllPosts } from '@/features/post/lib';
 import PostItem from '@/features/post/components/PostItem';
 
-export default async function BlogPage() {
+export default async function PostPage() {
   const allPosts = await getAllPosts();
 
   return (
