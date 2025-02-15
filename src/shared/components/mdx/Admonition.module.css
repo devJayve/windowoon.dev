@@ -80,6 +80,12 @@
     background-color: var(--color-admonition-highlight) !important;
 }
 
+.admonition-content code span {
+    background-color: transparent !important;
+    color: var(--text-default) !important;
+}
+
+
 .admonition-content a {
     color: var(--color-admonition);
     text-decoration: underline;
