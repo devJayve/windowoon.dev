@@ -13,12 +13,12 @@ export const ViewMode = pgEnum('view_mode', ['public', 'development', 'private']
 
 export const PostTable = pgTable('posts', {
   id: serial('id').primaryKey(),
-  title: varchar('title', { length: 255 }).notNull(),
+  title: varchar('title', { length: 150 }).notNull(),
   content: text('content').notNull(),
-  description: text('description').notNull(),
-  slug: varchar('slug', { length: 255 }).notNull().unique(),
+  description: varchar('description', { length: 150 }).notNull(),
+  slug: varchar('slug', { length: 150 }).notNull().unique(),
   views: integer('views').notNull().default(0),
-  viewMode: ViewMode('view_mode').notNull().default('public'),
+  viewMode: ViewMode('view_mode').notNull().default('development'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   categories: text('categories').array().notNull().default([]),

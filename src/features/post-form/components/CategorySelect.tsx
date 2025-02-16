@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from 'react';
 import { useCategorySelect } from '../hooks/useCategorySelect';
 import CategorySelectItem from '@/features/post-form/components/CategorySelectItem';
 import CategoryOptionItem from '@/features/post-form/components/CategoryOptionItem';
-import { Input } from '@/shared/components/input/Input';
 import { clsx } from 'clsx';
 import { Category } from '@/features/write/types';
 
@@ -50,7 +49,7 @@ const CategorySelect: React.FC<TagSelectProps> = ({ initialCategories, categorie
       <div
         className={clsx(
           'flex w-full flex-wrap gap-2 rounded border border-gray-600 p-2',
-          'focus-within:ring-1 focus-within:ring-blue-500',
+          'focus-within:ring-1 focus-within:ring-white',
         )}
       >
         {selectedOptions.map((value, index) => (
@@ -60,7 +59,8 @@ const CategorySelect: React.FC<TagSelectProps> = ({ initialCategories, categorie
             removeCategory={removeCategory}
           />
         ))}
-        <Input
+        <input
+          className="border-none bg-transparent focus:outline-none"
           ref={inputRef}
           value={inputValue}
           onChange={e => handleInputChange(e.target.value)}

@@ -4,7 +4,7 @@ import { createPost } from '@/features/post/lib';
 import { useRouter } from 'next/navigation';
 import { uploadToStorage } from '@/features/post/lib/uploadToStorage';
 import { Post } from '@/features/post/types';
-import { updatePost } from '@/features/post-form/lib/updatePost';
+import { updatePost } from '@/features/post/lib/updatePost';
 
 interface UsePostFormProps {
   postId?: number;

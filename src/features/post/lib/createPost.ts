@@ -5,9 +5,15 @@ import { resolveCategoryIds } from '@/features/category/lib/resolveCategoryIds';
 
 export async function createPost(post: CreatePostRequest): Promise<Post> {
   return await db.transaction(async tx => {
-    const [newPost] = await db
+    const [newPost] = await tx
       .insert(PostTable)
-      .values({ ...post })
+      .values({
+        title: post.title,
+        content: post.content,
+        description: post.description,
+        slug: post.slug,
+        categories: post.categories,
+      })
       .returning();
 
     const categoryIds = await resolveCategoryIds(post.categories, db);
