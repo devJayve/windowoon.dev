@@ -3,7 +3,6 @@ import { db } from '@/db/drizzle';
 import { PostCategoryTable, PostTable } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { resolveCategoryIds } from '@/features/category/lib/resolveCategoryIds';
-import { revalidateTag } from 'next/cache';
 
 export async function updatePost(postId: number, post: CreatePostRequest): Promise<Post> {
   return await db.transaction(async tx => {
@@ -26,8 +25,6 @@ export async function updatePost(postId: number, post: CreatePostRequest): Promi
     await tx
       .insert(PostCategoryTable)
       .values(categoryIds.map(categoryId => ({ postId, categoryId })));
-
-    revalidateTag(`post-${postId}`);
 
     return updatedPost;
   });

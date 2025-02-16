@@ -14,7 +14,12 @@ const nextConfig = {
     READ_DATABASE_URL: process.env.READ_DATABASE_URL,
   },
   images: {
-    domains: [process.env.BLOB_BASE_DOMAIN],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.BLOB_BASE_DOMAIN,
+      },
+    ],
   },
   webpack: config => {
     config.module.rules.push({

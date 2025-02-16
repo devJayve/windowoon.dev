@@ -4,7 +4,7 @@ import { Session } from 'next-auth';
 import { checkIsAdmin } from '@/features/post/lib';
 import { NEXT_IP_KEY } from '@/shared/constants';
 
-const ADMIN_PATHS = ['/post/create'];
+const ADMIN_PATHS = ['/post/create', '/post/edit'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
