@@ -3,8 +3,6 @@ import remarkFlexibleContainers from 'remark-flexible-containers';
 import remarkFlexibleToc from 'remark-flexible-toc';
 import rehypePrettyCode, { type Options } from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
-import { Post } from '@/features/post/types';
-import readingTime from 'reading-time';
 import { EvaluateOptions } from 'next-mdx-remote-client/rsc';
 
 const prettyCodeOptions: Options = {
@@ -25,7 +23,7 @@ function toTitleCase(str: string | undefined) {
   });
 }
 
-export const createEvaluateOptions = (post: Post): EvaluateOptions => ({
+export const createEvaluateOptions = (): EvaluateOptions => ({
   parseFrontmatter: false,
   mdxOptions: {
     remarkPlugins: [
@@ -43,9 +41,6 @@ export const createEvaluateOptions = (post: Post): EvaluateOptions => ({
       remarkFlexibleToc,
     ],
     rehypePlugins: [[rehypePrettyCode, prettyCodeOptions], rehypeSlug],
-  },
-  scope: {
-    readingTime: readingTime(post.content),
   },
   vfileDataIntoScope: 'toc',
 });

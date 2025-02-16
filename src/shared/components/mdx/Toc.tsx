@@ -33,7 +33,6 @@ const Toc = ({ toc, maxDepth = 6, exclude, skipLevels = [1], skipParents = [] }:
   );
 
   const formatNumber = (heading: TocItem) => {
-    console.log(heading);
     if (heading.depth <= 2) return '';
 
     const numbers = heading.numbering.slice(2);

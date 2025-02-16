@@ -1,14 +1,14 @@
 import CommentList from '@/features/comment/components/CommentList';
 import PostTitle from '@/features/post/components/PostTitle';
 import { getAllPosts, getPost } from '@/features/post/lib';
-import { evaluate } from 'next-mdx-remote-client/rsc';
 import { TocItem } from 'remark-flexible-toc';
-import { ReadTimeResults } from 'reading-time';
+import readingTime from 'reading-time';
 import { Suspense } from 'react';
-import { components } from '@/shared/components/mdx';
 import Toc from '@/shared/components/mdx/Toc';
-import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
 import CategoryItem from '@/features/category/components/CategoryItem';
+import { evaluate } from 'next-mdx-remote-client/rsc';
+import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
+import { components } from '@/shared/components/mdx';
 
 interface PostDetailPageProps {
   params: {
@@ -30,10 +30,11 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
   const post = await getPost(postId);
+  const readTime = readingTime(post.content);
 
   const { content, scope } = await evaluate({
     source: post.content,
-    options: createEvaluateOptions(post),
+    options: createEvaluateOptions(),
     components,
   });
 
@@ -43,21 +44,22 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         postId={post.id}
         title={post.title}
         date={post.createdAt}
-        readingTime={scope.readingTime as ReadTimeResults}
+        readingTime={readTime}
         views={post.views}
       />
-      <div className="relative gap-8 lg:flex">
-        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-        <Toc toc={scope.toc as TocItem[]} />
-      </div>
-      <div>
-        {post.categories.map(category => (
-          <CategoryItem className="text-lg font-semibold" category={category} key={category} />
-        ))}
-      </div>
+      <Suspense>
+        <div className="relative gap-8 lg:flex">
+          <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
+          <Toc toc={scope.toc as TocItem[]} />
+        </div>
+        <div>
+          {post.categories.map(category => (
+            <CategoryItem className="text-lg font-semibold" category={category} key={category} />
+          ))}
+        </div>
+      </Suspense>
       <Suspense>
         <CommentList postId={postId} />
-        {/*<GiscusCommentList />*/}
       </Suspense>
     </article>
   );

@@ -194,18 +194,18 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
     padding: 8px;
 }
 
-.w-md-editor-toolbar > ul > li {
+.md-editor-wrapper .w-md-editor-toolbar > ul > li {
     margin-right: 8px;
 }
 
-.w-md-editor-toolbar > ul > li.active > button {
+.md-editor-wrapper .w-md-editor-toolbar > ul > li.active > button {
     position: relative;
     background-color: transparent;
     color: var(--foreground) !important;
     font-weight: bold;
 }
 
-.w-md-editor-toolbar > ul > li.active > button::before {
+.md-editor-wrapper.w-md-editor-toolbar > ul > li.active > button::before {
     content: '';
     position: absolute;
     top: -4px;

@@ -1,6 +1,11 @@
-import FloatingActionButton from '@/shared/components/button/FloatingActionButton';
 import { getAllPosts } from '@/features/post/lib';
 import PostItem from '@/features/post/components/PostItem';
+import dynamic from 'next/dynamic';
+
+const FloatingActionButton = dynamic(
+  () => import('@/shared/components/button/FloatingActionButton'),
+  { ssr: false },
+);
 
 export default async function PostPage() {
   const allPosts = await getAllPosts();

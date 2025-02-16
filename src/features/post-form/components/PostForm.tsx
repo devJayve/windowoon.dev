@@ -64,18 +64,19 @@ function PostForm({ postId, mode, initialData, categories }: PostFormProps) {
         placeholder="설명 입력"
         onChange={e => handleDescription(e.target.value)}
       />
-
-      <MDEditor
-        data-color-mode={theme === 'dark' ? 'dark' : 'light'}
-        value={form.content}
-        onChange={handleContent}
-        visibleDragbar={false}
-        height="700px"
-        commandsFilter={command => {
-          if (command.name !== 'image') return command;
-          return { ...command, execute: handleImageCommandClick };
-        }}
-      />
+      <div className="container">
+        <MDEditor
+          data-color-mode={theme === 'dark' ? 'dark' : 'light'}
+          value={form.content}
+          onChange={handleContent}
+          visibleDragbar={false}
+          height="200px"
+          commandsFilter={command => {
+            if (command.name !== 'image') return command;
+            return { ...command, execute: handleImageCommandClick };
+          }}
+        />
+      </div>
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
