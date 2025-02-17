@@ -1,19 +1,17 @@
-import LibraryItem from '@/app/library/components/LibraryItem';
+import BookCard from '@/features/library/component/BookCard';
 
 export default function LibraryPage() {
   return (
     <div className="flex w-full justify-center px-4">
-      <div className="w-full max-w-4xl">
-        <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2">
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-          <LibraryItem />
-        </div>
+      <div className="grid w-full max-w-sm grid-cols-1 gap-6 p-5 sm:max-w-3xl sm:grid-cols-2">
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
       </div>
     </div>
   );
