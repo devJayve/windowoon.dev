@@ -52,12 +52,12 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
           <Toc toc={scope.toc as TocItem[]} />
         </div>
-        <div>
-          {post.categories.map(category => (
-            <CategoryItem className="text-lg font-semibold" category={category} key={category} />
-          ))}
-        </div>
       </Suspense>
+      <div>
+        {post.categories.map(category => (
+          <CategoryItem className="text-lg font-semibold" category={category} key={category} />
+        ))}
+      </div>
       <Suspense>
         <CommentList postId={postId} />
       </Suspense>

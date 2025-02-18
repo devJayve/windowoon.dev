@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import { NAV_LINKS } from '@/constants/navigation';
 import { useEffect, useState } from 'react';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
-import { WindowsIcon } from '@/shared/components/icons/WindowIcon';
+import { IconWindow } from '@/shared/components/icons';
 
 export function Header() {
   const [mounted, setMounted] = useState(false);
@@ -35,7 +35,7 @@ export function Header() {
   return (
     <>
       <header className="flex items-center justify-between p-4">
-        <WindowsIcon className="text-gray-900 transition-colors duration-200 dark:text-white" />
+        <IconWindow className="text-gray-900 transition-colors duration-200 dark:text-white" />
         <nav className="flex gap-6">
           {NAV_LINKS.map(link => (
             <Link

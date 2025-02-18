@@ -1,10 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import book from '../../../../public/images/book_3d.png';
-import { CalendarIcon, HeartIcon, ShareIcon } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 import CategoryItem from '@/features/category/components/CategoryItem';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote-client/rsc';
+import LikeButton from '@/features/library/component/LikeButton';
+import ShareButton from '@/features/library/component/ShareButton';
 
 function BookDetail() {
   const content = `"전문가를 위한 리액트"는 단순히 리액트의 기본 문법과 사용법을 넘어서, 실제 프로덕션
@@ -22,11 +24,11 @@ function BookDetail() {
             매우 유용한 가이드가 될 것입니다. 특히 실무에서 리액트를 사용하면서 "왜 이렇게 해야
             하는가?"에 대한 근본적인 이해를 얻고자 하는 개발자들에게 강력히 추천합니다.`;
   return (
-    <article className="relative flex flex-col p-6">
+    <article className="relative mx-auto flex max-w-3xl flex-col p-6">
       <div className="flex justify-between">
         <div className="flex">
-          <div className="h-[120px] overflow-hidden p-2">
-            <Image src={book} alt={'book'} width={100} height={200} className="object-cover" />
+          <div className="p-2">
+            <Image src={book} alt={'book'} width={100} className="object-cover" />
           </div>
           <div className=" flex flex-col justify-between p-3">
             <div className="flex flex-col gap-1">
@@ -44,9 +46,9 @@ function BookDetail() {
           </div>
         </div>
         <div className="flex flex-col items-end justify-between p-3">
-          <div className="flex gap-2">
-            <HeartIcon size="20" />
-            <ShareIcon size="20" />
+          <div className="flex items-center gap-2">
+            <LikeButton />
+            <ShareButton />
           </div>
           <div className="flex gap-2">
             <Link
@@ -79,7 +81,7 @@ function BookDetail() {
         </div>
       </div>
       <div className="h-px w-full rounded-lg bg-white" />
-      <div className="prose prose-neutral p-4 dark:prose-invert">
+      <div className="prose prose-neutral mx-auto w-full p-4 dark:prose-invert">
         <MDXRemote source={content} />
       </div>
     </article>

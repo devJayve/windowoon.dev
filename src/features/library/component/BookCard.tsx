@@ -1,77 +1,87 @@
+'use client';
 import Image from 'next/image';
 
 import book from '../../../../public/images/book_test.png';
+import { Quote } from 'lucide-react';
+import { Noto_Serif_KR } from 'next/font/google';
+import { motion } from 'framer-motion';
+import { cn } from '@/shared/lib/cn';
 import Link from 'next/link';
-import { HeartIcon } from 'lucide-react';
 
-export default function BookCard() {
-  return (
-    <div className="flex flex-col ">
-      <BookImage />
-      <BookDescription />
-    </div>
-  );
-}
+const notoSerifKr = Noto_Serif_KR({
+  subsets: ['latin'],
+  weight: ['400'],
+});
 
-function BookImage() {
+const BookCard = () => {
   return (
     <Link href="/library/1">
-      <div className="relative flex h-[300px] items-center justify-center rounded-t-lg">
-        <div className="absolute z-10">
-          <Image src={book} alt="book1" width={120} className="shadow-lg" />
-        </div>
-        <div className="relative size-full">
-          <Image src={book} alt="book1" fill objectFit="cover" className="rounded-t-lg" />
-          <div className="absolute inset-0 overflow-hidden rounded-t-lg bg-black/10 backdrop-blur dark:bg-black/40"></div>
-        </div>
-      </div>
+      <motion.div
+        className="relative aspect-square overflow-hidden rounded-lg"
+        whileHover="hover"
+        initial="initial"
+      >
+        <motion.div
+          className="absolute z-10 flex size-full flex-col items-center justify-center p-4"
+          variants={{
+            initial: {
+              y: 0,
+            },
+            hover: {
+              y: -20,
+              transition: {
+                duration: 0.3,
+              },
+            },
+          }}
+        >
+          <Image src={book} alt="book1" width={120} className="mb-2 rounded-r-lg shadow-2xl" />
+          <h2 className="font-semibold">전문가를 위한 리액트</h2>
+          <p className="line-clamp-1 text-sm font-light text-neutral-200">
+            빠르고 성능이 뛰어난 직관적인 애플리케이션 구축하기
+          </p>
+          <motion.div
+            className="mx-2 mt-2 flex gap-2"
+            variants={{
+              initial: {
+                opacity: 0,
+                y: 20,
+              },
+              hover: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.3,
+                  delay: 0.1,
+                },
+              },
+            }}
+          >
+            <Quote className="-rotate-180" size="12" />
+            <p className={cn('line-clamp-3 text-sm tracking-tight', notoSerifKr.className)}>
+              {'React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책'}
+            </p>
+            <Quote size="12" />
+          </motion.div>
+        </motion.div>
+        <Image src={book} alt="book1" objectFit="cover" className="rounded-lg" />
+        <motion.div
+          className="absolute inset-0 overflow-hidden rounded-t-lg backdrop-blur"
+          variants={{
+            initial: {
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            },
+            hover: {
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              transition: {
+                duration: 0.3,
+              },
+            },
+          }}
+        />
+      </motion.div>
     </Link>
   );
-}
+};
 
-function BookDescription() {
-  return (
-    <div className="flex w-full flex-col  rounded-b-lg bg-neutral-100 p-5 dark:bg-neutral-900">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <HeartIcon />
-          <p>3</p>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="https://product.kyobobook.co.kr/detail/S000214977649"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/gyobo_icon.png"
-              alt="gyobo"
-              width={30}
-              height={30}
-              className="rounded-full"
-            />
-          </Link>
-          <Link
-            href="https://product.kyobobook.co.kr/detail/S000214977649"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/yes24_icon.png"
-              alt="yes24"
-              width={30}
-              height={30}
-              className="rounded-full"
-            />
-          </Link>
-        </div>
-      </div>
-      <Link href="/library/1">
-        <div className="flex flex-col">
-          <p>전문가를 위한 리액트</p>
-          <p className="text-sm font-light">빠르고 성능이 뛰어난 직관적인 애플리케이션 구축하기</p>
-        </div>
-      </Link>
-    </div>
-  );
-}
+export default BookCard;
