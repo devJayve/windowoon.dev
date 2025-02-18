@@ -25,17 +25,17 @@ const BookCard = () => {
           className="absolute z-10 flex size-full flex-col items-center justify-center p-4"
           variants={{
             initial: {
-              y: 0,
+              y: 10,
             },
             hover: {
-              y: -20,
+              y: -10,
               transition: {
                 duration: 0.3,
               },
             },
           }}
         >
-          <Image src={book} alt="book1" width={120} className="mb-2 rounded-r-lg shadow-2xl" />
+          <Image src={book} alt="book1" className="mb-2 w-2/5 rounded-r-lg shadow-2xl" />
           <h2 className="font-semibold">전문가를 위한 리액트</h2>
           <p className="line-clamp-1 text-sm font-light text-neutral-200">
             빠르고 성능이 뛰어난 직관적인 애플리케이션 구축하기
@@ -45,11 +45,9 @@ const BookCard = () => {
             variants={{
               initial: {
                 opacity: 0,
-                y: 20,
               },
               hover: {
                 opacity: 1,
-                y: 0,
                 transition: {
                   duration: 0.3,
                   delay: 0.1,
@@ -59,7 +57,9 @@ const BookCard = () => {
           >
             <Quote className="-rotate-180" size="12" />
             <p className={cn('line-clamp-3 text-sm tracking-tight', notoSerifKr.className)}>
-              {'React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책'}
+              {
+                'React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책 React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책 React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책'
+              }
             </p>
             <Quote size="12" />
           </motion.div>
