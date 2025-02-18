@@ -21,7 +21,7 @@ export const BookTable = pgTable('books', {
   shortContent: varchar('short_content', { length: 150 }).notNull(),
   author: varchar('author', { length: 100 }).notNull(),
   publisher: varchar('publisher', { length: 100 }).notNull(),
-  isbn: varchar('isbn', { length: 13 }), // ?
+  isbn: varchar('isbn', { length: 13 }),
   publishedAt: timestamp('published_at'),
   readStartedAt: timestamp('read_started_at').notNull(),
   readEndedAt: timestamp('read_ended_at'),

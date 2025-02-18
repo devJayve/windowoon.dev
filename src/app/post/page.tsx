@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 const FloatingActionButton = dynamic(
   () => import('@/shared/components/button/FloatingActionButton'),
-  { ssr: false },
+  { ssr: true },
 );
 
 export default async function PostPage() {
@@ -17,7 +17,7 @@ export default async function PostPage() {
           <PostItem key={post.id} post={post} />
         ))}
       </div>
-      <FloatingActionButton />
+      <FloatingActionButton href="/post/create" />
     </>
   );
 }
