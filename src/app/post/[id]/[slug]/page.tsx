@@ -29,6 +29,7 @@ export async function generateStaticParams() {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
+  //1
   const post = await getPost(postId);
   const readTime = readingTime(post.content);
 
@@ -52,12 +53,12 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
           <Toc toc={scope.toc as TocItem[]} />
         </div>
-        <div>
-          {post.categories.map(category => (
-            <CategoryItem className="text-lg font-semibold" category={category} key={category} />
-          ))}
-        </div>
       </Suspense>
+      <div className="flex gap-2">
+        {post.categories.map(category => (
+          <CategoryItem className="text-md font-semibold" category={category} key={category} />
+        ))}
+      </div>
       <Suspense>
         <CommentList postId={postId} />
       </Suspense>

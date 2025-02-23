@@ -3,3 +3,7 @@ export { default as IconInfo } from './IconInfo';
 export { default as IconNote } from './IconNote';
 export { default as IconTip } from './IconTip';
 export { default as IconWarning } from './IconWarning';
+export { default as IconWindow } from './IconWindow';
+export { default as IconKakao } from './IconKakao';
+export { default as IconInstagram } from './IconInstagram';
+export { default as IconTwitterX } from './IconTwitterX';

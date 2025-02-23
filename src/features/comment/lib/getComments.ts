@@ -73,7 +73,6 @@ export async function getComments(postId: number): Promise<Comment[]> {
     },
     [`comment-${postId}`],
     {
-      revalidate: process.env.NODE_ENV === 'development' ? 1 : undefined,
       tags: [`comment-${postId}`],
     },
   )();

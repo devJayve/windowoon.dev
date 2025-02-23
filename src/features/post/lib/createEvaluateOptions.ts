@@ -4,6 +4,8 @@ import remarkFlexibleToc from 'remark-flexible-toc';
 import rehypePrettyCode, { type Options } from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import { EvaluateOptions } from 'next-mdx-remote-client/rsc';
+import remarkMath from 'remark-math';
+import rehypeKatex, { type Options as KatexOptions } from 'rehype-katex';
 
 const prettyCodeOptions: Options = {
   theme: {
@@ -13,6 +15,11 @@ const prettyCodeOptions: Options = {
   defaultLang: {
     inline: 'javascript',
   },
+};
+
+const rehypeKatexOptions: KatexOptions = {
+  strict: false,
+  output: 'mathml',
 };
 
 function toTitleCase(str: string | undefined) {
@@ -39,8 +46,13 @@ export const createEvaluateOptions = (): EvaluateOptions => ({
         } as FlexibleContainerOptions,
       ],
       remarkFlexibleToc,
+      remarkMath,
     ],
-    rehypePlugins: [[rehypePrettyCode, prettyCodeOptions], rehypeSlug],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypePrettyCode, prettyCodeOptions],
+      [rehypeKatex, rehypeKatexOptions],
+    ],
   },
   vfileDataIntoScope: 'toc',
 });

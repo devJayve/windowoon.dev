@@ -3,10 +3,12 @@ import Link from 'next/link';
 import type { MDXComponents } from 'next-mdx-remote-client/rsc';
 
 import Admonition, { admonition } from './Admonition';
+import MermaidDiagram from '@/shared/components/mdx/MermaidDiagram';
 
 export const components: MDXComponents = {
   Image,
   Link,
   admonition,
   Admonition,
+  MermaidDiagram,
 };
