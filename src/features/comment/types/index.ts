@@ -25,7 +25,8 @@ export interface CommentReaction {
   updatedAt: Date;
 }
 
-export interface CommentActionState {
+export interface ServerActionState<T> {
+  data?: T;
   message: string;
   success: boolean;
 }

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { WriteFormState } from '@/features/write/types';
 import { createPost } from '@/features/post/lib';
 import { useRouter } from 'next/navigation';
-import { uploadToStorage } from '@/features/post/lib/uploadToStorage';
 import { Post } from '@/features/post/types';
 import { updatePost } from '@/features/post/lib/updatePost';
 
@@ -49,23 +48,6 @@ export const usePostForm = ({ postId, mode, initialData }: UsePostFormProps) => 
     setForm(prev => ({ ...prev, description }));
   };
 
-  const handleImageUpload = async (file: File) => {
-    const { url, filename } = await uploadToStorage(file);
-
-    const imageMarkdown = `![${filename}](${url})`;
-    const textArea = document.querySelector('.w-md-editor-text-input') as HTMLTextAreaElement;
-
-    if (textArea) {
-      const { selectionStart, selectionEnd } = textArea;
-      const newContent =
-        form.content.substring(0, selectionStart) +
-        imageMarkdown +
-        form.content.substring(selectionEnd);
-
-      handleContent(newContent);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid) return;
@@ -103,7 +85,6 @@ export const usePostForm = ({ postId, mode, initialData }: UsePostFormProps) => 
     handleContent,
     handleSlug,
     handleDescription,
-    handleImageUpload,
     handleSubmit,
   };
 };

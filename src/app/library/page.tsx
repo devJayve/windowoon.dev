@@ -21,7 +21,7 @@ export default function LibraryPage() {
           <BookCard />
         </div>
       </div>
-      <FloatingActionButton href="/" />
+      <FloatingActionButton href="/library/create" />
     </>
   );
 }

@@ -5,14 +5,14 @@ import { db } from '@/db/drizzle';
 import { CommentTable } from '@/db/schema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
-import { CommentActionState } from '@/features/comment/types';
+import { ServerActionState } from '@/features/comment/types';
 
 export async function createCommentAction(
   postId: number,
   parentId: number | undefined,
-  prevState: CommentActionState | null,
+  prevState: ServerActionState<null> | null,
   formData: FormData,
-): Promise<CommentActionState> {
+): Promise<ServerActionState<null>> {
   try {
     const session = await getServerSession(authOptions);
 

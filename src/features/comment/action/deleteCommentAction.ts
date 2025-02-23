@@ -1,5 +1,5 @@
 'use server';
-import { CommentActionState } from '@/features/comment/types';
+import { ServerActionState } from '@/features/comment/types';
 import { CommentTable } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
@@ -7,7 +7,7 @@ import { authOptions } from '@/features/auth/config';
 import { db } from '@/db/drizzle';
 import { revalidateTag } from 'next/cache';
 
-export async function deleteCommentAction(commentId: number): Promise<CommentActionState> {
+export async function deleteCommentAction(commentId: number): Promise<ServerActionState<null>> {
   try {
     const session = await getServerSession(authOptions);
 
