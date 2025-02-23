@@ -54,9 +54,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <Toc toc={scope.toc as TocItem[]} />
         </div>
       </Suspense>
-      <div>
+      <div className="flex gap-2">
         {post.categories.map(category => (
-          <CategoryItem className="text-lg font-semibold" category={category} key={category} />
+          <CategoryItem className="text-md font-semibold" category={category} key={category} />
         ))}
       </div>
       <Suspense>

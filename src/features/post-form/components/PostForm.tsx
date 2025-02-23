@@ -55,7 +55,7 @@ function PostForm({ postId, mode, initialData, categories }: PostFormProps) {
 
   const handleImageUploadComplete = async (markerId: string, result?: ImageUploadResult) => {
     const imageMarkdown = result
-      ? `<Image src="${result.url}" alt="${result.filename}" />`
+      ? `<Image src="${result.url}" alt="${result.filename}" width="${result.dimensions.width}" height="${result.dimensions.height}" />`
       : `[이미지 업로드 실패 ${markerId}]`;
 
     console.log(result);
