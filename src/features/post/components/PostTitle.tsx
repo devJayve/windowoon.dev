@@ -22,7 +22,7 @@ export function PostTitle({ postId, title, date, readingTime, views }: PostTitle
   return (
     <header className="mb-8 space-y-2">
       <h1 className="text-center text-2xl font-semibold sm:text-5xl">{title}</h1>
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex flex-col">
         <PostMeta postId={postId} readingTime={readingTime} date={date} views={views} />
         <PostControl postId={postId} />
       </div>

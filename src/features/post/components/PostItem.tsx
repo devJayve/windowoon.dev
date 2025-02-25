@@ -45,8 +45,8 @@ export default function PostItem({ post }: RegPostProps) {
       <motion.div className="group relative flex p-4" initial="hidden" whileHover="visible">
         <div className="w-full space-y-1 p-1">
           <div className="text-lg font-semibold">{post.title}</div>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-nowrap items-center gap-1 overflow-hidden">
+          <div className="flex items-end justify-between">
+            <div className="flex flex-wrap items-center gap-1 overflow-hidden">
               {post.categories.map(category => (
                 <span
                   key={category}
@@ -56,9 +56,10 @@ export default function PostItem({ post }: RegPostProps) {
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-0.5">
+
+            <div className="flex items-center gap-0.5 pl-4">
               <Calendar size={12} />
-              <p className="text-xs font-light">{formatDate(post.createdAt)}</p>
+              <p className="truncate text-xs font-light">{formatDate(post.createdAt)}</p>
             </div>
           </div>
         </div>
