@@ -35,8 +35,8 @@ export const createEvaluateOptions = (): EvaluateOptions => ({
   parseFrontmatter: false,
   mdxOptions: {
     remarkPlugins: [
+      remarkGfm,
       [
-        remarkGfm,
         remarkFlexibleContainers,
         {
           title: () => null,
