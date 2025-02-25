@@ -6,6 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import { EvaluateOptions } from 'next-mdx-remote-client/rsc';
 import remarkMath from 'remark-math';
 import rehypeKatex, { type Options as KatexOptions } from 'rehype-katex';
+import remarkGfm from 'remark-gfm';
 
 const prettyCodeOptions: Options = {
   theme: {
@@ -35,6 +36,7 @@ export const createEvaluateOptions = (): EvaluateOptions => ({
   mdxOptions: {
     remarkPlugins: [
       [
+        remarkGfm,
         remarkFlexibleContainers,
         {
           title: () => null,

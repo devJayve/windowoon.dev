@@ -33,12 +33,15 @@ function PostControl({ postId }: PostControlProps) {
       }
     }
   };
+
   return (
-    <div className="absolute right-0 flex items-center text-sm">
-      <ControlLink title="통계" />
-      <ControlLink title="수정" href={`/post/${postId}/edit`} />
-      <ControlLink title="숨김" />
-      <ControlLink title="삭제" onClick={handlePostDelete} />
+    <div className="flex justify-end">
+      <div className="flex items-center text-sm">
+        <ControlLink title="통계" />
+        <ControlLink title="수정" href={`/post/${postId}/edit`} />
+        <ControlLink title="숨김" />
+        <ControlLink title="삭제" onClick={handlePostDelete} />
+      </div>
     </div>
   );
 }
