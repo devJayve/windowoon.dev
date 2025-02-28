@@ -11,7 +11,7 @@ export async function incrementViewCount(postId: number): Promise<void> {
     const headersList = headers();
     const ip = headersList.get(NEXT_IP_KEY);
 
-    if (!ip) return;
+    if (!ip || process.env.NODE_ENV === 'development') return;
 
     const hash = hashIP(ip);
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
