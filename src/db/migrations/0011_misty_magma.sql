@@ -1,1 +1,0 @@
-ALTER TABLE "book_reactions" ALTER COLUMN "user_id" SET DATA TYPE text;
