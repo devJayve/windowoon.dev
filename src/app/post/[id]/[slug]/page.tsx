@@ -29,7 +29,6 @@ export async function generateStaticParams() {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
-  //1
   const post = await getPost(postId);
   const readTime = readingTime(post.content);
 
