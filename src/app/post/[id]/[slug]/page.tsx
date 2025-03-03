@@ -26,6 +26,16 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: PostDetailPageProps) {
+  const postId = parseInt(params.id);
+  const post = await getPost(postId);
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
+
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
