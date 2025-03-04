@@ -4,7 +4,12 @@ import { and, eq, inArray } from 'drizzle-orm';
 import { Comment, CommentReaction } from '@/features/comment/types';
 import { unstable_cache } from 'next/cache';
 
-export async function getComments(postId: number): Promise<Comment[]> {
+interface CommentResponse {
+  comments: Comment[];
+  length: number;
+}
+
+export async function getComments(postId: number): Promise<CommentResponse> {
   return unstable_cache(
     async () => {
       const commentsWithUsers = await db
@@ -69,7 +74,10 @@ export async function getComments(postId: number): Promise<Comment[]> {
         parent.replies = childComments.get(parent.id) || [];
       });
 
-      return parentComments;
+      return {
+        comments: parentComments,
+        length: commentIds.length,
+      };
     },
     [`comment-${postId}`],
     {

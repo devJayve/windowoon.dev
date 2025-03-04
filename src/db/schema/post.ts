@@ -8,6 +8,7 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { UserTable } from '@/db/schema/user';
 
 export const ViewMode = pgEnum('view_mode', ['public', 'development', 'private']);
 
@@ -19,8 +20,8 @@ export const PostTable = pgTable('posts', {
   slug: varchar('slug', { length: 150 }).notNull().unique(),
   views: integer('views').notNull().default(0),
   viewMode: ViewMode('view_mode').notNull().default('development'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).notNull().defaultNow(),
   categories: text('categories').array().notNull().default([]),
 });
 
@@ -54,6 +55,26 @@ export const PostCategoryTable = pgTable(
     return [
       {
         pk: primaryKey({ columns: [table.postId, table.categoryId] }),
+      },
+    ];
+  },
+);
+
+export const PostReactionTable = pgTable(
+  'post_reactions',
+  {
+    postId: integer('post_id')
+      .notNull()
+      .references(() => PostTable.id, { onDelete: 'cascade' }),
+    userId: text('user_id')
+      .notNull()
+      .references(() => UserTable.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  table => {
+    return [
+      {
+        pk: primaryKey({ columns: [table.postId, table.userId] }),
       },
     ];
   },

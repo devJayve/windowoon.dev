@@ -5,7 +5,6 @@ import { CalendarIcon } from 'lucide-react';
 import CategoryItem from '@/features/category/components/CategoryItem';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote-client/rsc';
-import LikeButton from '@/features/library/component/LikeButton';
 import ShareButton from '@/features/library/component/ShareButton';
 
 function BookDetail() {
@@ -47,7 +46,7 @@ function BookDetail() {
         </div>
         <div className="flex flex-col items-end justify-between p-3">
           <div className="flex items-center gap-2">
-            <LikeButton />
+            {/*<LikeButton count={1} />*/}
             <ShareButton />
           </div>
           <div className="flex gap-2">

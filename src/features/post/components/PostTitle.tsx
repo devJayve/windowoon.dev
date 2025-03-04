@@ -21,7 +21,7 @@ const PostControl = dynamic(() => import('@/features/post/components/PostControl
 export function PostTitle({ postId, title, date, readingTime, views }: PostTitleProps) {
   return (
     <header className="mb-8 space-y-2">
-      <h1 className="text-center text-2xl font-semibold sm:text-5xl">{title}</h1>
+      <h1 className="my-5 text-center text-3xl font-semibold sm:text-4xl">{title}</h1>
       <div className="relative flex flex-col">
         <PostMeta postId={postId} readingTime={readingTime} date={date} views={views} />
         <PostControl postId={postId} />

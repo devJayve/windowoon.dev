@@ -9,6 +9,14 @@ import CategoryItem from '@/features/category/components/CategoryItem';
 import { evaluate } from 'next-mdx-remote-client/rsc';
 import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
 import { components } from '@/shared/components/mdx';
+import { Tag } from 'lucide-react';
+import Divider from '@/shared/components/divider';
+import PostNavigator from '@/features/post/components/PostNavigator';
+import dynamic from 'next/dynamic';
+
+const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
+  ssr: true,
+});
 
 interface PostDetailPageProps {
   params: {
@@ -26,10 +34,19 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: PostDetailPageProps) {
+  const postId = parseInt(params.id);
+  const post = await getPost(postId);
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
+
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
-  //1
   const post = await getPost(postId);
   const readTime = readingTime(post.content);
 
@@ -48,18 +65,29 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         readingTime={readTime}
         views={post.views}
       />
+
       <Suspense>
-        <div className="relative gap-8 lg:flex">
+        <section className="relative gap-8 lg:flex">
           <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
           <Toc toc={scope.toc as TocItem[]} />
-        </div>
+        </section>
       </Suspense>
-      <div className="flex gap-2">
+
+      <section className="flex items-center gap-2">
+        <Tag size={18} />
         {post.categories.map(category => (
-          <CategoryItem className="text-md font-semibold" category={category} key={category} />
+          <CategoryItem className="py-1 font-semibold" category={category} key={category} />
         ))}
-      </div>
+      </section>
+
+      <Divider />
+
       <Suspense>
+        <PostNavigator currentPost={post} />
+      </Suspense>
+
+      <Suspense>
+        <PostLikeToggle postId={postId} />
         <CommentList postId={postId} />
       </Suspense>
     </article>

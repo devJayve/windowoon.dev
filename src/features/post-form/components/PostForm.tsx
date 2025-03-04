@@ -12,7 +12,7 @@ import { Button } from '@/shared/components/button/button';
 import { useFormState } from 'react-dom';
 import { submitPostAction } from '@/features/post-form/action/submitPostAction';
 import { useRouter } from 'next/navigation';
-import { ImageUploadResult } from '@/features/post/lib/uploadToStorageAction';
+import { ImageUploadResult } from '@/features/post/action/uploadToStorageAction';
 
 interface PostFormProps {
   postId?: number;
