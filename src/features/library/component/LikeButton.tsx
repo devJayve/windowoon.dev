@@ -22,7 +22,7 @@ function LikeButton({ disabled, isLiked, count, onClick, className }: LikeButton
     >
       <HeartIcon
         className={cn(
-          `transition-colors duration-200 ${isLiked ? 'fill-red-500 text-red-500' : 'text-neutral-300'}`,
+          `transition-colors duration-200 ${isLiked ? 'fill-red-500 text-red-500' : 'text-neutral-400 dark:text-neutral-300'}`,
         )}
         size="18"
       />

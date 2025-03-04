@@ -12,6 +12,8 @@ import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import PostLikeButton from '@/features/post/components/PostLikeButton';
 import { getPostLikes } from '@/features/post/lib/getPostLikes';
+import Divider from '@/shared/components/divider';
+import PostNavigator from '@/features/post/components/PostNavigator';
 
 interface PostDetailPageProps {
   params: {
@@ -62,20 +64,29 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         views={post.views}
         likes={likeCount}
       />
-      <Suspense>
-        <div className="relative gap-8 lg:flex">
-          <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-          <Toc toc={scope.toc as TocItem[]} />
-        </div>
-      </Suspense>
-      <div className="flex items-center gap-2">
+
+      <section className="relative gap-8 lg:flex">
+        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
+        <Toc toc={scope.toc as TocItem[]} />
+      </section>
+
+      <section className="flex items-center gap-2">
         <Tag size={18} />
         {post.categories.map(category => (
           <CategoryItem className="py-1 font-semibold" category={category} key={category} />
         ))}
-      </div>
-      <div className="h-[0.5px] w-full bg-foreground/50" />
+      </section>
 
+      <Divider />
+
+      <PostNavigator
+        previousPost={{
+          id: 1,
+          title:
+            'hello world im previous post nice to meet you im previous post nice to meet you im previous post nice to meet you im previous post nice to meet you',
+          slug: 'previous-post',
+        }}
+      />
       <PostLikeButton
         initialLikeState={{
           isLiked: isLiked,

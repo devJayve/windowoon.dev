@@ -46,7 +46,7 @@ function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
         disabled={!session.data}
         isLiked={optimisticState.isLiked}
         count={optimisticState.likeCount}
-        className="cursor-pointer rounded-2xl border border-neutral-900 px-5 py-2 dark:border-neutral-200"
+        className="cursor-pointer rounded-2xl border-[1.5px] border-neutral-400 px-5 py-2 dark:border-neutral-200"
       />
     </form>
   );
