@@ -10,10 +10,14 @@ import { evaluate } from 'next-mdx-remote-client/rsc';
 import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
 import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
-import PostLikeButton from '@/features/post/components/PostLikeButton';
 import { getPostLikes } from '@/features/post/lib/getPostLikes';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
+import dynamic from 'next/dynamic';
+
+const PostLikeButton = dynamic(() => import('@/features/post/components/PostLikeButton'), {
+  ssr: false,
+});
 
 interface PostDetailPageProps {
   params: {
@@ -44,8 +48,11 @@ export async function generateMetadata({ params }: PostDetailPageProps) {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
-  const post = await getPost(postId);
-  const { count: likeCount, isLiked } = await getPostLikes(postId);
+  const [post, { count: likeCount, isLiked }] = await Promise.all([
+    getPost(postId),
+    getPostLikes(postId),
+  ]);
+
   const readTime = readingTime(post.content);
 
   const { content, scope } = await evaluate({
@@ -65,10 +72,12 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         likes={likeCount}
       />
 
-      <section className="relative gap-8 lg:flex">
-        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-        <Toc toc={scope.toc as TocItem[]} />
-      </section>
+      <Suspense>
+        <section className="relative gap-8 lg:flex">
+          <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
+          <Toc toc={scope.toc as TocItem[]} />
+        </section>
+      </Suspense>
 
       <section className="flex items-center gap-2">
         <Tag size={18} />
@@ -79,7 +88,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <Divider />
 
-      <PostNavigator currentPost={post} />
+      <Suspense>
+        <PostNavigator currentPost={post} />
+      </Suspense>
 
       <PostLikeButton
         initialLikeState={{
