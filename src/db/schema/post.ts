@@ -20,8 +20,8 @@ export const PostTable = pgTable('posts', {
   slug: varchar('slug', { length: 150 }).notNull().unique(),
   views: integer('views').notNull().default(0),
   viewMode: ViewMode('view_mode').notNull().default('development'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).notNull().defaultNow(),
   categories: text('categories').array().notNull().default([]),
 });
 

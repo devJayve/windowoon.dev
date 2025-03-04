@@ -79,14 +79,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <Divider />
 
-      <PostNavigator
-        previousPost={{
-          id: 1,
-          title:
-            'hello world im previous post nice to meet you im previous post nice to meet you im previous post nice to meet you im previous post nice to meet you',
-          slug: 'previous-post',
-        }}
-      />
+      <PostNavigator currentPost={post} />
+
       <PostLikeButton
         initialLikeState={{
           isLiked: isLiked,

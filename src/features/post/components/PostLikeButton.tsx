@@ -1,7 +1,7 @@
 'use client';
 import React, { useOptimistic } from 'react';
 import LikeButton from '@/features/library/component/LikeButton';
-import { toggleLikeAction } from '@/features/post/lib/toggleLikeAction';
+import { toggleLikeAction } from '@/features/post/action/toggleLikeAction';
 import { useSession } from 'next-auth/react';
 
 export interface LikeState {

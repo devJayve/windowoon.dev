@@ -3,7 +3,7 @@ import React, { RefObject, useRef } from 'react';
 import {
   ImageUploadResult,
   uploadToStorageAction,
-} from '@/features/post/lib/uploadToStorageAction';
+} from '@/features/post/action/uploadToStorageAction';
 
 interface ImageInputProps {
   imageInputRef: RefObject<HTMLInputElement>;

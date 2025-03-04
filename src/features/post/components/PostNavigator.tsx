@@ -2,13 +2,15 @@ import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Post } from '@/features/post/types';
 import Link from 'next/link';
+import { getAdjacentPosts } from '@/features/post/lib/getAdjacentPosts';
 
 interface PostNavigatorProps {
-  previousPost?: Pick<Post, 'id' | 'title' | 'slug'> | null;
-  nextPost?: Pick<Post, 'id' | 'title' | 'slug'> | null;
+  currentPost: Post;
 }
 
-function PostNavigator({ previousPost, nextPost }: PostNavigatorProps) {
+async function PostNavigator({ currentPost }: PostNavigatorProps) {
+  const { previousPost, nextPost } = await getAdjacentPosts(currentPost);
+
   return (
     <div className="mt-4 flex items-start justify-between">
       {previousPost ? (
