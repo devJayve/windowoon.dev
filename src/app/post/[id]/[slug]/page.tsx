@@ -10,13 +10,12 @@ import { evaluate } from 'next-mdx-remote-client/rsc';
 import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
 import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
-import { getPostLikes } from '@/features/post/lib/getPostLikes';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
 import dynamic from 'next/dynamic';
 
-const PostLikeButton = dynamic(() => import('@/features/post/components/PostLikeButton'), {
-  ssr: false,
+const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
+  ssr: true,
 });
 
 interface PostDetailPageProps {
@@ -48,11 +47,7 @@ export async function generateMetadata({ params }: PostDetailPageProps) {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
-  const [post, { count: likeCount, isLiked }] = await Promise.all([
-    getPost(postId),
-    getPostLikes(postId),
-  ]);
-
+  const post = await getPost(postId);
   const readTime = readingTime(post.content);
 
   const { content, scope } = await evaluate({
@@ -69,7 +64,6 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         date={post.createdAt}
         readingTime={readTime}
         views={post.views}
-        likes={likeCount}
       />
 
       <Suspense>
@@ -92,13 +86,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <PostNavigator currentPost={post} />
       </Suspense>
 
-      <PostLikeButton
-        initialLikeState={{
-          isLiked: isLiked,
-          likeCount: likeCount,
-        }}
-        postId={postId}
-      />
+      <PostLikeToggle postId={postId} />
+
       <Suspense>
         <CommentList postId={postId} />
       </Suspense>
