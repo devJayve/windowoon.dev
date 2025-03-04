@@ -11,7 +11,8 @@ import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions
 import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
-// import PostNavigator from '@/features/post/components/PostNavigator';
+import PostNavigator from '@/features/post/components/PostNavigator';
+
 // import dynamic from 'next/dynamic';
 
 // const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
@@ -80,13 +81,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <Divider />
 
-      {/*<Suspense>*/}
-      {/*  <PostNavigator currentPost={post} />*/}
-      {/*</Suspense>*/}
-
-      {/*<Suspense>*/}
-      {/*  <PostLikeToggle postId={postId} />*/}
-      {/*</Suspense>*/}
+      <Suspense>
+        <PostNavigator currentPost={post} />
+        {/*<PostLikeToggle postId={postId} />*/}
+      </Suspense>
 
       <Suspense>
         <CommentList postId={postId} />
