@@ -27,7 +27,6 @@ function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
   );
 
   const handleLike = async () => {
-    console.log('userid', userId);
     if (!userId) return;
 
     const newIsLiked = !optimisticState.isLiked;

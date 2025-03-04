@@ -11,12 +11,12 @@ import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions
 import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
-import PostNavigator from '@/features/post/components/PostNavigator';
-import dynamic from 'next/dynamic';
+// import PostNavigator from '@/features/post/components/PostNavigator';
+// import dynamic from 'next/dynamic';
 
-const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
-  ssr: true,
-});
+// const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
+//   ssr: false,
+// });
 
 interface PostDetailPageProps {
   params: {
@@ -66,12 +66,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         views={post.views}
       />
 
-      <Suspense>
-        <section className="relative gap-8 lg:flex">
-          <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-          <Toc toc={scope.toc as TocItem[]} />
-        </section>
-      </Suspense>
+      <section className="relative gap-8 lg:flex">
+        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
+        <Toc toc={scope.toc as TocItem[]} />
+      </section>
 
       <section className="flex items-center gap-2">
         <Tag size={18} />
@@ -82,12 +80,15 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <Divider />
 
-      <Suspense>
-        <PostNavigator currentPost={post} />
-      </Suspense>
+      {/*<Suspense>*/}
+      {/*  <PostNavigator currentPost={post} />*/}
+      {/*</Suspense>*/}
+
+      {/*<Suspense>*/}
+      {/*  <PostLikeToggle postId={postId} />*/}
+      {/*</Suspense>*/}
 
       <Suspense>
-        <PostLikeToggle postId={postId} />
         <CommentList postId={postId} />
       </Suspense>
     </article>
