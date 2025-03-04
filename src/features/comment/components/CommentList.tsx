@@ -7,19 +7,15 @@ interface CommentListProps {
 }
 
 async function CommentList({ postId }: CommentListProps) {
-  // 2.
-  const comments = await getComments(postId);
-  const commentLength = comments.reduce((acc, comment) => {
-    return acc + 1 + (comment.replies?.length || 0);
-  }, 0);
+  const result = await getComments(postId);
 
   return (
     <div className="space-y-4">
       <div>
-        <p className="font-semibold">댓글 {commentLength}개</p>
+        <p className="font-semibold">댓글 {result.length}개</p>
       </div>
       <CommentEditor postId={postId} />
-      {comments.map(comment => {
+      {result.comments.map(comment => {
         return <Comment key={comment.id} postId={postId} comment={comment} />;
       })}
     </div>

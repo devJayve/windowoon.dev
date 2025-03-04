@@ -9,6 +9,9 @@ import CategoryItem from '@/features/category/components/CategoryItem';
 import { evaluate } from 'next-mdx-remote-client/rsc';
 import { createEvaluateOptions } from '@/features/post/lib/createEvaluateOptions';
 import { components } from '@/shared/components/mdx';
+import { Tag } from 'lucide-react';
+import PostLikeButton from '@/features/post/components/PostLikeButton';
+import { getPostLikes } from '@/features/post/lib/getPostLikes';
 
 interface PostDetailPageProps {
   params: {
@@ -40,6 +43,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const postId = parseInt(params.id);
 
   const post = await getPost(postId);
+  const { count: likeCount, isLiked } = await getPostLikes(postId);
   const readTime = readingTime(post.content);
 
   const { content, scope } = await evaluate({
@@ -56,6 +60,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         date={post.createdAt}
         readingTime={readTime}
         views={post.views}
+        likes={likeCount}
       />
       <Suspense>
         <div className="relative gap-8 lg:flex">
@@ -63,11 +68,21 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <Toc toc={scope.toc as TocItem[]} />
         </div>
       </Suspense>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
+        <Tag size={18} />
         {post.categories.map(category => (
-          <CategoryItem className="text-md font-semibold" category={category} key={category} />
+          <CategoryItem className="py-1 font-semibold" category={category} key={category} />
         ))}
       </div>
+      <div className="h-[0.5px] w-full bg-foreground/50" />
+
+      <PostLikeButton
+        initialLikeState={{
+          isLiked: isLiked,
+          likeCount: likeCount,
+        }}
+        postId={postId}
+      />
       <Suspense>
         <CommentList postId={postId} />
       </Suspense>
