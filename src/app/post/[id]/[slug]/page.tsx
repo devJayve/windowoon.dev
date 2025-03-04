@@ -86,9 +86,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <PostNavigator currentPost={post} />
       </Suspense>
 
-      <PostLikeToggle postId={postId} />
-
       <Suspense>
+        <PostLikeToggle postId={postId} />
         <CommentList postId={postId} />
       </Suspense>
     </article>

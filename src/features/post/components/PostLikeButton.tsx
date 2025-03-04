@@ -15,8 +15,8 @@ interface PostLikeButtonProps {
 }
 
 function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
-  const session = useSession();
-  const userId = session.data?.user.id;
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const [optimisticState, addOptimistic] = useOptimistic<LikeState, Partial<LikeState>>(
     {
@@ -27,6 +27,7 @@ function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
   );
 
   const handleLike = async () => {
+    console.log('userid', userId);
     if (!userId) return;
 
     const newIsLiked = !optimisticState.isLiked;
@@ -43,7 +44,7 @@ function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
   return (
     <form action={handleLike} className="flex items-center justify-center">
       <LikeButton
-        disabled={!session.data}
+        disabled={!session}
         isLiked={optimisticState.isLiked}
         count={optimisticState.likeCount}
         className="cursor-pointer rounded-2xl border-[1.5px] border-neutral-400 px-5 py-2 dark:border-neutral-200"

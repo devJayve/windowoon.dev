@@ -1,12 +1,13 @@
 import { db } from '@/db/drizzle';
 import { PostReactionTable } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
+import { unstable_cache } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
-import { unstable_cache } from 'next/cache';
 
 export async function getPostLikes(postId: number) {
   const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
 
   return unstable_cache(
     async () => {
@@ -16,7 +17,7 @@ export async function getPostLikes(postId: number) {
         .where(eq(PostReactionTable.postId, parseInt(String(postId))))
         .then(result => result.length);
 
-      if (!session || !session.user.id) {
+      if (!userId) {
         return {
           count,
           isLiked: false,
@@ -29,7 +30,7 @@ export async function getPostLikes(postId: number) {
         .where(
           and(
             eq(PostReactionTable.postId, parseInt(String(postId))),
-            eq(PostReactionTable.userId, session.user.id),
+            eq(PostReactionTable.userId, userId),
           ),
         )
         .limit(1);
