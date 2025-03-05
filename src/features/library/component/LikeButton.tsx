@@ -6,7 +6,7 @@ import { cn } from '@/shared/lib/cn';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface LikeButtonProps {
-  disabled: boolean;
+  disabled?: boolean;
   isLiked: boolean;
   count: number;
   onClick?: () => void;

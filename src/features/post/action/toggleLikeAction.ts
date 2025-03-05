@@ -2,9 +2,11 @@
 import { db } from '@/db/drizzle';
 import { PostReactionTable } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { revalidateTag } from 'next/cache';
+import { delay } from '@/shared/lib/api';
 
 export async function toggleLikeAction(postId: number, userId: string) {
+  await delay(3000);
+
   const [existingLike] = await db
     .select()
     .from(PostReactionTable)
@@ -22,6 +24,4 @@ export async function toggleLikeAction(postId: number, userId: string) {
       userId,
     });
   }
-
-  revalidateTag(`post-likes-${postId}`);
 }

@@ -3,7 +3,7 @@ import PostTitle from '@/features/post/components/PostTitle';
 import { getAllPosts, getPost } from '@/features/post/lib';
 import { TocItem } from 'remark-flexible-toc';
 import readingTime from 'reading-time';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Toc from '@/shared/components/mdx/Toc';
 import CategoryItem from '@/features/category/components/CategoryItem';
 import { evaluate } from 'next-mdx-remote-client/rsc';
@@ -12,11 +12,7 @@ import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
-import dynamic from 'next/dynamic';
-
-const PostLikeToggle = dynamic(() => import('@/features/post/components/PostLikeToggle'), {
-  ssr: true,
-});
+import PostLikeButton from '@/features/post/components/PostLikeButton';
 
 interface PostDetailPageProps {
   params: {
@@ -24,6 +20,8 @@ interface PostDetailPageProps {
     slug: string;
   };
 }
+
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -66,12 +64,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         views={post.views}
       />
 
-      <Suspense>
-        <section className="relative gap-8 lg:flex">
-          <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
-          <Toc toc={scope.toc as TocItem[]} />
-        </section>
-      </Suspense>
+      <section className="relative gap-8 lg:flex">
+        <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>
+        <Toc toc={scope.toc as TocItem[]} />
+      </section>
 
       <section className="flex items-center gap-2">
         <Tag size={18} />
@@ -86,8 +82,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <PostNavigator currentPost={post} />
       </Suspense>
 
+      <PostLikeButton postId={postId} />
+
       <Suspense>
-        <PostLikeToggle postId={postId} />
         <CommentList postId={postId} />
       </Suspense>
     </article>
