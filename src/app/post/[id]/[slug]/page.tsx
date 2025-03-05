@@ -13,6 +13,7 @@ import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
 import PostLikeButton from '@/features/post/components/PostLikeButton';
+import GithubIssueButton from '@/features/post/components/GithubIssueButton';
 
 interface PostDetailPageProps {
   params: {
@@ -76,7 +77,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         ))}
       </section>
 
-      <Divider />
+      <div className="flex flex-col gap-2">
+        <GithubIssueButton postId={postId} title={post.title} />
+        <Divider />
+      </div>
 
       <Suspense>
         <PostNavigator currentPost={post} />
