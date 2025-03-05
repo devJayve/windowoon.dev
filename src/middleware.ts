@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
   const isAdminPath = ADMIN_PATHS.some(path => request.nextUrl.pathname.startsWith(path));
 
   if (isAdminPath) {
+    console.log('isAdminPath');
     try {
       const sessionCookie = request.cookies.get('next-auth.session-token')?.value;
 

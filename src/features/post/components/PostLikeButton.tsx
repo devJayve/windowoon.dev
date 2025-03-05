@@ -1,32 +1,28 @@
 'use client';
-import React, { useOptimistic } from 'react';
+import React, { startTransition } from 'react';
 import LikeButton from '@/features/library/component/LikeButton';
 import { toggleLikeAction } from '@/features/post/action/toggleLikeAction';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-
-export interface LikeState {
-  isLiked: boolean;
-  likeCount: number;
-}
+import { useLikeState } from '@/features/post/hooks/useLikeState';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface PostLikeButtonProps {
   postId: number;
-  initialLikeState: LikeState;
 }
 
-function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
+function PostLikeButton({ postId }: PostLikeButtonProps) {
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const [optimisticState, addOptimistic] = useOptimistic<LikeState, Partial<LikeState>>(
-    {
-      isLiked: initialLikeState.isLiked,
-      likeCount: initialLikeState.likeCount,
-    },
-    (state, newState) => ({ ...state, ...newState }),
-  );
+  const { likeState, setLikeState } = useLikeState(postId);
+
+  const debouncedToggleLike = useDebouncedCallback((postId: number, userId: string) => {
+    startTransition(async () => {
+      await toggleLikeAction(postId, userId);
+    });
+  }, 500);
 
   const handleLike = async () => {
     if (!userId) {
@@ -34,25 +30,23 @@ function PostLikeButton({ postId, initialLikeState }: PostLikeButtonProps) {
       return;
     }
 
-    const newIsLiked = !optimisticState.isLiked;
-    const newLikeCount = newIsLiked ? optimisticState.likeCount + 1 : optimisticState.likeCount - 1;
+    setLikeState(prevState => ({
+      isLiked: !prevState.isLiked,
+      likeCount: prevState.isLiked ? prevState.likeCount - 1 : prevState.likeCount + 1,
+    }));
 
-    addOptimistic({
-      isLiked: newIsLiked,
-      likeCount: newLikeCount,
-    });
-
-    await toggleLikeAction(postId, userId!);
+    debouncedToggleLike(postId, userId);
   };
 
   return (
-    <form action={handleLike} className="flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <LikeButton
-        isLiked={optimisticState.isLiked}
-        count={optimisticState.likeCount}
+        onClick={handleLike}
+        isLiked={likeState.isLiked}
+        count={likeState.likeCount}
         className="cursor-pointer rounded-2xl border-[1.5px] border-neutral-400 px-5 py-2 dark:border-neutral-200"
       />
-    </form>
+    </div>
   );
 }
 

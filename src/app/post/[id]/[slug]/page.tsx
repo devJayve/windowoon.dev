@@ -3,7 +3,7 @@ import PostTitle from '@/features/post/components/PostTitle';
 import { getAllPosts, getPost } from '@/features/post/lib';
 import { TocItem } from 'remark-flexible-toc';
 import readingTime from 'reading-time';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Toc from '@/shared/components/mdx/Toc';
 import CategoryItem from '@/features/category/components/CategoryItem';
 import { evaluate } from 'next-mdx-remote-client/rsc';
@@ -12,7 +12,7 @@ import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
-import PostLikeToggle from '@/features/post/components/PostLikeToggle';
+import PostLikeButton from '@/features/post/components/PostLikeButton';
 
 interface PostDetailPageProps {
   params: {
@@ -20,6 +20,8 @@ interface PostDetailPageProps {
     slug: string;
   };
 }
+
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -80,9 +82,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <PostNavigator currentPost={post} />
       </Suspense>
 
-      <Suspense>
-        <PostLikeToggle postId={postId} />
-      </Suspense>
+      <PostLikeButton postId={postId} />
 
       <Suspense>
         <CommentList postId={postId} />
