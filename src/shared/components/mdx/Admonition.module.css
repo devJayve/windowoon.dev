@@ -75,6 +75,10 @@
     color: var(--text-strong);
 }
 
+.admonition-content strong {
+    color: var(--text-strong);
+}
+
 .admonition-content code {
     background-color: var(--color-admonition-highlight) !important;
 }
