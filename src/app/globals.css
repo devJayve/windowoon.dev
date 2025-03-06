@@ -8,7 +8,7 @@
 @layer base {
     body {
         @apply bg-background text-foreground transition-[background-color] duration-200;
-        font-family: NanumSquare, serif;
+        font-family: Pretendard, serif;
     }
 
     :root {
