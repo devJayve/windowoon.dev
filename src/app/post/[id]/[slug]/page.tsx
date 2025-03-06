@@ -40,6 +40,23 @@ export async function generateMetadata({ params }: PostDetailPageProps) {
   return {
     title: post.title,
     description: post.description,
+    keywords: post.categories,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: 'article',
+      locale: 'ko_KR',
+      url: `https://windowoon.dev/post/${params.id}/${params.slug}`,
+      siteName: "Windowoon's Log",
+      images: [
+        {
+          url: 'https://8kaup4frtn8k4vpk.public.blob.vercel-storage.com/blog_thumbnail-S2TFhB6NRM1yhpo6JxKd6ACeAH60Cr.png',
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
   };
 }
 

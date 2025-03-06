@@ -9,7 +9,8 @@ import { pretendard } from '@/styles/fonts';
 export const metadata: Metadata = {
   title: "Windowoon's Log",
   description: '개발 과정에서 마주친 도전과 인사이트를 기록합니다.',
-  authors: [{ name: 'dowoon' }],
+  applicationName: "Windowoon's Log",
+  authors: [{ name: 'dowoon' }, { name: 'windowoon' }],
   keywords: [
     'Tech',
     'Web Development',
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
     'TypeScript',
     'React',
     'Next.js',
+    'Frontend',
+    '기술 블로그',
   ],
   openGraph: {
     type: 'website',
@@ -44,6 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning className={`${pretendard.variable}`}>
+      <head>
+        <meta name="naver-site-verification" content="b7ec902696979f099bfa213f6e7e457a407faf36" />
+      </head>
       <body>
         <AppProviders>
           <div className="flex min-h-screen flex-col">

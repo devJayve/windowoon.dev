@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: '개발 과정에서 마주친 도전과 인사이트를 기록합니다.',
   keywords: ['기술 블로그', '웹', '프론트엔드', 'Next.js', 'React', 'TypeScript'],
   openGraph: {
-    title: "Windowoon's Log - 글 목록",
+    title: "Windowoon's Log | 글 목록",
     description: '개발 과정에서 마주친 도전과 인사이트를 기록합니다.',
     type: 'website',
     locale: 'ko_KR',
