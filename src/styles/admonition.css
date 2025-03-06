@@ -155,7 +155,7 @@
     --error: #ec5990;
     --infobar: #101010;
     --text-default: #fff;
-    --text-strong: #ddd;
+    --text-strong: #1c1c1c;
     --text-weak: #888;
     --text-veryweak: #555;
     --text-on-secondary: #000;
@@ -222,5 +222,7 @@
     --ifm-color-danger-highlight: rgba(250, 56, 62, 0.15);
     --ifm-color-danger-border: var(--ifm-color-danger-darker);
     --ifm-color-danger-icon: var(--ifm-color-danger-lightest);
+
+
 }
 

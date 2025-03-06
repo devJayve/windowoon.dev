@@ -9,8 +9,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   // postId 파라미터 가져오기
   const postId = parseInt(params.id);
 
-  console.log('GET', postId);
-
   // 사용자 세션 확인
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;

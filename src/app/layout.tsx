@@ -4,6 +4,7 @@ import { Header } from '@/shared/components/layout/Header';
 import { AppProviders, Footer } from '@/shared/components/layout';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { pretendard } from '@/styles/fonts';
 
 export const metadata: Metadata = {
   title: "Windowoon's Log",
@@ -42,7 +43,7 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning className={`${pretendard.variable}`}>
       <body>
         <AppProviders>
           <div className="flex min-h-screen flex-col">
