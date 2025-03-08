@@ -74,13 +74,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
   return (
     <article className="mx-auto max-w-3xl space-y-8 px-6 lg:max-w-6xl lg:py-8">
-      <PostTitle
-        postId={post.id}
-        title={post.title}
-        date={post.createdAt}
-        readingTime={readTime}
-        views={post.views}
-      />
+      <PostTitle postId={post.id} title={post.title} date={post.createdAt} readingTime={readTime} />
 
       <section className="relative gap-8 lg:flex">
         <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>

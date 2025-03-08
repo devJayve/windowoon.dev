@@ -6,7 +6,7 @@ import { db } from '@/db/drizzle';
 import { PostTable, PostViewTable } from '@/db/schema';
 import { and, eq, gte, sql } from 'drizzle-orm';
 import { NEXT_IP_KEY } from '@/shared/constants';
-export async function incrementViewCount(postId: number): Promise<void> {
+export async function countViewAction(postId: number): Promise<void> {
   try {
     const headersList = headers();
     const ip = headersList.get(NEXT_IP_KEY);
