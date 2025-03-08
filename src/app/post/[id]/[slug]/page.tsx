@@ -12,8 +12,12 @@ import { components } from '@/shared/components/mdx';
 import { Tag } from 'lucide-react';
 import Divider from '@/shared/components/divider';
 import PostNavigator from '@/features/post/components/PostNavigator';
-import PostLikeButton from '@/features/post/components/PostLikeButton';
 import GithubIssueButton from '@/features/post/components/GithubIssueButton';
+import dynamic from 'next/dynamic';
+
+const PostLikeButton = dynamic(() => import('@/features/post/components/PostLikeButton'), {
+  ssr: false,
+});
 
 interface PostDetailPageProps {
   params: {
@@ -21,8 +25,6 @@ interface PostDetailPageProps {
     slug: string;
   };
 }
-
-export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -74,13 +76,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
   return (
     <article className="mx-auto max-w-3xl space-y-8 px-6 lg:max-w-6xl lg:py-8">
-      <PostTitle
-        postId={post.id}
-        title={post.title}
-        date={post.createdAt}
-        readingTime={readTime}
-        views={post.views}
-      />
+      <PostTitle postId={post.id} title={post.title} date={post.createdAt} readingTime={readTime} />
 
       <section className="relative gap-8 lg:flex">
         <div className="prose prose-neutral w-full max-w-3xl dark:prose-invert">{content}</div>

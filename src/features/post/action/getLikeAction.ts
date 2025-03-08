@@ -1,42 +1,38 @@
-import { NextRequest, NextResponse } from 'next/server';
+'use server';
+
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
-import { PostReactionTable } from '@/db/schema';
 import { db } from '@/db/drizzle';
+import { PostReactionTable } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
+import { LikeState } from '@/features/post/components/PostLikeButton';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  // postId 파라미터 가져오기
-  const postId = parseInt(params.id);
-
-  // 사용자 세션 확인
+export async function getLikeAction(postId: number): Promise<LikeState> {
   const session = await getServerSession(authOptions);
+
   const userId = session?.user?.id;
 
-  // 좋아요 수 카운트
   const count = await db
     .select()
     .from(PostReactionTable)
     .where(eq(PostReactionTable.postId, postId))
     .then(result => result.length);
 
-  // 로그인하지 않은 경우
   if (!userId) {
-    return NextResponse.json({
+    return {
       count,
       isLiked: false,
-    });
+    };
   }
 
-  // 사용자의 좋아요 상태 확인
   const [isLiked] = await db
     .select()
     .from(PostReactionTable)
     .where(and(eq(PostReactionTable.postId, postId), eq(PostReactionTable.userId, userId)))
     .limit(1);
 
-  return NextResponse.json({
+  return {
     count,
     isLiked: !!isLiked,
-  });
+  };
 }

@@ -1,16 +1,18 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
-import { incrementViewCount } from '../lib/incrementViewCount';
+import { countViewAction } from '../action/countViewAction';
+import { getViewAction } from '@/features/post/action/getViewAction';
 
 interface ViewCounterProps {
   postId: number;
-  views: number;
 }
 
-function ViewCounter({ views, postId }: ViewCounterProps) {
+function ViewCounter({ postId }: ViewCounterProps) {
+  const [views, setViews] = useState<number | null>(null);
   useEffect(() => {
-    incrementViewCount(postId).catch(console.error);
+    countViewAction(postId).catch(console.error);
+    getViewAction(postId).then(setViews).catch(console.error);
   }, [postId]);
 
   return (

@@ -12,25 +12,24 @@ interface PostMetaProps {
   postId: number;
   date: Date;
   readingTime: ReadTimeResults;
-  views: number;
 }
 
 const ViewCounter = dynamic(() => import('@/features/post/components/ViewCounter'), { ssr: false });
 const PostControl = dynamic(() => import('@/features/post/components/PostControl'), { ssr: false });
 
-export function PostTitle({ postId, title, date, readingTime, views }: PostTitleProps) {
+export function PostTitle({ postId, title, date, readingTime }: PostTitleProps) {
   return (
     <header className="mb-8 space-y-2">
       <h1 className="my-5 text-center text-3xl font-semibold sm:text-4xl">{title}</h1>
       <div className="relative flex flex-col">
-        <PostMeta postId={postId} readingTime={readingTime} date={date} views={views} />
+        <PostMeta postId={postId} readingTime={readingTime} date={date} />
         <PostControl postId={postId} />
       </div>
     </header>
   );
 }
 
-function PostMeta({ postId, date, readingTime, views }: PostMetaProps) {
+function PostMeta({ postId, date, readingTime }: PostMetaProps) {
   return (
     <div className="flex items-center justify-center gap-4 text-sm">
       <div className="flex items-center gap-1">
@@ -41,7 +40,7 @@ function PostMeta({ postId, date, readingTime, views }: PostMetaProps) {
         <Clock size={15} />
         <p>{readingTime.text}</p>
       </div>
-      <ViewCounter postId={postId} views={views} />
+      <ViewCounter postId={postId} />
     </div>
   );
 }
