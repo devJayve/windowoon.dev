@@ -9,6 +9,7 @@ import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
 import { createCommentAction } from '@/features/comment/action/createCommentAction';
 import { useFormState, useFormStatus } from 'react-dom';
+import { GuestFormDialog } from '@/shared/components/dialog/GuestFormDialog';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -96,7 +97,7 @@ function CommentEditor({
               취소
             </Button>
           )}
-          <SubmitButton content={content} isAuthenticated={isAuthenticated} />
+          <SubmitButton content={content} />
         </div>
       </form>
       <InfoDialog
@@ -104,15 +105,16 @@ function CommentEditor({
         isOpen={infoDialog.isOpen}
         onClose={() => setInfoDialog(prev => ({ ...prev, isOpen: false }))}
       />
+      <GuestFormDialog />
     </>
   );
 }
 
-function SubmitButton({ content, isAuthenticated }: { content: string; isAuthenticated: boolean }) {
+function SubmitButton({ content }: { content: string }) {
   const { pending } = useFormStatus();
   return (
     <Button disabled={content.trim().length === 0 || pending} type="submit" size="sm">
-      {pending ? '등록중...' : isAuthenticated ? '댓글 등록' : '로그인 후 작성하기'}
+      {pending ? '등록중...' : '댓글 등록'}
     </Button>
   );
 }
