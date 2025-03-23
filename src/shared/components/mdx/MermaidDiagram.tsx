@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mermaid from 'mermaid';
 import { useTheme } from 'next-themes';
 
@@ -10,9 +10,15 @@ interface MermaidDiagramProps {
 export default function MermaidDiagram({ diagram }: MermaidDiagramProps) {
   const { resolvedTheme } = useTheme();
   const mermaidRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // 테마가 변경될 때마다 mermaid 초기화
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || !mermaidRef) return;
+
     mermaid.initialize({
       startOnLoad: false,
       theme: resolvedTheme === 'dark' ? 'dark' : 'neutral',
@@ -22,14 +28,16 @@ export default function MermaidDiagram({ diagram }: MermaidDiagramProps) {
     if (mermaidRef.current) {
       mermaidRef.current.innerHTML = '';
 
-      const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
-      mermaid.render(id, diagram).then(({ svg }) => {
+      const diagramId = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+      mermaid.render(diagramId, diagram).then(({ svg }) => {
         if (mermaidRef.current) {
           mermaidRef.current.innerHTML = svg;
         }
       });
     }
-  }, [diagram, resolvedTheme]);
+  }, [mounted, diagram, resolvedTheme]);
+
+  if (!mounted) return <div></div>;
 
   return <div ref={mermaidRef} className="mermaid" />;
 }

@@ -25,6 +25,7 @@ function CommentControl({ commentId }: CommentControlProps) {
     setPending(true);
 
     const result = await deleteCommentAction(commentId);
+
     setInfoDialog({
       isOpen: true,
       title: result.message,
