@@ -1,17 +1,15 @@
 'use client';
-import dynamic from 'next/dynamic';
+
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/shared/components/button/button';
-import { codeEdit, codePreview, ICommand } from '@uiw/react-md-editor';
+import MDEditor, { codeEdit, codePreview, ICommand } from '@uiw/react-md-editor';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
 import { submitCommentAction } from '@/features/comment/action/submitCommentAction';
 import { useFormState, useFormStatus } from 'react-dom';
 import { GuestFormData, GuestFormDialog } from '@/shared/components/dialog/GuestFormDialog';
 import { useModal } from '@/shared/provider/ModalProvider';
-
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 interface CommentEditorProps {
   postId: number;
@@ -69,7 +67,7 @@ function CommentEditor({
 
       const formData = new FormData(formRef.current);
 
-      formData.append('name', result.name);
+      formData.append('username', result.name);
       formData.append('password', result.password);
 
       formAction(formData);
