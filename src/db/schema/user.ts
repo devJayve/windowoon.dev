@@ -1,5 +1,16 @@
-import { boolean, timestamp, pgTable, text, primaryKey, integer } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  timestamp,
+  pgTable,
+  text,
+  primaryKey,
+  integer,
+  pgEnum,
+  varchar,
+} from 'drizzle-orm/pg-core';
 import { AdapterAccountType } from '@auth/core/adapters';
+
+export const UserRole = pgEnum('role', ['admin', 'user', 'guest']);
 
 export const UserTable = pgTable('user', {
   id: text('id')
@@ -10,6 +21,8 @@ export const UserTable = pgTable('user', {
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: text('image'),
   role: text('role').notNull().default('user'),
+  roleEnum: UserRole('role_enum').notNull().default('user'),
+  password: varchar('password', { length: 64 }),
 });
 
 export const accounts = pgTable(

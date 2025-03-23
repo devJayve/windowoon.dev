@@ -1,15 +1,15 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/shared/components/button/button';
 import { codeEdit, codePreview, ICommand } from '@uiw/react-md-editor';
-import { useRouter } from 'next/navigation';
 import { InfoDialog } from '@/shared/components/dialog/InfoDialog';
 import { useSession } from 'next-auth/react';
-import { createCommentAction } from '@/features/comment/action/createCommentAction';
+import { submitCommentAction } from '@/features/comment/action/submitCommentAction';
 import { useFormState, useFormStatus } from 'react-dom';
-import { GuestFormDialog } from '@/shared/components/dialog/GuestFormDialog';
+import { GuestFormData, GuestFormDialog } from '@/shared/components/dialog/GuestFormDialog';
+import { useModal } from '@/shared/provider/ModalProvider';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
@@ -28,8 +28,9 @@ function CommentEditor({
   showCancel = false,
   onCancel,
 }: CommentEditorProps) {
+  const formRef = useRef<HTMLFormElement>(null);
   const { theme } = useTheme();
-  const router = useRouter();
+  const { openModal } = useModal();
   const { status, data: session } = useSession();
   const [content, setContent] = useState('');
   const [infoDialog, setInfoDialog] = useState({
@@ -37,7 +38,7 @@ function CommentEditor({
     title: '',
   });
 
-  const createComment = createCommentAction.bind(null, postId, parentId);
+  const createComment = submitCommentAction.bind(null, postId, parentId);
   const [state, formAction] = useFormState(createComment, null);
 
   const isAuthenticated = status === 'authenticated' && session?.user?.id !== null;
@@ -59,8 +60,19 @@ function CommentEditor({
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      router.push('/login');
-      return;
+
+      const result = await openModal<GuestFormData>(<GuestFormDialog />);
+
+      if (!result || !formRef.current) {
+        return;
+      }
+
+      const formData = new FormData(formRef.current);
+
+      formData.append('name', result.name);
+      formData.append('password', result.password);
+
+      formAction(formData);
     }
   };
 
@@ -76,7 +88,12 @@ function CommentEditor({
 
   return (
     <>
-      <form action={formAction} onSubmit={handleCommentSubmit} className="md-editor-wrapper">
+      <form
+        ref={formRef}
+        action={formAction}
+        onSubmit={handleCommentSubmit}
+        className="md-editor-wrapper"
+      >
         <input type="hidden" name="content" value={content} />
         <MDEditor
           data-color-mode={theme === 'dark' ? 'dark' : 'light'}
@@ -87,8 +104,7 @@ function CommentEditor({
           height={height}
           preview="edit"
           textareaProps={{
-            placeholder: isAuthenticated ? '댓글 작성하기' : '로그인 후 댓글 작성하기',
-            readOnly: !isAuthenticated,
+            placeholder: '댓글 작성하기',
           }}
         />
         <div className="mt-2 flex justify-end gap-2">
@@ -105,7 +121,6 @@ function CommentEditor({
         isOpen={infoDialog.isOpen}
         onClose={() => setInfoDialog(prev => ({ ...prev, isOpen: false }))}
       />
-      <GuestFormDialog />
     </>
   );
 }
