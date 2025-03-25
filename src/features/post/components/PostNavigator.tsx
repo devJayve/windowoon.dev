@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Post } from '@/features/post/types';
 import Link from 'next/link';
