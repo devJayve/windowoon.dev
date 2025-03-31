@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: process.env.BLOB_BASE_DOMAIN,
       },
+      {
+        protocol: 'https',
+        hostname: 'search1.kakaocdn.net',
+      },
     ],
   },
   webpack: config => {

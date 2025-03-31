@@ -1,8 +1,8 @@
 import BookCard from '@/features/library/component/BookCard';
 import dynamic from 'next/dynamic';
 import RecommendCard from '@/features/library/component/RecommendCard';
-import { BookUp, ChevronRight } from 'lucide-react';
-import { Button } from '@/shared/components/button/button';
+import { ChevronRight } from 'lucide-react';
+import RecommendBanner from '@/features/library/component/RecommendBanner';
 
 const FloatingActionButton = dynamic(
   () => import('@/shared/components/button/FloatingActionButton'),
@@ -29,16 +29,7 @@ export default function LibraryPage() {
               <RecommendCard />
             </div>
           </div>
-          <div className="flex justify-between rounded-lg border-1 border-blue-500 bg-blue-500/30 p-5 dark:bg-blue-600/30">
-            <div>
-              <p className="text-md font-semibold sm:text-lg">개발 서적이 아니어도 좋아요!</p>
-              <p className="text-sm">간단한 추천 사유와 함께 책을 추천해주세요</p>
-            </div>
-            <Button className="flex gap-1 bg-blue-500 font-semibold text-white hover:bg-blue-500/30">
-              <BookUp />
-              추천 도서 등록하기
-            </Button>
-          </div>
+          <RecommendBanner />
         </section>
         <section className="flex w-full flex-col">
           <div className="flex w-full justify-between px-2 py-4">

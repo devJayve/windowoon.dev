@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Badge } from '@/shared/components/Badge';
+import { Progress } from '@/shared/components/Progress';
 
 // 메인 북카드 컴포넌트
 export default function BookCard() {
@@ -41,7 +42,6 @@ export default function BookCard() {
           <Badge>Development</Badge>
         </div>
 
-        {/* 독서 진행 정보 */}
         <div className="mt-4">
           {book.status === 'reading' && (
             <div className="space-y-1">
@@ -49,7 +49,7 @@ export default function BookCard() {
                 <span>진행률</span>
                 <span>{book.progress}%</span>
               </div>
-              {/*<Progress value={book.progress} className="h-1" />*/}
+              <Progress value={book.progress} className="h-1" />
             </div>
           )}
         </div>
