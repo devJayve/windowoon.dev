@@ -36,6 +36,21 @@ export const BookTable = pgTable('books', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
 
+export const BookRecommendationTable = pgTable('book_recommendations', {
+  id: serial('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => UserTable.id),
+  title: varchar('thumbnail', { length: 225 }),
+  authors: text('authors').array().notNull().default([]),
+  publisher: varchar('publisher', { length: 100 }).notNull(),
+  isbn: varchar('isbn', { length: 13 }),
+  thumbnail: varchar('thumbnail', { length: 255 }),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 export const BookCategoryTable = pgTable(
   'book_categories',
   {

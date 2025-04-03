@@ -2,12 +2,13 @@
 import { revalidateTag } from 'next/cache';
 
 import { db } from '@/db/drizzle';
-import { CommentTable } from '@/db/schema';
+import { CommentTable, UserTable } from '@/db/schema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
 import { ServerActionState } from '@/features/comment/types';
+import bcrypt from 'bcrypt';
 
-export async function createCommentAction(
+export async function submitCommentAction(
   postId: number,
   parentId: number | undefined,
   prevState: ServerActionState<null> | null,
@@ -16,6 +17,8 @@ export async function createCommentAction(
   try {
     const session = await getServerSession(authOptions);
 
+    const username = formData.get('username')?.toString();
+    const password = formData.get('password')?.toString();
     const content = formData.get('content')?.toString();
     const userId = session?.user?.id;
 
@@ -26,19 +29,39 @@ export async function createCommentAction(
       };
     }
 
-    if (!postId || !userId) {
+    if (!postId) {
       return {
         message: '문제가 발생했어요.\n나중에 다시 시도해주세요.',
         success: false,
       };
     }
 
-    await db.insert(CommentTable).values({
-      postId: Number(postId),
-      userId: userId,
-      parentId: Number(parentId) || null,
-      content: content,
-    });
+    if (!userId) {
+      const hashedPassword = await bcrypt.hash(password!, 10);
+
+      const [guestUser] = await db
+        .insert(UserTable)
+        .values({
+          name: username,
+          role: 'guest',
+          password: hashedPassword,
+        })
+        .returning();
+
+      await db.insert(CommentTable).values({
+        postId: Number(postId),
+        userId: guestUser.id,
+        parentId: Number(parentId) || null,
+        content: content,
+      });
+    } else {
+      await db.insert(CommentTable).values({
+        postId: Number(postId),
+        userId: userId,
+        parentId: Number(parentId) || null,
+        content: content,
+      });
+    }
 
     revalidateTag(`comment-${postId}`);
 

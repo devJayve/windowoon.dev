@@ -1,87 +1,59 @@
-'use client';
+import React from 'react';
 import Image from 'next/image';
+import { Badge } from '@/shared/components/Badge';
+import { Progress } from '@/shared/components/Progress';
 
-import book from '../../../../public/images/book_test.png';
-import { Quote } from 'lucide-react';
-import { Noto_Serif_KR } from 'next/font/google';
-import { motion } from 'framer-motion';
-import { cn } from '@/shared/lib/cn';
-import Link from 'next/link';
+// 메인 북카드 컴포넌트
+export default function BookCard() {
+  const book = {
+    id: '1',
+    title: '전문가를 위한 리액트',
+    author: '애덤 프리먼',
+    coverImage: '/images/book_test.png',
+    status: 'reading', // 'reading', 'completed', 'wishlist'
+    progress: 65, // 읽기 진행률 (%)
+    startDate: '2023-09-01',
+    completedDate: null,
+    rating: 4.5,
+    description: '리액트의 핵심 원리부터 고급 패턴까지 다루는 종합 가이드',
+  };
 
-const notoSerifKr = Noto_Serif_KR({
-  subsets: ['latin'],
-  weight: ['400'],
-});
-
-const BookCard = () => {
   return (
-    <Link href="/library/1">
-      <motion.div
-        className="relative aspect-square overflow-hidden rounded-lg"
-        whileHover="hover"
-        initial="initial"
-      >
-        <motion.div
-          className="absolute z-10 flex size-full flex-col items-center justify-center p-4"
-          variants={{
-            initial: {
-              y: 10,
-            },
-            hover: {
-              y: -10,
-              transition: {
-                duration: 0.3,
-              },
-            },
-          }}
-        >
-          <Image src={book} alt="book1" className="mb-2 w-2/5 rounded-r-lg shadow-2xl" />
-          <h2 className="font-semibold">전문가를 위한 리액트</h2>
-          <p className="line-clamp-1 text-sm font-light text-neutral-200">
-            빠르고 성능이 뛰어난 직관적인 애플리케이션 구축하기
-          </p>
-          <motion.div
-            className="mx-2 mt-2 flex gap-2"
-            variants={{
-              initial: {
-                opacity: 0,
-              },
-              hover: {
-                opacity: 1,
-                transition: {
-                  duration: 0.3,
-                  delay: 0.1,
-                },
-              },
-            }}
-          >
-            <Quote className="-rotate-180" size="12" />
-            <p className={cn('line-clamp-3 text-sm tracking-tight', notoSerifKr.className)}>
-              {
-                'React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책 React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책 React의 동작 원리를 더 깊이 파고들어 이해할 수 있는 책'
-              }
-            </p>
-            <Quote size="12" />
-          </motion.div>
-        </motion.div>
-        <Image src={book} alt="book1" objectFit="cover" className="rounded-lg" />
-        <motion.div
-          className="absolute inset-0 overflow-hidden rounded-t-lg backdrop-blur"
-          variants={{
-            initial: {
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            },
-            hover: {
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              transition: {
-                duration: 0.3,
-              },
-            },
-          }}
-        />
-      </motion.div>
-    </Link>
-  );
-};
+    <div className="flex w-full gap-3 rounded-lg border border-neutral-300 p-4 transition-colors hover:border-blue-600">
+      <Image
+        src={book.coverImage}
+        alt={book.title}
+        width={100}
+        height={110}
+        className="rounded-r-lg"
+      />
 
-export default BookCard;
+      <div className="flex grow flex-col justify-between">
+        <div>
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="line-clamp-1 font-semibold text-white">{book.title}</h3>
+              <p className="text-sm text-neutral-400">{book.author}</p>
+            </div>
+          </div>
+
+          <p className="my-1 line-clamp-2 text-xs text-neutral-400">{book.description}</p>
+
+          <Badge>Development</Badge>
+        </div>
+
+        <div className="mt-4">
+          {book.status === 'reading' && (
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs text-neutral-400">
+                <span>진행률</span>
+                <span>{book.progress}%</span>
+              </div>
+              <Progress value={book.progress} className="h-1" />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
