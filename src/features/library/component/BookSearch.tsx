@@ -1,6 +1,11 @@
 import React from 'react';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/components/Card';
-import { CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/Card';
 import { Input } from '@/shared/components/input/Input';
 import { Button } from '@/shared/components/button/button';
 import { BookOpen, Loader2, Search } from 'lucide-react';

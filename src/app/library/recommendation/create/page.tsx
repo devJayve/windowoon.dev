@@ -6,14 +6,10 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/tabs';
-import { CardDescription, CardHeader, CardTitle } from '@/shared/components/Card';
-import { CardContent } from '@/components/ui/card';
 import BookSubmitForm from '@/features/library/component/BookSubmitForm';
 import { formSchema } from '@/features/library/config/schema';
 import BookSearch from '@/features/library/component/BookSearch';
 import { Book } from '@/features/library/types';
-
-// 폼 유효성 검증을 위한 스키마
 
 export default function CreateRecommendationPage() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,7 +45,6 @@ export default function CreateRecommendationPage() {
 
   // 폼 제출 처리
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // 여기서 폼 데이터를 서버로 전송하거나 상태 관리 라이브러리에 저장
     console.log('제출된 값:', {
       ...values,
       // authors 문자열을 배열로 변환
@@ -58,11 +53,6 @@ export default function CreateRecommendationPage() {
 
     // 성공 메시지 표시
     alert('도서 추천이 등록되었습니다!');
-
-    // 폼 초기화
-    setSelectedBook(null);
-    // setSearchResults([]);
-    // setSearchQuery('');
   };
 
   return (
@@ -78,17 +68,7 @@ export default function CreateRecommendationPage() {
         </TabsContent>
 
         <TabsContent value="manual" className="mt-6">
-          <CardHeader>
-            <CardTitle>도서 정보 직접 입력</CardTitle>
-            <CardDescription>
-              {selectedBook
-                ? '검색한 도서 정보를 수정하거나 추천 이유를 입력하세요.'
-                : '추천하고 싶은 도서의 정보를 직접 입력하세요.'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <BookSubmitForm form={form} onSubmit={onSubmit} />
-          </CardContent>
+          <BookSubmitForm selectedBook={selectedBook} form={form} onSubmit={onSubmit} />
         </TabsContent>
       </Tabs>
     </div>
