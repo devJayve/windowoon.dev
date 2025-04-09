@@ -64,7 +64,12 @@ const CategorySelect: React.FC<TagSelectProps> = ({ initialCategories, categorie
           ref={inputRef}
           value={inputValue}
           onChange={e => handleInputChange(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleKeyDown(inputValue)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleKeyDown(inputValue);
+            }
+          }}
           onClick={() => toggleDropdown(true)}
           placeholder={selectedOptions.length === 0 ? '카테고리를 선택 혹은 입력' : ''}
         />
