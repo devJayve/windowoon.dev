@@ -13,6 +13,7 @@ export async function updatePost(postId: number, post: CreatePostRequest): Promi
         content: post.content,
         description: post.description,
         slug: post.slug,
+        categories: post.categories,
         updatedAt: new Date(),
       })
       .where(eq(PostTable.id, postId))
