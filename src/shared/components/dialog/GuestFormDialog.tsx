@@ -12,6 +12,8 @@ import { FieldError, useForm } from 'react-hook-form';
 import { cn } from '@/shared/lib/cn';
 import { motion } from 'framer-motion';
 import { useModal } from '@/shared/provider/ModalProvider';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 
 export interface GuestFormData {
   name: string;
@@ -31,7 +33,7 @@ export function GuestFormDialog() {
       password: '',
     },
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const validPattern = /^[a-zA-Z0-9_\-.]+$/;
 
   const onSubmit = (data: GuestFormData) => {
@@ -77,24 +79,34 @@ export function GuestFormDialog() {
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="password">비밀번호</Label>
-          <Input
-            id="password"
-            type="password"
-            maxLength={30}
-            className={cn(errors.password && 'border-red-500')}
-            {...register('password', {
-              required: '비밀번호를 입력해주세요.',
-              minLength: {
-                value: 4,
-                message: '비밀번호는 4자 이상이어야 합니다.',
-              },
-              validate: {
-                notValid: value =>
-                  validPattern.test(value) ||
-                  '비밀번호는 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
-              },
-            })}
-          />
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              maxLength={30}
+              className={cn(errors.password && 'border-red-500')}
+              {...register('password', {
+                required: '비밀번호를 입력해주세요.',
+                minLength: {
+                  value: 4,
+                  message: '비밀번호는 4자 이상이어야 합니다.',
+                },
+                validate: {
+                  notValid: value =>
+                    validPattern.test(value) ||
+                    '비밀번호는 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
+                },
+              })}
+            />
+            <button
+              className="absolute inset-y-0 right-0 flex items-center px-3 hover:text-neutral-300"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <FormErrorMessage error={errors.password} />
         </div>
 
