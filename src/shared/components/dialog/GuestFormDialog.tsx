@@ -32,6 +32,8 @@ export function GuestFormDialog() {
     },
   });
 
+  const validPattern = /^[a-zA-Z0-9_\-.]+$/;
+
   const onSubmit = (data: GuestFormData) => {
     reset();
     closeModal(data);
@@ -59,6 +61,14 @@ export function GuestFormDialog() {
             className={cn(errors.name && 'border-red-500')}
             {...register('name', {
               required: '이름을 입력해주세요.',
+              minLength: {
+                value: 2,
+                message: '이름은 2자 이상이어야 합니다.',
+              },
+              validate: {
+                notValid: value =>
+                  validPattern.test(value) || '이름은 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
+              },
             })}
             aria-invalid={errors.name ? 'true' : 'false'}
           />
@@ -77,6 +87,11 @@ export function GuestFormDialog() {
               minLength: {
                 value: 4,
                 message: '비밀번호는 4자 이상이어야 합니다.',
+              },
+              validate: {
+                notValid: value =>
+                  validPattern.test(value) ||
+                  '비밀번호는 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
               },
             })}
           />
