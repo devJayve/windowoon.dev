@@ -27,10 +27,11 @@ function CommentEditor({
   onCancel,
 }: CommentEditorProps) {
   const formRef = useRef<HTMLFormElement>(null);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const { openModal } = useModal();
   const { status, data: session } = useSession();
   const [content, setContent] = useState('');
+  const [mounted, setMounted] = useState(false);
   const [infoDialog, setInfoDialog] = useState({
     isOpen: false,
     title: '',
@@ -54,6 +55,10 @@ function CommentEditor({
       setContent('');
     }
   }, [state]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (!isAuthenticated) {
@@ -84,6 +89,10 @@ function CommentEditor({
     icon: <span>미리보기</span>,
   };
 
+  if (!mounted) {
+    return <div></div>;
+  }
+
   return (
     <>
       <form
@@ -94,7 +103,7 @@ function CommentEditor({
       >
         <input type="hidden" name="content" value={content} />
         <MDEditor
-          data-color-mode={theme === 'dark' ? 'dark' : 'light'}
+          data-color-mode={resolvedTheme === 'dark' ? 'dark' : 'light'}
           value={content}
           onChange={handleContent}
           commands={[mCodeEdit, mCodePreview]}
