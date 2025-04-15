@@ -79,3 +79,21 @@ export const PostReactionTable = pgTable(
     ];
   },
 );
+
+export const AnonymousPostReactionTable = pgTable(
+  'anonymous_post_reactions',
+  {
+    postId: integer('post_id')
+      .notNull()
+      .references(() => PostTable.id, { onDelete: 'cascade' }),
+    userId: text('user_id').unique().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  table => {
+    return [
+      {
+        pk: primaryKey({ columns: [table.postId, table.userId] }),
+      },
+    ];
+  },
+);

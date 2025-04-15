@@ -3,7 +3,7 @@
     margin: 1rem 0;
 
     border-radius: 0.375em;
-    border: 0px solid;
+    border: 0 solid;
     border-left-width: 0.3em;
 
     color: var(--color-admonition);
@@ -58,8 +58,6 @@
     margin-bottom: 0.4rem;
     font-size: 1em;
     font-weight: 700;
-    color: var(--text-default);
-
     display: flex;
     align-items: center;
 }
@@ -71,12 +69,8 @@
     fill: var(--color-admonition-icon);
 }
 
-.admonition-content p {
-    color: var(--text-strong);
-}
-
 .admonition-content strong {
-    color: var(--text-strong);
+    color: var(--color-admonition);
 }
 
 .admonition-content code {
@@ -85,7 +79,6 @@
 
 .admonition-content code span {
     background-color: transparent !important;
-    color: var(--text-default) !important;
 }
 
 

@@ -2,8 +2,6 @@
 import React, { startTransition, useEffect, useState } from 'react';
 import LikeButton from '@/features/library/component/LikeButton';
 import { toggleLikeAction } from '@/features/post/action/toggleLikeAction';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { getLikeAction } from '@/features/post/action/getLikeAction';
 
@@ -17,30 +15,21 @@ interface PostLikeButtonProps {
 }
 
 function PostLikeButton({ postId }: PostLikeButtonProps) {
-  const router = useRouter();
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
-
   const [likeState, setLikeState] = useState<LikeState>({ isLiked: false, count: 0 });
 
-  const debouncedToggleLike = useDebouncedCallback((postId: number, userId: string) => {
+  const debouncedToggleLike = useDebouncedCallback((postId: number) => {
     startTransition(async () => {
-      await toggleLikeAction(postId, userId);
+      await toggleLikeAction(postId);
     });
   }, 500);
 
   const handleLike = async () => {
-    if (!userId) {
-      router.push('/login');
-      return;
-    }
-
     setLikeState(prevState => ({
       isLiked: !prevState.isLiked,
       count: prevState.isLiked ? prevState.count - 1 : prevState.count + 1,
     }));
 
-    debouncedToggleLike(postId, userId);
+    debouncedToggleLike(postId);
   };
 
   useEffect(() => {

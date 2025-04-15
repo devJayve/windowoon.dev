@@ -4,8 +4,6 @@ import styles from './Admonition.module.css';
 
 import { IconDanger, IconInfo, IconNote, IconTip, IconWarning } from '@/shared/components/icons';
 
-/* eslint-disable import/exports-last */
-
 export type TAdmonition = 'warning' | 'danger' | 'info' | 'note' | 'tip';
 
 type TAdmonitionInfo = {
@@ -14,13 +12,6 @@ type TAdmonitionInfo = {
 };
 
 type TAdmonitions = Record<TAdmonition, TAdmonitionInfo>;
-
-type Props = {
-  type?: TAdmonition;
-  title?: string;
-  margin?: string; // only remove margins
-  children: ReactNode | ReactNode[];
-};
 
 const ADMONITIONS: TAdmonitions = {
   warning: {
@@ -45,9 +36,21 @@ const ADMONITIONS: TAdmonitions = {
   },
 };
 
-const Admonition = ({ children, type = 'note', title }: Props): JSX.Element => {
+type CustomProps = {
+  children: ReactNode | ReactNode[];
+  className?: string;
+  ['data-type']: string;
+  ['data-title']?: string;
+};
+
+const types: TAdmonition[] = ['warning', 'danger', 'info', 'note', 'tip'];
+
+export const admonition = ({ children, ...props }: CustomProps) => {
+  if (!props['data-type']) return null;
+
   const defaultType = 'note' as TAdmonition;
-  const types: TAdmonition[] = ['warning', 'danger', 'info', 'note', 'tip'];
+  const type = props['data-type'] as TAdmonition;
+  const title = props['data-title'];
 
   const admonitionType = types.includes(type) ? type : defaultType;
   const admonition = ADMONITIONS[admonitionType];
@@ -62,29 +65,3 @@ const Admonition = ({ children, type = 'note', title }: Props): JSX.Element => {
     </div>
   );
 };
-
-export default Admonition;
-
-/** ************************ ::: Custom Container: admonition ::: ****************************/
-
-type CustomProps = {
-  children: ReactNode | ReactNode[];
-  className?: string;
-  ['data-type']: string;
-  ['data-title']?: string;
-};
-
-export const admonition = ({ children, ...props }: CustomProps): JSX.Element | null => {
-  if (!props['data-type']) return null;
-
-  const type = props['data-type'] as TAdmonition;
-  const title = props['data-title'];
-
-  return (
-    <Admonition type={type} title={title}>
-      {children}
-    </Admonition>
-  );
-};
-
-/* eslint-enable import/exports-last */

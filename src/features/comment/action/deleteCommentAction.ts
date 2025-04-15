@@ -30,8 +30,6 @@ export async function deleteCommentAction(
     if (writer.role === 'guest') {
       const hashedPassword = writer.password;
 
-      console.log('password', password);
-      console.log('hashedPassword', hashedPassword);
       const isMatch = await bcrypt.compare(password!, hashedPassword!);
 
       if (!isMatch) {
@@ -41,7 +39,7 @@ export async function deleteCommentAction(
         };
       }
     } else {
-      if (!session || session.user.id !== comment.userId) {
+      if (!session || (session.user.role !== 'admin' && session.user.id !== comment.userId)) {
         return {
           message: '삭제 권한이 없어요',
           success: false,
