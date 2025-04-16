@@ -34,7 +34,8 @@ export function GuestFormDialog() {
     },
   });
   const [showPassword, setShowPassword] = useState(false);
-  const validPattern = /^[a-zA-Z0-9_\-.]+$/;
+  const nameValidPattern = /^[가-힣a-zA-Z0-9_\-.]+$/;
+  const passwordValidPattern = /^[a-zA-Z0-9_\-.]+$/;
 
   const onSubmit = (data: GuestFormData) => {
     reset();
@@ -69,7 +70,8 @@ export function GuestFormDialog() {
               },
               validate: {
                 notValid: value =>
-                  validPattern.test(value) || '이름은 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
+                  nameValidPattern.test(value) ||
+                  '이름은 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
               },
             })}
             aria-invalid={errors.name ? 'true' : 'false'}
@@ -93,7 +95,7 @@ export function GuestFormDialog() {
                 },
                 validate: {
                   notValid: value =>
-                    validPattern.test(value) ||
+                    passwordValidPattern.test(value) ||
                     '비밀번호는 영문, 숫자, 특수문자(_-.)만 사용 가능합니다.',
                 },
               })}

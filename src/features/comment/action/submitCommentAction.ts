@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
 import { ServerActionState } from '@/features/comment/types';
 import bcrypt from 'bcrypt';
+import { sendCommentNotification } from '@/features/comment/lib/sendCommentNotification';
 
 export async function submitCommentAction(
   postId: number,
@@ -54,6 +55,10 @@ export async function submitCommentAction(
         parentId: Number(parentId) || null,
         content: content,
       });
+
+      setTimeout(async () => {
+        await sendCommentNotification(postId, guestUser.id, content);
+      }, 0);
     } else {
       await db.insert(CommentTable).values({
         postId: Number(postId),
@@ -61,10 +66,13 @@ export async function submitCommentAction(
         parentId: Number(parentId) || null,
         content: content,
       });
+
+      setTimeout(async () => {
+        await sendCommentNotification(postId, userId, content);
+      }, 0);
     }
 
     revalidateTag(`comment-${postId}`);
-
     return {
       message: '댓글이 등록되었어요',
       success: true,
