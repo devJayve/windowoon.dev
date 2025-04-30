@@ -9,6 +9,5 @@ export const components: MDXComponents = {
   Image,
   Link,
   admonition,
-  // Admonition,
   MermaidDiagram,
 };

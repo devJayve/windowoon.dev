@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/features/auth/config';
 import { ServerActionState } from '@/features/comment/types';
 import bcrypt from 'bcrypt';
+import { sendCommentNotification } from '@/features/comment/lib/sendCommentNotification';
 
 export async function submitCommentAction(
   postId: number,
@@ -16,11 +17,8 @@ export async function submitCommentAction(
 ): Promise<ServerActionState<null>> {
   try {
     const session = await getServerSession(authOptions);
-
-    const username = formData.get('username')?.toString();
-    const password = formData.get('password')?.toString();
     const content = formData.get('content')?.toString();
-    const userId = session?.user?.id;
+    let userId = session?.user?.id;
 
     if (!content) {
       return {
@@ -36,7 +34,11 @@ export async function submitCommentAction(
       };
     }
 
+    // 게스트 유저일 경우
     if (!userId) {
+      const username = formData.get('username')!.toString();
+      const password = formData.get('password')!.toString();
+
       const hashedPassword = await bcrypt.hash(password!, 10);
 
       const [guestUser] = await db
@@ -54,17 +56,22 @@ export async function submitCommentAction(
         parentId: Number(parentId) || null,
         content: content,
       });
-    } else {
-      await db.insert(CommentTable).values({
-        postId: Number(postId),
-        userId: userId,
-        parentId: Number(parentId) || null,
-        content: content,
-      });
+
+      userId = guestUser.id;
     }
 
-    revalidateTag(`comment-${postId}`);
+    await db.insert(CommentTable).values({
+      postId: Number(postId),
+      userId: userId,
+      parentId: Number(parentId) || null,
+      content: content,
+    });
 
+    setTimeout(async () => {
+      await sendCommentNotification(postId, userId, content);
+    }, 0);
+
+    revalidateTag(`comment-${postId}`);
     return {
       message: '댓글이 등록되었어요',
       success: true,
